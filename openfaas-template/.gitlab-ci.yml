@@ -1,0 +1,37 @@
+stages:
+  - deploy
+
+.init_func: &init_func |
+  set -eo pipefail
+  [[ "$TRACE" ]] && set -x
+
+  init_kube_config() {
+    echo "init kube config"
+    export KUBECONFIG=$KUBE_CONFIG
+    echo $KUBE_HOSTS > /etc/hosts
+  }
+
+.initdeploy: &initdeploy |
+  init_kube_config
+
+.deploy: &deploy |
+  kubectl cluster-info
+  kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+  helm repo add openfaas https://openfaas.github.io/faas-netes/
+  helm repo update && \
+    helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas \
+    --set functionNamespace=openfaas-fn \
+    --set generateBasicAuth=true
+
+deploy:
+  image: harbor.zinza.com.vn/sysad/docker/kube-tool:1.17.2-helm3.1.2
+  stage: deploy
+  variables:
+    KUBE_NAMESPACE: openfaas
+  before_script:
+    - *init_func
+  script:
+    - *initdeploy
+    - *deploy
+  when: manual
