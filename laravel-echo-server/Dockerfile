@@ -1,0 +1,24 @@
+FROM alpine:3.12.3
+
+ENV APP_HOME /app
+WORKDIR ${APP_HOME}
+
+COPY .env.production .env
+
+COPY laravel-echo-server.json laravel-echo-server.json
+
+RUN apk add nodejs npm
+
+RUN npm install -g laravel-echo-server
+
+CMD ["laravel-echo-server", "start"]
+
+ARG LARAVEL_ECHO_SERVER_AUTH_HOST
+ARG LARAVEL_ECHO_SERVER_REDIS_HOST
+ARG LARAVEL_ECHO_SERVER_REDIS_PORT
+
+RUN sed -i 's@LARAVEL_ECHO_SERVER_AUTH_HOST=@LARAVEL_ECHO_SERVER_AUTH_HOST='"${LARAVEL_ECHO_SERVER_AUTH_HOST}"'@' ${APP_HOME}/.env && \
+    sed -i 's@LARAVEL_ECHO_SERVER_REDIS_HOST=@LARAVEL_ECHO_SERVER_REDIS_HOST='"${LARAVEL_ECHO_SERVER_REDIS_HOST}"'@' ${APP_HOME}/.env && \
+    sed -i 's@LARAVEL_ECHO_SERVER_REDIS_PORT=@LARAVEL_ECHO_SERVER_REDIS_PORT='"${LARAVEL_ECHO_SERVER_REDIS_PORT}"'@' ${APP_HOME}/.env
+
+EXPOSE 6001
