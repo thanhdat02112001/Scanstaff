@@ -58,7 +58,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_USER: zcp
       MYSQL_PASSWORD: zcppass
-      MYSQL_DATABASE: zcp
+      MYSQL_DATABASE: staffscan
     volumes:
       - checkhang_data:/var/lib/mysql
     networks:
