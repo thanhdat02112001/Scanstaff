@@ -1,0 +1,26 @@
+body {
+  background-image: none;
+}
+
+.nav-link, .navbar-brand {
+  color: white;
+  position: relative;
+}
+.nav-link:after, .navbar-brand:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  bottom: 0;
+  height: 2px;
+  margin: -5px 0;
+  left: 0;
+  background-color: white;
+  transition: all 0.4s ease-in 0s;
+}
+.nav-link:hover:after, .navbar-brand:hover:after {
+  width: 100%;
+}
+.nav-link:hover, .navbar-brand:hover {
+  color: white !important;
+}
