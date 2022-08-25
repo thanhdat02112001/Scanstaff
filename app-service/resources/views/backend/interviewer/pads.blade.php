@@ -15,8 +15,7 @@
                 </li>
             </ol>
         </div>
-    </div>
-    <div class="main-content">
+    </div>t
         <div class="page-pads-container hasBorder">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show">
@@ -35,7 +34,7 @@
             @endif
             <div class="heading">
                 <h2>Pads</h2>
-                <form target="_blank" action="" method="post">
+                <form target="_blank" action="{{route('interviewer.pad.create')}}" method="post">
                     @csrf
                     <button class="new-pad top">Create pad</button>
                 </form>
@@ -54,9 +53,9 @@
                     </select>
                     <select id="filter-lg">
                         <option value="all">Any language</option>
-                        {{-- @foreach ($langs as $lang)
+                        @foreach ($langs as $lang)
                             <option value="{{ $lang->id }}">{{ $lang->name }}</option>
-                        @endforeach --}}
+                        @endforeach
                     </select>
                 </div>
             </div>

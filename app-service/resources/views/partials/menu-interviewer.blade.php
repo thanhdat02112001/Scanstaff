@@ -1,5 +1,5 @@
 <li>
-    <a href="{{route('pads')}}" class="menu-link">
+    <a href="{{route('interviewer.pad.index')}}" class="menu-link">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         <span>Pads</span>
     </a>

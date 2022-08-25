@@ -83,6 +83,22 @@ services:
     networks:
       - checkhang-network
 
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    image: checkhang-frontend
+    restart: always
+    depends_on:
+      - app
+    working_dir: /app
+    volumes:
+      - ../frontend:/app:cached
+    ports:
+      - 3000:3000
+    networks:
+      - checkhang-network
+
 volumes:
   checkhang_data:
     driver: local

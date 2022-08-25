@@ -40,7 +40,7 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::get('/password/reset', [ForgotPasswordController::class, 'showResetForm'])->name('forgot-password');
 
 //verify email
-Route::get('/email/verify', [VerificationController::class, 'notice'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify', [VerificationController::class, 'notice'])->name('verification.notice');
 Route::post('/email/verification-notification', [VerificationController::class, 'sendEmailVeri'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::get('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
@@ -48,5 +48,14 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 //admin
 Route::get('/home', [UserController::class, 'redirect'])->name('home');
 
-Route::get('/interviewer/pads', [PadController::class, 'index'])->name('pads');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
+        Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
+            Route::get('/', [PadController::class, 'index'])->name('index');
+            Route::post('/new', [PadController::class, 'store'])->name('create');
+        });
+    });
+});
+
+Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
