@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    justify-content: space-between !important;
+}
+.header img{
+    margin-left: 20px;
+}
+.header a {
+    text-decoration: none;
+    color:#259aee;
+}
+.header a:hover {
+    color:#259aee;
+}
+.action {
+    margin-top: 20px;
+    margin-right: 50px;
+}
+.action a {
+    color: #259aee;
+}

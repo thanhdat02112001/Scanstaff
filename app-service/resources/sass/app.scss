@@ -1,6 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 @import "node_modules/font-awesome/scss/font-awesome.scss";
+@import "~alertifyjs/build/css/alertify.min.css";
+@import "~alertifyjs/build/css/themes/bootstrap.min.css";
 
 body {
     font-family: 'Nunito', sans-serif;
