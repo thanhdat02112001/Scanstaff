@@ -6,7 +6,16 @@ import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
 import ForgetPassword from "./pages/authentication/ForgetPassword";
 import NotiEmail from "./pages/authentication/NotiEmail";
-import Home from "./pages/Home";
+import Home from "./pages/admin/Home";
+import Interviewer from "./pages/admin/Interviewer";
+import Interviewee from "./pages/admin/Interviewee";
+import {Interviewee as UserInterviewee} from "./pages/user/Interviewee";
+import ChangePassword from "./pages/ChangePassword";
+import InterviewerPad from "./pages/admin/InterviewerPad";
+import UserHome from "./pages/user/UserHome";
+import Questions from "./pages/user/Questions";
+import QuestionDetail from "./components/Questions/QuestionDetail";
+import EditQuestion from "./components/Questions/EditQuestion";
 export default function App() {
   const [token, setToken] = useState("");
   const handlerLogin = (token) => {
@@ -22,6 +31,15 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgetPassword/>}></Route>
       <Route path="/verification-notice" element={<NotiEmail/>}></Route>
       <Route path="/home" element={<Home/>}></Route>
+      <Route path="/interviewer" element={<Interviewer/>}></Route>
+      <Route path="/interviewee" element={<Interviewee/>}></Route>
+      <Route path="/password-change" element={<ChangePassword/>}></Route>
+      <Route path="/interviewer/pad" element={<InterviewerPad/>}></Route>
+      <Route path="/user-home" element={<UserHome/>}></Route>
+      <Route path="/questions" element={<Questions/>}></Route>
+      <Route path="/user/interviewee" element={<UserInterviewee/>}></Route>
+      <Route path="/question/detail" element={<QuestionDetail/>}></Route>
+      <Route path="/question/edit" element={<EditQuestion/>}></Route>
       </Routes>
     </BrowserRouter>
   );

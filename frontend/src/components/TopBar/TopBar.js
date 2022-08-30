@@ -6,15 +6,15 @@ import Notification from "./Notification";
 
 import styles from "./Topbar.module.css";
 
-const TopBar = () => {
+const TopBar = (props) => {
   return (
     <React.Fragment>
       <header id={styles["page-topbar"]}>
         <div className={styles["navbar-header"]}>
           <div>
             <Breadcrumb className="fs-5">
-              <BreadcrumbItem href="/home"  >Home</BreadcrumbItem>
-              <BreadcrumbItem href="/dashboard">dashboard</BreadcrumbItem>
+              <BreadcrumbItem ><Link to="/home">Home</Link></BreadcrumbItem>
+              <BreadcrumbItem ><Link to={props.link}>{props.current}</Link></BreadcrumbItem>
             </Breadcrumb>
           </div>
           <div className="d-flex align-item-center">
