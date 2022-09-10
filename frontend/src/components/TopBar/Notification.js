@@ -6,7 +6,6 @@ import {
   DropdownMenu,
   Row,
   Col,
-  Nav,
 } from "reactstrap";
 import classes from "./Topbar.module.css";
 import SimpleBar from "simplebar-react";
@@ -44,7 +43,7 @@ const Notification = () => {
                 <h6 className="m-0"> Notifications </h6>
               </Col>
               <div className="col-auto">
-                <a href="#" className="small">
+                <a href="/view-all" className="small">
                   {" "}
                   View All
                 </a>

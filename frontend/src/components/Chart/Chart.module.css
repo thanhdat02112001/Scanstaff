@@ -1,0 +1,10 @@
+.chart{
+    margin-top: 70px;
+    margin-left: 220px;
+    padding: 50px;
+}
+.line-chart {
+    width: 80%;
+    margin: auto !important ;
+    margin-top: 50px !important;
+}

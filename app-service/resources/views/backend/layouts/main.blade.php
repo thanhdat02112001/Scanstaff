@@ -16,7 +16,7 @@
 </head>
 <body>
     <div id="main" class="d-flex">
-        {{-- Sidebar --}}
+        {{-- AdminSidebar --}}
         <nav class="navbar-default navbar-static-side">
             <ul class="nav-menu" id="side-menu">
                 <li class="nav-header">

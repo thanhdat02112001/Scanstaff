@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import classes from "./Sidebar.module.css";
 
-export default function Sidebar() {
+export default function AdminSidebar() {
   return (
     <Fragment>
       <div className={classes["vertical-menu"]}>
@@ -17,7 +17,7 @@ export default function Sidebar() {
         <div className={classes["sidebar-item"]}>
           <ul>
             <li className={classes.active}>
-              <Link to="/dashboard">
+              <Link to="/home">
                 <i className="fa fa-tachometer me-1"></i> Dashboard
               </Link>
             </li>
@@ -32,7 +32,7 @@ export default function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link to="/change-password">
+              <Link to="/password-change">
                 <i className="fa fa-key me-1"></i> Change password
               </Link>
             </li>
