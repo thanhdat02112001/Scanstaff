@@ -9,7 +9,7 @@
     <meta name="pad_id" content="{{ $pad->id }}">
     <meta name="sid" content="{{ Session::getId() }}">
 
-    <title>{{ $pad->lg . ' | StaffScan' }}</title>
+    <title>{{ $pad->lg . ' | zcheck' }}</title>
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 

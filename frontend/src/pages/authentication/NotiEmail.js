@@ -6,7 +6,7 @@ import logo from "../../assets/images/logo.png"
 export default function NotiEmail() {
 
   const resendEmailVerify = async () => {
-    await axios.get("https://staffscan.com.vn/api/resend").then((res) => {
+    await axios.get("https://zcheck.com.vn/api/resend").then((res) => {
       console.log(res)
     })
   }

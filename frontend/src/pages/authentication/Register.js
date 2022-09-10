@@ -33,7 +33,7 @@ export default function Register(props) {
     const enterPassCf = passCfRef.current.value;
     setIsLoading(true);
     await axios
-      .post("https://staffscan.com.vn/api/register", {
+      .post("https://zcheck.com.vn/api/register", {
         name: enterName,
         email: enterMail,
         password: enterPass,
@@ -64,7 +64,7 @@ export default function Register(props) {
                       <div className="text-primary p-4">
                         <h5 className="text-light">Free Register !</h5>
                         <p className="text-light">
-                          Get your StaffScan's acount now.
+                          Get your zcheck's acount now.
                         </p>
                       </div>
                     </Col>
@@ -181,7 +181,7 @@ export default function Register(props) {
                       </div>
 
                       <div className="mt-4 text-center">
-                        By registering you agree to the StaffScan
+                        By registering you agree to the zcheck
                         <Link to="#" className="ms-2">
                           Term of Use
                         </Link>

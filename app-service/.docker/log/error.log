@@ -1,2 +1,0 @@
-2022/08/15 08:42:53 [error] 31#31: *6 directory index of "/app/public/" is forbidden, client: 172.20.0.1, server: staffscan.com.vn, request: "GET / HTTP/1.1", host: "localhost"
-2022/08/15 09:11:08 [error] 32#32: *8 directory index of "/app/public/" is forbidden, client: 172.20.0.1, server: staffscan.com.vn, request: "GET / HTTP/1.1", host: "staffscan.com.vn"
