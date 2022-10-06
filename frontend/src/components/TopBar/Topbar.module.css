@@ -58,3 +58,9 @@
     z-index: 1000;
     width: 320px;
 }
+
+.logout {
+    border: none;
+    background-color: transparent;
+    color: #444958;
+}

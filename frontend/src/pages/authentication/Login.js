@@ -21,6 +21,7 @@ export default function Login(props) {
   const passRef = useRef();
   const [loginSuccess, setLoginSuccess] = useState(true);
   const [errors, setErrors] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handlerFormSubmit = (e) => {
     e.preventDefault();
@@ -35,12 +36,13 @@ export default function Login(props) {
       })
       .then((res) => {
         if (res.data.status === 200) {
-          props.onLogin(res.data.access_token);
+          props.onLogin(res.data.access_token, res.data.isAdmin);
           navigate("/home");
         }
       })
       .catch((error) => {
         if (error.response.status === 401) {
+          setMessage(error.response.data.message);
           setLoginSuccess(false);
         } else {
           setErrors(error.response.data.errors);
@@ -61,7 +63,7 @@ export default function Login(props) {
                     setLoginSuccess(true);
                   }}
                 >
-                  Invalid Credentials !
+                  {message}
                 </Alert>
               )}
               <Card className="overflow-hidden">

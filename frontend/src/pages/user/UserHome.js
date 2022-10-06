@@ -36,12 +36,11 @@ const Content = styled.div`
   }
 `;
 
-const UserHome = () => {
-  
+const UserHome = (props) => {
   return (
     <div>
       <UserSidebar />
-      <TopBar current="Userhome" link="/user-home" />
+      <TopBar current="Userhome" link="/user-home"/>
       <Content>
         <UserWrapper>
           <div className="body">

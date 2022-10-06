@@ -23,12 +23,20 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
+        if ($user->approved_at == null) {
+            return response()
+                ->json(['message' => 'You need admin approved to login'], 401);
+        }
+
+        if ($user->banned == 1) {
+            return response()
+                ->json(['message' => 'Your account has been banned'], 401);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()
-            ->json(['user' => $user,'access_token' => $token, 'token_type' => 'Bearer', 'status' => 200 ]);
+            ->json(['user' => $user, 'access_token' => $token, 'token_type' => 'Bearer', 'status' => 200, 'isAdmin' => $user->isAdmin()]);
     }
-
 
     public function register(RegisterRequest $request)
     {
@@ -37,17 +45,27 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'banned' => 0,
-         ]);
+        ]);
         event(new Registered($user));
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
 
     public function resend(Request $request)
     {
         $request->user()->sendEmailVerificationNotification();
         return response()->json(['status' => 200, 'message' => 'we have sent you email verification!']);
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'You have successfully logged out and the token was successfully deleted',
+            'status' => 200,
+        ];
     }
 }
