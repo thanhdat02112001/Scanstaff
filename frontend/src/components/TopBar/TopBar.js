@@ -1,5 +1,6 @@
+import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Form, Input } from "reactstrap";
 
 import Notification from "./Notification";
@@ -7,14 +8,36 @@ import Notification from "./Notification";
 import styles from "./Topbar.module.css";
 
 const TopBar = (props) => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const handlerLogout = () => {
+    axios
+      .post(
+        "https://staffscan.com.vn/api/logout",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.removeItem("token")
+          navigate("/");
+        }
+      });
+  };
   return (
     <React.Fragment>
       <header id={styles["page-topbar"]}>
         <div className={styles["navbar-header"]}>
           <div>
             <Breadcrumb className="fs-5">
-              <BreadcrumbItem ><Link to="/home">Home</Link></BreadcrumbItem>
-              <BreadcrumbItem ><Link to={props.link}>{props.current}</Link></BreadcrumbItem>
+              <BreadcrumbItem>
+                <Link to="/home">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <Link to={props.link}>{props.current}</Link>
+              </BreadcrumbItem>
             </Breadcrumb>
           </div>
           <div className="d-flex align-item-center">
@@ -25,9 +48,9 @@ const TopBar = (props) => {
                 <option>User</option>
               </Input>
             </Form>
-            <Link to="/logout" className="mt-1">
+            <button className={styles.logout} onClick={handlerLogout}>
               <i className="fa fa-sign-out ms-3" aria-hidden="true"></i> Logout
-            </Link>
+            </button>
           </div>
         </div>
       </header>
