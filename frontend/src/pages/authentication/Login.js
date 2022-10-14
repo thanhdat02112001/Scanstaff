@@ -30,7 +30,7 @@ export default function Login(props) {
     const enterPass = passRef.current.value;
 
     axios
-      .post("https://staffscan.com.vn/api/login", {
+      .post("https://zcheck.zinza.com.vn/api/login", {
         email: enterMail,
         password: enterPass,
       })
@@ -73,7 +73,7 @@ export default function Login(props) {
                       <div className="text-primary p-4">
                         <h5 className="text-light">Welcome Back !</h5>
                         <p className="text-light">
-                          Sign in to continue to StaffScan.
+                          Sign in to continue to Zcheck.
                         </p>
                       </div>
                     </Col>

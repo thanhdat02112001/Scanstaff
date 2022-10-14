@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./.docker/app/dev.Dockerfile
-    image: checkhang-app-service
+    image: zcheck-app-service
     restart: always
     working_dir: /app
     volumes:
@@ -15,7 +15,7 @@ services:
       - mysql
       - redis
     networks:
-      - checkhang-network
+      - zcheck-network
     environment:
       APP_DEBUG: 'true'
       XDEBUG_MODE: coverage
@@ -35,13 +35,13 @@ services:
       - 80:80
       - 443:443
     networks:
-      - checkhang-network
+      - zcheck-network
 
   laravel_echo_server:
     build:
       context: ../laravel-echo-server
       dockerfile: dev.Dockerfile
-    image: checkhang-laravel-echo-server
+    image: zcheck-laravel-echo-server
     restart: always
     depends_on:
       - app
@@ -49,45 +49,46 @@ services:
     volumes:
       - ../laravel-echo-server/.env:/app/.env:cached
     networks:
-      - checkhang-network
+      - zcheck-network
 
   mysql:
     image: mysql:5.7.31
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_USER: zcp
-      MYSQL_PASSWORD: zcppass
-      MYSQL_DATABASE: staffscan
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: zcheck
     volumes:
-      - checkhang_data:/var/lib/mysql
+      - zcheck_data:/var/lib/mysql
     networks:
-      - checkhang-network
+      - zcheck-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1.0
     restart: always
     environment:
+      MYSQL_ROOT_PASSWORD: password
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_USER: root
-      PMA_PASSWORD: rootpass
+      PMA_PASSWORD: password
     ports:
       - 8181:80
     networks:
-      - checkhang-network
+      - zcheck-network
 
   redis:
     image: redis:5.0.9-alpine
     restart: always
     networks:
-      - checkhang-network
+      - zcheck-network
 
   frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile
-    image: checkhang-frontend
+    image: zcheck-frontend
     restart: always
     depends_on:
       - app
@@ -97,13 +98,13 @@ services:
     ports:
       - 3000:3000
     networks:
-      - checkhang-network
+      - zcheck-network
 
 volumes:
-  checkhang_data:
+  zcheck_data:
     driver: local
 
 networks:
-  checkhang-network:
-    name: checkhang-network
+  zcheck-network:
+    name: zcheck-network
     driver: bridge

@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\UserRegisterd;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -59,3 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
+Route::get("/new", function () {
+    return view('new');
+});
+Route::get('/send', function() {
+    event(new UserRegisterd("hallo"));
+});
