@@ -1,15 +1,16 @@
 import axios from 'axios'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Card, CardBody, Col, Container, Row } from "reactstrap"
 import logo from "../../assets/images/logo.png"
 export default function NotiEmail() {
 
   const resendEmailVerify = async () => {
-    await axios.get("https://zcheck.com.vn/api/resend").then((res) => {
+    await axios.get("https://zcheck.zinza.com.vn/api/resend").then((res) => {
       console.log(res)
     })
   }
+  const {state} = useLocation();
   return (
     <React.Fragment>
         <div className="account-pages pt-sm-5">
@@ -44,7 +45,7 @@ export default function NotiEmail() {
                           <p>
                             We have sent you verification email{" "}
                             <span className="font-weight-semibold">
-                              example@abc.com
+                              {state.email}
                             </span>
                             , Please check it
                           </p>

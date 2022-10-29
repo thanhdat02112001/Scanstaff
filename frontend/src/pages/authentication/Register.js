@@ -33,7 +33,7 @@ export default function Register(props) {
     const enterPassCf = passCfRef.current.value;
     setIsLoading(true);
     await axios
-      .post("https://zcheck.com.vn/api/register", {
+      .post("https://zcheck.zinza.com.vn/api/register", {
         name: enterName,
         email: enterMail,
         password: enterPass,
@@ -42,7 +42,7 @@ export default function Register(props) {
       .then((res) => {
         if (res.status === 200) {
           setIsLoading(false);
-          navigate("/verification-notice");
+          navigate("/verification-notice", {state : {email: enterMail}});
         }
       })
       .catch((error) => {
@@ -64,7 +64,7 @@ export default function Register(props) {
                       <div className="text-primary p-4">
                         <h5 className="text-light">Free Register !</h5>
                         <p className="text-light">
-                          Get your zcheck's acount now.
+                          Get your Zcheck's acount now.
                         </p>
                       </div>
                     </Col>
@@ -181,7 +181,7 @@ export default function Register(props) {
                       </div>
 
                       <div className="mt-4 text-center">
-                        By registering you agree to the zcheck
+                        By registering you agree to the Zcheck
                         <Link to="#" className="ms-2">
                           Term of Use
                         </Link>

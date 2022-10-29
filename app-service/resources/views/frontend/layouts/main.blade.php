@@ -9,7 +9,6 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <script src="{{asset('js/app.js')}}"></script>
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     @stack('stylesheet')
 </head>
@@ -37,6 +36,8 @@
             @yield('content')
         </section>
     </div>
+    <script src="{{mix('js/app.js')}}"></script>
+    <script src="{{mix('js/pad.js')}}"></script>
     @stack('js')
 </body>
 </html>
