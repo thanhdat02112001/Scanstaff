@@ -49,20 +49,17 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 //admin
 Route::get('/home', [UserController::class, 'redirect'])->name('home');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
-        Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
-            Route::get('/', [PadController::class, 'index'])->name('index');
-            Route::post('/new', [PadController::class, 'store'])->name('create');
-        });
-    });
-});
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
 
+//     });
+// });
+Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
+    Route::get('/', [PadController::class, 'index'])->name('index');
+    Route::post('/new', [PadController::class, 'store'])->name('create');
+});
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
-Route::get("/new", function () {
-    return view('new');
-});
 Route::get('/send', function() {
     event(new UserRegisterd("hallo"));
 });

@@ -13945,28 +13945,49 @@ textarea.form-control-lg {
 
 body {
   font-family: "Nunito", sans-serif;
-  background-image: url(/images/bg-dark.jpg?0aaddadbc5ef9da30311ab8eebf1e2c8);
 }
 
-.nav-link, .navbar-brand {
-  color: white;
-  position: relative;
+.header {
+  display: flex;
+  justify-content: space-between;
 }
-.nav-link:after, .navbar-brand:after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 0;
-  bottom: 0;
-  height: 2px;
-  margin: -5px 0;
-  left: 0;
-  background-color: white;
-  transition: all 0.4s ease-in 0s;
+
+.header img {
+  margin-left: 20px;
 }
-.nav-link:hover:after, .navbar-brand:hover:after {
-  width: 100%;
+
+.action a:hover {
+  color: #259aee;
 }
-.nav-link:hover, .navbar-brand:hover {
-  color: white !important;
+
+.action {
+  margin-top: 20px;
+  margin-right: 50px;
+  right: 0;
+}
+
+.action a {
+  color: #259aee;
+  text-decoration: none;
+}
+
+.title {
+  text-align: center;
+  margin-top: 10%;
+  color: #259aee;
+}
+
+.title input {
+  margin: auto;
+  display: inline;
+  margin-right: 5px;
+}
+
+.title h1, .title .h1 {
+  font-size: 5rem;
+  margin-bottom: 30px;
+}
+
+.title h3, .title .h3 {
+  margin-bottom: 10px;
 }
