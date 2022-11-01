@@ -2,7 +2,9 @@
     "/js/bootstrap.js": "/js/bootstrap.js",
     "/js/pad.js": "/js/pad.js",
     "/js/app.js": "/js/app.js",
+    "/js/admin.js": "/js/admin.js",
     "/css/app.css": "/css/app.css",
+    "/css/admin.css": "/css/admin.css",
     "/css/style.css": "/css/style.css",
     "/css/login.css": "/css/login.css"
 }

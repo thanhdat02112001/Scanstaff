@@ -60,6 +60,11 @@ Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
 });
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
+Route::view('admin/home', 'backend.admin.home');
+Route::view('admin/interviewers', 'backend.admin.interviewer');
+Route::view('admin/interviewees', 'backend.admin.interviewee');
+Route::view('/password-change', 'frontend.auth.password-change');
+
 Route::get('/send', function() {
     event(new UserRegisterd("hallo"));
 });

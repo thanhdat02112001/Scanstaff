@@ -34,7 +34,7 @@
             @endif
             <div class="heading">
                 <h2>Pads</h2>
-                <form target="_blank" action="{{route('interviewer.pad.create')}}" method="post">
+                <form target="_blank" action="{{route('pad.create')}}" method="post">
                     @csrf
                     <button class="new-pad top">Create pad</button>
                 </form>

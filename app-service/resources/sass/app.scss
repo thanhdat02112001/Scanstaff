@@ -44,3 +44,166 @@ body {
 .title h3 {
     margin-bottom: 10px;
 }
+
+#page-topbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 220px;
+    z-index: 1002;
+    background-color: #d7e4ec;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+}
+
+.navbar-header{
+    display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+  height: 70px;
+  padding: 0 calc(24px / 2) 0 0
+}
+.navbar-header a{
+    text-decoration: none;
+    margin-left: 5px;
+    color: #555b6d;
+}
+#page-header-notifications-dropdown {
+    border: none !important;
+}
+.noti-icon {
+    position: relative;
+}
+.noti-icon i {
+    font-size: 22px;
+    color: #555b6d;
+}
+
+.badge{
+    position: absolute !important;
+    top: -1px;
+    right: 2px;
+    color: white;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    border-radius: 50%;
+}
+
+.notification-item .d-flex {
+    padding: 0.75rem 1rem;
+}
+.notification-item .d-flex:hover {
+    background-color: #f6f6f6;
+}
+
+.dropdown-menu {
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+    margin: 0;
+    position: absolute;
+    z-index: 1000;
+    width: 320px;
+}
+
+.logout {
+    border: none;
+    background-color: transparent;
+    color: #444958;
+}
+.vertical-menu{
+    width: 220px;
+    z-index: 1001;
+    background: #ffffff;
+    bottom: 0;
+    margin-top: 0;
+    position: fixed;
+    top: 0;
+    padding-top: 70px;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+}
+.navbar-brand-box {
+    position: fixed;
+    top: 0px;
+    z-index: 99;
+}
+
+.sidebar-background {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50%;
+    opacity: 0.2;
+    background-color: #259aee;
+}
+
+.sidebar-item {
+    margin-top: 130px;
+}
+.sidebar-item ul {
+    padding-left: 0px;
+}
+.sidebar-item ul li {
+    list-style-type: none;
+    padding: 10px;
+}
+.sidebar-item ul li a{
+    text-decoration: none;
+    box-shadow: none;
+    padding: 8px 10px;
+    position: relative;
+    width: 190px;
+    z-index: 6;
+    color: #2200bb;
+    font-size: 18px;
+}
+.active {
+    border-left: 4px solid #d66b07;
+    background: #8cbfee;
+}
+.content {
+    margin-top: 70px;
+    margin-left: 220px;
+}
+.p-50 {
+    padding: 50px;
+}
+.interviewer-wrapper {
+    background-color: #dde6eb;
+    border: 1px solid rgb(210, 175, 233);
+    border-radius: 5px;
+    margin: 20px 0px;
+}
+
+.interviewer-wrapper h3 {
+    padding: 10px;
+    border-bottom: 1px solid rgb(210, 175, 233);
+}
+.page-content {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+table {
+    border: 1px solid rgb(210, 175, 233) !important;
+    text-align: center;
+}
+.interviewer-table {
+    padding: 20px;
+}
+.interviewee-table {
+    padding: 20px;
+}
+.interviewee-title {
+    padding: 10px;
+    border-bottom : 1px solid rgb(210, 175, 233);
+}
+.interviewee-title h3 {
+    padding: 0 !important;
+    border-bottom: none !important;
+}

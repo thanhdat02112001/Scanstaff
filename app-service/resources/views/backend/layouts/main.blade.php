@@ -9,67 +9,64 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <script src="{{asset('js/app.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{mix('css/app.css')}}">
+    <link rel="stylesheet" href="{{mix('css/admin.css')}}">
     @stack('stylesheet')
 </head>
 <body>
-    <div id="main" class="d-flex">
-        {{-- AdminSidebar --}}
-        <nav class="navbar-default navbar-static-side">
-            <ul class="nav-menu" id="side-menu">
-                <li class="nav-header">
-                    <img src="{{ asset('zinza.png') }}" alt="Zinza Talentscan" class="page-logo img-wrapper">
-                    <div class="text">
-                        <p class="name">{{ Auth::user()->name }}</p>
-                        <p class="role">{{ Auth::user()->isAdmin() ? 'Admin' : 'Interviewer' }}</p>
-                    </div>
-                </li>
+    <div class="vertical-menu">
+        <div class="navbar-brand-box">
+            <a href="#" class="logo logo-dark">
+                <span class="logo-sm">
+                    <img src="{{asset('/images/logo.png')}}" alt="logo" height="200">
+                </span>
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <ul>
                 @if (Auth::user()->isAdmin())
                     @include('partials.menu-admin')
                 @else
-                       @include('partials.menu-interviewer')
+                    @include('partials.menu-interviewer')
                 @endif
                 <li>
-                    <a href="#" class="menu-link">
-                        <i class="fa fa-key" aria-hidden="true"></i>
-                        <span>Change password</span>
+                    <a href="/password-change" class="">
+                        <i class="fa fa-key me-1"></i> Change password
                     </a>
                 </li>
             </ul>
-        </nav>
-        <div id="page-wrapper">
-            {{-- Topbar --}}
-            <div class="topbar">
-                <div class="goto-home">
-                    <a href="{{ route('home') }}">Home</a>
-                </div>
-                <div class="right">
-                    {{-- If admin --}}
-                    @if (Auth::user()->isAdmin())
-                       @include('partials.admin-topbar')
-                    @endif
-                    <div class="logout">
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                            <i class="fa fa-sign-out"></i>
-                            Logout
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                </div>
+        </div>
+        <div class="sidebar-background"></div>
+    </div>
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div>
+                <nav class="fs-5" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/home">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/user-home">Userhome</a>
+                        </li>
+                    </ol>
+                </nav>
             </div>
-            {{-- Main content --}}
-            <div class="main-page-content @yield('classname', '')">
-                @yield('content')
-                <div class="toast-container"></div>
+            <div class="d-flex align-item-center">
+                @if (Auth::user()->isAdmin())
+                    @include('partials.admin-topbar')
+                @endif
+                <button class="logout">
+                    <i class="fa fa-sign-out ms-3" aria-hidden="true"></i> Logout
+                </button>
             </div>
         </div>
+    </header>
+    <div class="content">
+        @yield('content')
     </div>
+    <script src="{{mix('js/app.js')}}"></script>
+    <script src="{{mix('js/bootstrap.js')}}"></script>
+    <script src="{{mix('js/admin.js')}}"></script>
 </body>
 </html>
