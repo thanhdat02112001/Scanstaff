@@ -35,24 +35,34 @@
                             </a>
                         </div>
                         <div class="p-2">
-                            <form action="" class="form-horizontal">
+                            <form action="{{route('register')}}" class="form-horizontal" method="POST">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">
                                         User Name
                                     </label>
                                     <input type="text" name="name" id="name" class="form-control">
+                                    @error('name')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">
                                         Email
                                     </label>
                                     <input type="text" name="email" id="email" class="form-control">
+                                    @error('email')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">
                                         Password
                                     </label>
                                     <input type="password" name="password" id="password" class="form-control">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirm" class="form-label">

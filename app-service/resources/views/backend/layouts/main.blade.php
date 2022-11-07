@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{mix('css/app.css')}}">
     <link rel="stylesheet" href="{{mix('css/admin.css')}}">
+    <link rel="stylesheet" href="{{mix('css/user.css')}}">
     @stack('stylesheet')
 </head>
 <body>
@@ -56,9 +57,12 @@
                 @if (Auth::user()->isAdmin())
                     @include('partials.admin-topbar')
                 @endif
-                <button class="logout">
-                    <i class="fa fa-sign-out ms-3" aria-hidden="true"></i> Logout
-                </button>
+                <form action="{{route('logout')}}" method="POST">
+                    @csrf
+                    <button class="logout" type="submit">
+                        <i class="fa fa-sign-out ms-3" aria-hidden="true"></i> Logout
+                    </button>
+                </form>
             </div>
         </div>
     </header>

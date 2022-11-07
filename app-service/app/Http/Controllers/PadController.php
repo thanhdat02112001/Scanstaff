@@ -13,7 +13,7 @@ class PadController extends Controller
     public function index()
     {
         $langs =  Language::all();
-        return view('backend.interviewer.pads', compact('langs'));
+        return view('backend.interviewer.home', compact('langs'));
     }
 
     public function store(Request $request)

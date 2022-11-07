@@ -2,8 +2,10 @@
 @section('content')
 <div class="account-page my-4 pt-sm-5">
     <div class="container">
+
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
+                @include('partials.alerts')
                 <div class="card">
                     <div class="bg-primary bg-soft">
                         <div class="row">
@@ -42,12 +44,18 @@
                                         Email
                                     </label>
                                     <input type="text" name="email" id="email" class="form-control">
+                                    @error('email')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">
                                         Password
                                     </label>
                                     <input type="password" name="password" id="password" class="form-control">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-check">
                                     <input

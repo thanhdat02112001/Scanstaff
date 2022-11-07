@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\InterviewerController;
 use App\Http\Controllers\PadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -49,22 +50,32 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 //admin
 Route::get('/home', [UserController::class, 'redirect'])->name('home');
 
-// Route::group(['middleware' => 'auth'], function () {
-//     Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
+Route::group(['middleware' => 'auth'], function () {
+    //interviewer
+    Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
+        Route::get('/', [InterviewerController::class, 'home'])->name('home');
+        Route::get('/questions', [InterviewerController::class, 'questions'])->name('question');
+        Route::get('/interviewees',[InterviewerController::class, 'interviewees'])->name('interviewee');
 
-//     });
-// });
-Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
-    Route::get('/', [PadController::class, 'index'])->name('index');
-    Route::post('/new', [PadController::class, 'store'])->name('create');
+        Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
+            Route::get('/', [PadController::class, 'index'])->name('index');
+            Route::post('/new', [PadController::class, 'store'])->name('create');
+        });
+    });
+
+    //admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+
+    });
+
 });
+
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
 Route::view('admin/home', 'backend.admin.home');
 Route::view('admin/interviewers', 'backend.admin.interviewer');
 Route::view('admin/interviewees', 'backend.admin.interviewee');
 Route::view('/password-change', 'frontend.auth.password-change');
-
 Route::get('/send', function() {
     event(new UserRegisterd("hallo"));
 });
