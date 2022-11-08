@@ -12,7 +12,11 @@
                 </span>
             </div>
             <div>
-                <button class="btn btn-success me-3">Create Pad</button>
+                <form action="{{route('interviewer.pad.create')}}" method="POST" target="_blank">
+                    @csrf
+                    <button class="btn btn-success me-3" type="submit">Create Pad</button>
+                </form>
+
             </div>
         </div>
         <div class="mt-3 ps-4">

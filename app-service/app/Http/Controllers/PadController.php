@@ -7,6 +7,7 @@ use App\Models\Pad;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PadController extends Controller
 {
@@ -58,12 +59,13 @@ class PadController extends Controller
         $pad->status = Pad::STATUS_UNUSED;
         $pad->save();
 
-        return redirect(route('pad.show', $id));
+        return Redirect::to(route('pad.show', $id));
     }
 
     public function show($id)
     {
         $pad = Pad::find($id);
+        $pad->language = Language::find($pad->language_id)->name;
         $langs = Language::all();
         return view('frontend.pad', compact('pad', 'langs'));
     }

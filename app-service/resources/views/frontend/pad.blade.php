@@ -9,15 +9,12 @@
     <meta name="pad_id" content="{{ $pad->id }}">
     <meta name="sid" content="{{ Session::getId() }}">
 
-    <title>{{ $pad->lg . ' | zcheck' }}</title>
+    <title>{{ $pad->language . ' | zcheck' }}</title>
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('monaco-editor/min/vs/editor/editor.main.css')}}">
-    <script src="{{asset('monaco-editor/min/vs/loader.js')}}"></script>
-    <script src="{{asset('monaco-editor/min/vs/editor/editor.main.js')}}"></script>
 </head>
 
 <body class="page-pad">
@@ -70,7 +67,7 @@
                 </div>
             </div>
             <div class="code">
-                <textarea name="content" id="pad-content"></textarea>
+                <textarea name="content" id="pad-content">echo 1;</textarea>
             </div>
         </div>
         <div class="resizer"></div>
@@ -219,7 +216,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
-
+    <script src="{{mix('js/codemirror.js')}}"></script>
     <script src="{{ mix('js/pad.js') }}" defer></script>
    {{-- @guest
         <script src="{{ asset('js/guest.js') }}" defer></script>
