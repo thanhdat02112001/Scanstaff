@@ -10,8 +10,7 @@
         <div class="noti-list" data-all="{{ $all_noti_count }}" data-cur="{{ ($all_noti_count > 3) ? 3 : $all_noti_count }}">
             @foreach ($new_noti as $noti)
                 <div class="{{ $noti->read === 0 ? 'unseen' : '' }}">
-                    {{-- <a href="{{ route('noti.seen', $noti->id) }}">{{ $noti->description }}</a> --}}
-                    <a href="#">{{ $noti->description }}</a>
+                    <a href="{{ route('admin.noti.seen', $noti->id) }}">{{ $noti->description }}</a>
                 </div>
             @endforeach
         </div>

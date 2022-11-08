@@ -3,7 +3,7 @@
     <div class="container p-4 pt-2">
         <div class="interviewer-wrapper">
             <h3>List of unapproved interviewer</h3>
-            <div class="interviewer-table">
+            <div class="interviewer-table unapproved">
                 <table class="table mt-1 table-bordered border-collapse">
                   <thead>
                     <tr>
@@ -112,4 +112,17 @@
             </div>
         </div>
     </div>
+    <template id="new-user-row">
+        <tr>
+            <th scope="col"></th>
+            <td></td>
+            <td></td>
+            <td class="action acpt">
+                <a href=""><i class="fa fa-check-circle-o yes" aria-hidden="true"></i></a>
+            </td>
+            <td class="action decl">
+                <a href=""><i class="fa fa-ban no" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+    </template>
 @endsection

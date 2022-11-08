@@ -61,9 +61,9 @@ channel.bind('new-user', function(e) {
     var noti_string = `User ${notify.name} with email ${notify.email} want to register.`;
 
     // if in interviewer page
-    if ($('#page-wrapper .main-page-content').hasClass('page-interviewer')) {
+    if ($('#interviewer-wrapper').hasClass('unapproved')) {
         // Add a new row to "List of unapproved users" table
-        var max = parseInt($('.unapproved-list .unapproved tbody tr').last().find('th').text()) || 0;
+        var max = parseInt($('.unapproved tbody tr').last().find('th').text()) || 0;
         var tpl1 = document.querySelector('#new-user-row');
         var clone = tpl1.content.cloneNode(true);
         var td = clone.querySelectorAll('td');
@@ -75,33 +75,19 @@ channel.bind('new-user', function(e) {
         acpt.href = '/users/' + notify.id + '/approve';
         var decl = clone.querySelector('.decl a');
         decl.href = '/users/' + notify.id + '/decline';
-        var tbody = document.querySelector('.unapproved-list .unapproved tbody');
+        var tbody = document.querySelector('.unapproved tbody');
         tbody.appendChild(clone);
         $('.unapproved-list .table-responsive.d-none').removeClass('d-none');
         $('.unapproved-list p.is-empty').addClass('d-none');
     }
-    // push notification for admin
-    // Notification popup
-    var tpl2 = document.querySelector('#push-notify');
-    var clone2 = tpl2.content.cloneNode(true);
-    var link = clone2.querySelector('.toast-body a');
-    link.textContent = noti_string;
-    link.href = `/noti/${notify.noti_id}/seen`;
-    var container = document.querySelector('.toast-container');
-    container.appendChild(clone2);
-    $('.main-page-content .toast-container .toast').each((i, el) => {
-        if ($(el).find('a').text() == noti_string) {
-            $(el).toast('show');
-        }
-    })
     // Notification dropdown
     noti_list.attr('data-cur', current_noti++);
     noti_list.attr('data-all', all_noti++);
-    $('.topbar .dropdown-toggle .label-primary').text(parseInt($('.topbar .dropdown-toggle .label-primary').text()) + 1);
+    $('.dropdown .noti-icon .badge').text(parseInt($('.dropdown .noti-icon .badge').text()) + 1);
     let div = document.createElement('div'),
         a = document.createElement('a');
     div.className = 'unseen';
-    a.href = `/noti/${notify.noti_id}/seen`;
+    a.href = `/admin/noti/${notify.noti_id}/seen`;
     a.textContent = noti_string;
     div.appendChild(a);
     let list = document.querySelector('.dropdown-noti .noti-list');
@@ -114,15 +100,9 @@ $('.nav-menu > li > a').each(function (index, element) {
     };
 });
 
-// Dropdown notifications
-$('.dropdown-menu.dropdown-noti').on("click.bs.dropdown", function (e) {
-    return $('.dropdown').one('hide.bs.dropdown', function () {
-        return false;
-    });
-});
-
 $('.dropdown-noti .see-more').click(function (e) {
     e.preventDefault();
+    e.stopPropagation();
     $.ajax({
         type: "post",
         url: "/admin/get-more-noti",
@@ -134,7 +114,7 @@ $('.dropdown-noti .see-more').click(function (e) {
                 let div = document.createElement('div'),
                     a = document.createElement('a');
                 div.className = (element.read == 0) ? 'unseen' : '';
-                a.href = `/noti/${element.id}/seen`;
+                a.href = `/admin/noti/${element.id}/seen`;
                 a.textContent = element.description;
                 div.appendChild(a);
                 let list = document.querySelector('.dropdown-noti .noti-list');
@@ -149,14 +129,15 @@ $('.dropdown-noti .see-more').click(function (e) {
 
 $('.dropdown-noti .mark-read a').click((e) => {
     e.preventDefault();
+    e.stopPropagation();
     $.ajax({
         type: "POST",
-        url: "/read-noti",
+        url: "/admin/read-all-noti",
         success: function () {
             $('.dropdown-noti .noti-list div.unseen').each((i, el) => {
                 $(el).removeClass('unseen');
             });
-            $('.dropdown-toggle.count-info .label-primary').text(0);
+            $('.dropdown .noti-icon .badge').text(0);
         }
     });
 });
