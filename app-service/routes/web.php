@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\UserRegisterd;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -65,7 +66,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     //admin
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-
+        Route::post('/get-more-noti', [AdminController::class, 'getMoreNoti']);
+        Route::post('/read-all-noti', [AdminController::class, 'readAllNoti']);
+        Route::get('/noti/{id}/seen', [AdminController::class, 'readNoti'])->name('noti.seen');
+        Route::get('/interviewers', [AdminController::class, 'interviewers'])->name('interviewers');
+        Route::get('/home', [AdminController::class, 'home'])->name('home');
     });
 
 });
@@ -73,7 +78,6 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 
 Route::view('admin/home', 'backend.admin.home');
-Route::view('admin/interviewers', 'backend.admin.interviewer');
 Route::view('admin/interviewees', 'backend.admin.interviewee');
 Route::view('/password-change', 'frontend.auth.password-change');
 Route::get('/send', function() {
