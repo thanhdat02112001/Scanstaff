@@ -101,10 +101,10 @@
                     <div class="email">
                         <h4 class="header">Send Email Invite:</h4>
                         <p>We’ll email the recipient directly with a link, so you don’t have to give away your email address.</p>
-                        {{-- <form action="{{ route('email-invite') }}" method="POST" class="emailInvite">
+                        <form action="{{ route('email-invite') }}" method="POST" class="emailInvite">
                             <input type="email" name="email" required class="email-invite" placeholder="Recipient’s email address">
                             <input type="submit" class="btn btn-send" value="Send">
-                        </form> --}}
+                        </form>
                         <div class="alert alert-secondary alert-dismissible fade show sending" role="alert">
                             Sending...
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -218,10 +218,10 @@
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
-     <script src="{{ mix('js/pad.js') }}" defer></script>
-   {{-- @guest
+    <script src="{{ mix('js/pad.js') }}" defer></script>
+    @guest
         <script src="{{ mix('js/guest.js') }}" defer></script>
-    @endguest --}}
+    @endguest
 
     @auth
         <script src="{{ mix('js/user.js') }}" defer></script>

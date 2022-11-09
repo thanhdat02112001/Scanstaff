@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\InterviewerController;
 use App\Http\Controllers\PadController;
 use App\Http\Controllers\UserController;
@@ -77,6 +78,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
 Route::post('/pad/{id}/get-content', [PadController::class, 'getContent']);
+Route::post('/pad/{id}/add_member', [PadController::class, 'broadcastAddMember'])->name('pad.broadcast-add-member');
+Route::put('/pad/{id}/edit', [PadController::class, 'update'])->name('pad.update');
+Route::put('/pad/{id}/edit/guest', [PadController::class, 'updateForGuest'])->name('pad.updatte-guest');
+Route::post('/pad/{id}/delete_member', [PadController::class, 'broadcastDeleteMember'])->name('pad.broadcast-delete-member');
+
+Route::post('send-email', [EmailController::class, 'send'])->name('email-invite');
 
 Route::view('admin/home', 'backend.admin.home');
 Route::view('admin/interviewees', 'backend.admin.interviewee');

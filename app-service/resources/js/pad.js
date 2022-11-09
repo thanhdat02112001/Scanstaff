@@ -79,7 +79,7 @@ $(document).ready(function () {
                 'Cmd-/': 'toggleComment',
             }
         });
-        
+
         function autoComplete (lg_mode) {
             pad.on("inputRead", function(command) {
                 CodeMirror.showHint(command, CodeMirror.hint[lg_mode], {completeSingle:false, closeOnUnfocus:true})
@@ -336,118 +336,127 @@ $(document).ready(function () {
             marker.push(obj);
         });
 
-        // window.Echo.channel(`pad-${pad_id}-participants`)
-        //     .listen('PadParticipantsUpdate', (data) => {
-        //         let element;
-        //         switch (data.type) {
-        //             case 'add':
-        //                 element = JSON.parse(data.members);
-        //                 let user = document.createDocumentFragment(),
-        //                     li = document.createElement('li'),
-        //                     span1 = document.createElement('span'),
-        //                     span2 = document.createElement('span');
-        //                 li.className = 'user';
-        //                 li.dataset.sid = element.session_id;
-        //                 li.dataset.name = element.name;
-        //                 span1.className = 'colorIndicator';
-        //                 span2.className = 'username';
-        //                 span2.textContent = element.name;
-        //                 li.appendChild(span1);
-        //                 li.appendChild(span2);
-        //                 user.appendChild(li);
-        //                 setTimeout(() => {
-        //                     document.querySelector('.footer .user-list').appendChild(user);
-        //                 }, 50);
-        //                 let found = false;
-        //                 for (let i = 0; i < marker.length; i++) {
-        //                     let m = marker[i];
-        //                     if (m.sid == element.session_id && m.name == element.name) {
-        //                         found = true;
-        //                         break;
-        //                     }
-        //                 }
-        //                 if (!found) {
-        //                     let obj = {
-        //                         sid: element.session_id,
-        //                         name: element.name,
-        //                         cursor_mark: "",
-        //                         select_mark: ""
-        //                     };
-        //                     marker.push(obj);
-        //                 }
-        //                 break;
-        //             case 'delete':
-        //                 element = JSON.parse(data.members);
-        //                 if ($(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).length) {
-        //                     $(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).remove();
-        //                 }
+        var pusher = new Pusher('1dcf4e7608b407bd1a07', {
+            cluster: 'ap1'
+        });
 
-        //                 marker.forEach((m, index) => {
-        //                     if (m.sid == element.session_id && m.name == element.name) {
-        //                         // clear bookmark
-        //                         if (m.cursor_mark != "") {
-        //                             m.cursor_mark.clear();
-        //                         }
-        //                         if (m.select_mark != "") {
-        //                             m.select_mark.clear();
-        //                         }
-        //                         marker.splice(index, 1);
-        //                     }
-        //                 });
-        //                 break;
-        //             default:
-        //                 let user_list = '';
-        //                 data.members.forEach(e => {
-        //                     element = JSON.parse(e);
-        //                     user_list += `
-        //                         <li class="user" data-sid="${element.session_id}" data-name="${element.name}">
-        //                             <span class="colorIndicator"></span>
-        //                             <span class="username">${element.name}</span>
-        //                         </li>
-        //                     `;
-        //                 });
-        //                 $('.footer .user-list').html(user_list);
-        //                 $('.user-list .user').each(function (index, element) {
-        //                     let obj = {
-        //                         sid: $(element).data('sid'),
-        //                         name: $(element).data('name'),
-        //                         cursor_mark: "",
-        //                         select_mark: ""
-        //                     }
-        //                     marker.push(obj);
-        //                 });
-        //                 break;
-        //         }
-        //     })
-        //     .listen('EndPad', function () {
-        //         location.reload();
-        //     });
+        var channel = pusher.subscribe(`pad-${pad_id}-participants`);
 
-        // window.Echo.channel(`pad-${pad_id}-output`)
-        //     .listen('DisableRunButton', () => {
-        //         $('.CodePanel .action .run').prop('disabled', true);
-        //     })
-        //     .listen('PadOutputUpdate', (data) => {
-        //         term.writeln(data.content);
-        //         $('.CodePanel .action .run').prop('disabled', false);
-        //     })
-        //     .listen('PadOutputClear', function () {
-        //         term.clear();
-        //     });
+        channel.bind('PadJoinerUpdate', (data) => {
+            let element;
+            switch (data.type) {
+                case 'add':
+                    element = JSON.parse(data.members);
+                    let user = document.createDocumentFragment(),
+                        li = document.createElement('li'),
+                        span1 = document.createElement('span'),
+                        span2 = document.createElement('span');
+                    li.className = 'user';
+                    li.dataset.sid = element.session_id;
+                    li.dataset.name = element.name;
+                    span1.className = 'colorIndicator';
+                    span2.className = 'username';
+                    span2.textContent = element.name;
+                    li.appendChild(span1);
+                    li.appendChild(span2);
+                    user.appendChild(li);
+                    setTimeout(() => {
+                        document.querySelector('.footer .user-list').appendChild(user);
+                    }, 50);
+                    let found = false;
+                    for (let i = 0; i < marker.length; i++) {
+                        let m = marker[i];
+                        if (m.sid == element.session_id && m.name == element.name) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        let obj = {
+                            sid: element.session_id,
+                            name: element.name,
+                            cursor_mark: "",
+                            select_mark: ""
+                        };
+                        marker.push(obj);
+                    }
+                    break;
+                case 'delete':
+                    element = JSON.parse(data.members);
+                    if ($(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).length) {
+                        $(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).remove();
+                    }
 
-        // window.Echo.channel(`pad-${pad_id}-content`)
-        //     .listen('PadLanguageUpdate', (e) => {
-        //         $('#select_lg').val(e.lg_id);
-        //         pad.setOption('mode', $('#select_lg').find('option:selected').data('mode'));
-        //         // If PHP, change indentUnit to 4
-        //         if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
-        //             pad.setOption('indentUnit', 4);
-        //             pad.setOption('tabSize', 4);
-        //         } else {
-        //             pad.setOption('indentUnit', 2);
-        //             pad.setOption('tabSize', 2);
-        //         }
-        //     })
+                    marker.forEach((m, index) => {
+                        if (m.sid == element.session_id && m.name == element.name) {
+                            // clear bookmark
+                            if (m.cursor_mark != "") {
+                                m.cursor_mark.clear();
+                            }
+                            if (m.select_mark != "") {
+                                m.select_mark.clear();
+                            }
+                            marker.splice(index, 1);
+                        }
+                    });
+                    break;
+                default:
+                    let user_list = '';
+                    data.members.forEach(e => {
+                        element = JSON.parse(e);
+                        user_list += `
+                            <li class="user" data-sid="${element.session_id}" data-name="${element.name}">
+                                <span class="colorIndicator"></span>
+                                <span class="username">${element.name}</span>
+                            </li>
+                        `;
+                    });
+                    $('.footer .user-list').html(user_list);
+                    $('.user-list .user').each(function (index, element) {
+                        let obj = {
+                            sid: $(element).data('sid'),
+                            name: $(element).data('name'),
+                            cursor_mark: "",
+                            select_mark: ""
+                        }
+                        marker.push(obj);
+                    });
+                    break;
+            }
+        })
+
+        channel.bind('EndPad', function () {
+            location.reload();
+        });
+
+        var channelOutput = pusher.subscribe(`pad-${pad_id}-output`);
+
+        channelOutput.bind('DisableRunButton', () => {
+            $('.CodePanel .action .run').prop('disabled', true);
+        })
+        channelOutput.bind('PadOutputUpdate', (data) => {
+            term.writeln(data.content);
+            $('.CodePanel .action .run').prop('disabled', false);
+        })
+        channelOutput.bind('PadOutputClear', function () {
+            term.clear();
+        })
+
+        var channelContent = pusher.subscribe(`pad-${pad_id}-content`);
+
+        channelContent.bind('PadLanguageUpdate', (e) => {
+            $('#select_lg').val(e.lg_id);
+            console.log(e.lg_id)
+            pad.setOption('mode', $('#select_lg').find('option:selected').data('mode'));
+            // If PHP, change indentUnit to 4
+            if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+                pad.setOption('indentUnit', 4);
+                pad.setOption('tabSize', 4);
+            } else {
+                pad.setOption('indentUnit', 2);
+                pad.setOption('tabSize', 2);
+            }
+        })
     }
 });
 

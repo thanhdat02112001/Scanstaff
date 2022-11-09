@@ -7,6 +7,7 @@
     "/js/xterm.js": "/js/xterm.js",
     "/js/guest.js": "/js/guest.js",
     "/js/user.js": "/js/user.js",
+    "/firebase-messaging-sw.js": "/firebase-messaging-sw.js",
     "/css/app.css": "/css/app.css",
     "/css/codemirror.css": "/css/codemirror.css",
     "/css/user.css": "/css/user.css",
