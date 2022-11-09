@@ -20,7 +20,7 @@
 <body class="page-pad">
     <div class="workspace">
         <div class="CodePanel">
-            <div class="action">
+            <div class="action-bar">
                 <button class="btn btn-primary run">Run</button>
                     @guest
                         <div class="dropdown message-dropdown">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="code">
-                <textarea name="content" id="pad-content">echo 1;</textarea>
+                <textarea name="content" id="pad-content"></textarea>
             </div>
         </div>
         <div class="resizer"></div>
@@ -148,7 +148,7 @@
         </div>
         @auth
             <div class="footer-right">
-                <input type="text" class="title" value="{{ $pad->title }}">
+                <input type="text" class="title-ft" value="{{ $pad->title }}">
                 @if ($pad->status !== App\Models\Pad::STATUS_ENDED)
                     <button class="btn red-btn" data-toggle="modal" data-target="#modalEnd">End Interview</button>
                 @else
@@ -204,7 +204,8 @@
             </div>
         </div>
     </div>
-
+     <script src="{{ mix('js/codemirror.js') }}"></script>
+     <script src="{{ asset('js/xterm.js') }}"></script>
     <!-- Scripts -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
@@ -216,15 +217,14 @@
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
-    <script src="{{mix('js/codemirror.js')}}"></script>
-    <script src="{{ mix('js/pad.js') }}" defer></script>
+     <script src="{{ mix('js/pad.js') }}" defer></script>
    {{-- @guest
-        <script src="{{ asset('js/guest.js') }}" defer></script>
-    @endguest
+        <script src="{{ mix('js/guest.js') }}" defer></script>
+    @endguest --}}
 
     @auth
-        <script src="{{ asset('js/user.js') }}" defer></script>
-    @endauth --}}
+        <script src="{{ mix('js/user.js') }}" defer></script>
+    @endauth
 
 </body>
 

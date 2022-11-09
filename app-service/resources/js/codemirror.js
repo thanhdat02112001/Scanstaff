@@ -1,4 +1,5 @@
 import CodeMirror from 'codemirror';
+window.CodeMirror = CodeMirror;
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
@@ -6,14 +7,10 @@ import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/clike/clike.js';
 import 'codemirror/mode/php/php.js';
-
-var editor = CodeMirror.fromTextArea(document.getElementById("#pad-content"), {
-    lineNumbers: true,
-    theme: 'dracula',
-    matchBrackets: true,
-    mode: "application/x-httpd-php",
-    indentUnit: 4,
-    indentWithTabs: true,
-    tabSize: 4,
-    lineWrapping: true,
-});
+import 'codemirror/mode/ruby/ruby.js';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/go/go';
+import 'codemirror/addon/selection/active-line';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/closebrackets';
