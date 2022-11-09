@@ -69,4 +69,10 @@ class PadController extends Controller
         $langs = Language::all();
         return view('frontend.pad', compact('pad', 'langs'));
     }
+
+    public function getContent($id)
+    {
+        $pad = Pad::find($id);
+        return $pad->content;
+    }
 }

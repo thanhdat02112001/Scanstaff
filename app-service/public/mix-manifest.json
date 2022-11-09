@@ -8,6 +8,7 @@
     "/js/guest.js": "/js/guest.js",
     "/js/user.js": "/js/user.js",
     "/css/app.css": "/css/app.css",
+    "/css/codemirror.css": "/css/codemirror.css",
     "/css/user.css": "/css/user.css",
     "/css/admin.css": "/css/admin.css",
     "/css/style.css": "/css/style.css",

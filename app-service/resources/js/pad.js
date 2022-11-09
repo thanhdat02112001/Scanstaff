@@ -10,13 +10,6 @@ window.Firepad = Firepad;
 var phpMode = 'application/x-httpd-php';
 
 $(document).ready(function () {
-    // Ajax Setup
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
     // Firebase Setup
     var firebaseConfig = {
         apiKey: process.env.MIX_FIREBASE_API_KEY,
@@ -77,6 +70,8 @@ $(document).ready(function () {
             styleActiveLine: { nonEmpty: false },
             matchBrackets: true,
             autoRefresh: false,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
             indentUnit: 2,
             tabSize: 2,
             extraKeys: {
@@ -84,6 +79,14 @@ $(document).ready(function () {
                 'Cmd-/': 'toggleComment',
             }
         });
+        
+        function autoComplete (lg_mode) {
+            pad.on("inputRead", function(command) {
+                CodeMirror.showHint(command, CodeMirror.hint[lg_mode], {completeSingle:false, closeOnUnfocus:true})
+            })
+        }
+        autoComplete(pad.options.mode)
+
         // If PHP, change indentUnit to 4
         if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
             pad.setOption('indentUnit', 4);

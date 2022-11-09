@@ -15,6 +15,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{mix('css/codemirror.css')}}">
 </head>
 
 <body class="page-pad">

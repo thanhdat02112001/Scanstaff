@@ -14,3 +14,7 @@ import 'codemirror/addon/selection/active-line';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/css-hint';
+import 'codemirror/addon/hint/anyword-hint';
+import 'codemirror/addon/hint/javascript-hint';

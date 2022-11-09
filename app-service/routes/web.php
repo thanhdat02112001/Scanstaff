@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');
+Route::post('/pad/{id}/get-content', [PadController::class, 'getContent']);
 
 Route::view('admin/home', 'backend.admin.home');
 Route::view('admin/interviewees', 'backend.admin.interviewee');

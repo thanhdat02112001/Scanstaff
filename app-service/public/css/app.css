@@ -11,6 +11,179 @@
  * Copyright 2019 Mohammad Younes <Mohammad@alertifyjs.com> (http://alertifyjs.com) 
  * Licensed under GPL 3 <https://opensource.org/licenses/gpl-3.0>*/
 .alertify .ajs-dimmer{background-color:#000;opacity:.5}.alertify .ajs-dialog{max-width:600px;min-height:122px;background-color:#fff;border:1px solid rgba(0,0,0,.2);box-shadow:0 5px 15px rgba(0,0,0,.5);border-radius:6px}.alertify .ajs-header{color:#333;border-bottom:1px solid #e5e5e5;border-radius:6px 6px 0 0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px}.alertify .ajs-body{font-family:Roboto,sans-serif;color:#000}.alertify.ajs-maximized:not(.ajs-resizable) .ajs-content,.alertify.ajs-resizable .ajs-content{top:58px;bottom:68px}.alertify .ajs-footer{background-color:#fff;padding:15px;border-top:1px solid #e5e5e5;border-radius:0 0 6px 6px}.alertify-notifier .ajs-message{background:rgba(255,255,255,.95);color:#000;text-align:center;border:solid 1px #ddd;border-radius:2px}.alertify-notifier .ajs-message.ajs-success{color:#fff;background:rgba(91,189,114,.95);text-shadow:-1px -1px 0 rgba(0,0,0,.5)}.alertify-notifier .ajs-message.ajs-error{color:#fff;background:rgba(217,92,92,.95);text-shadow:-1px -1px 0 rgba(0,0,0,.5)}.alertify-notifier .ajs-message.ajs-warning{background:rgba(252,248,215,.95);border-color:#999}
+/**
+ * Copyright (c) 2014 The xterm.js authors. All rights reserved.
+ * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+ * https://github.com/chjj/term.js
+ * @license MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * Originally forked from (with the author's permission):
+ *   Fabrice Bellard's javascript vt100 for jslinux:
+ *   http://bellard.org/jslinux/
+ *   Copyright (c) 2011 Fabrice Bellard
+ *   The original design remains. The terminal itself
+ *   has been extended to include xterm CSI codes, among
+ *   other features.
+ */
+
+/**
+ *  Default styles for xterm.js
+ */
+
+.xterm {
+    font-feature-settings: "liga" 0;
+    position: relative;
+    -moz-user-select: none;
+         user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.xterm.focus,
+.xterm:focus {
+    outline: none;
+}
+
+.xterm .xterm-helpers {
+    position: absolute;
+    top: 0;
+    /**
+     * The z-index of the helpers must be higher than the canvases in order for
+     * IMEs to appear on top.
+     */
+    z-index: 5;
+}
+
+.xterm .xterm-helper-textarea {
+    /*
+     * HACK: to fix IE's blinking cursor
+     * Move textarea out of the screen to the far left, so that the cursor is not visible.
+     */
+    position: absolute;
+    opacity: 0;
+    left: -9999em;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: -5;
+    /** Prevent wrapping so the IME appears against the textarea at the correct position */
+    white-space: nowrap;
+    overflow: hidden;
+    resize: none;
+}
+
+.xterm .composition-view {
+    /* TODO: Composition position got messed up somewhere */
+    background: #000;
+    color: #FFF;
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.xterm .composition-view.active {
+    display: block;
+}
+
+.xterm .xterm-viewport {
+    /* On OS X this is required in order for the scroll bar to appear fully opaque */
+    background-color: #000;
+    overflow-y: scroll;
+    cursor: default;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.xterm .xterm-screen {
+    position: relative;
+}
+
+.xterm .xterm-screen canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.xterm .xterm-scroll-area {
+    visibility: hidden;
+}
+
+.xterm-char-measure-element {
+    display: inline-block;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: -9999em;
+    line-height: normal;
+}
+
+.xterm {
+    cursor: text;
+}
+
+.xterm.enable-mouse-events {
+    /* When mouse events are enabled (eg. tmux), revert to the standard pointer cursor */
+    cursor: default;
+}
+
+.xterm.xterm-cursor-pointer {
+    cursor: pointer;
+}
+
+.xterm.column-select.focus {
+    /* Column selection mode */
+    cursor: crosshair;
+}
+
+.xterm .xterm-accessibility,
+.xterm .xterm-message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    color: transparent;
+}
+
+.xterm .live-region {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.xterm-dim {
+    opacity: 0.5;
+}
+
+.xterm-underline {
+    text-decoration: underline;
+}
+
 @charset "UTF-8";
 /*!
  * Bootstrap  v5.2.0 (https://getbootstrap.com/)
@@ -14212,4 +14385,413 @@ table {
   padding: 10px;
   text-align: center;
   color: #0d6efd;
+}
+
+body.page-pad {
+  background-color: #1d2126;
+  min-width: 800px;
+  height: 100vh;
+  overflow-y: hidden;
+  color: #fff;
+  position: relative;
+}
+body.page-pad .workspace {
+  position: relative;
+  display: flex;
+  height: calc(100vh - 50px);
+}
+body.page-pad .workspace .CodePanel {
+  width: 52%;
+}
+body.page-pad .workspace .CodePanel .action-bar {
+  padding-top: 8px;
+  padding-bottom: 2px;
+  position: relative;
+  height: 50px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+body.page-pad .workspace .CodePanel .action-bar .btn-info:focus {
+  box-shadow: none;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown {
+  min-width: 320px;
+  padding: 18px;
+  background: #2d353c;
+  color: #fff;
+  border-radius: 8px;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown p {
+  color: #7a8b99;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown .suggestion {
+  padding-bottom: 15px;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown .suggestion p {
+  padding: 5px 15px;
+  border-radius: 60px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  width: 70%;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown .alert {
+  display: none;
+  line-height: 1;
+  margin-top: 15px;
+  border: 0;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown form.push-noti {
+  display: flex;
+  margin-bottom: 15px;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown form.push-noti .push-noti-body {
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+  border: 0;
+  background: #22282e;
+  padding-left: 10px;
+  color: #f2f5f7;
+}
+body.page-pad .workspace .CodePanel .action-bar .dropdown-menu.messageDropdown form.push-noti .btn-send-noti {
+  width: 70px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  background: #447dad;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+body.page-pad .workspace .CodePanel .action-bar .btn {
+  color: #fff;
+  padding: 6px 15px;
+  margin-right: 10px;
+  border-color: #2d353c;
+}
+body.page-pad .workspace .CodePanel .action-bar #select_lg {
+  background-color: #1d2126;
+  border-color: #2d353c;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 6px 18px 6px 10px;
+  margin-right: 8px;
+}
+body.page-pad .workspace .CodePanel .code {
+  height: calc(100% - 50px);
+}
+body.page-pad .workspace .CodePanel .code textarea {
+  height: 100%;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror {
+  height: calc(100% - 15px);
+  background: transparent;
+  background-image: none;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror pre {
+  height: auto;
+  line-height: 1.4;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror .selection-268bd2 {
+  background-color: rgba(38, 139, 210, 0.4);
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror .selection-dc322f {
+  background-color: rgba(220, 50, 47, 0.4);
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror .selection-859900 {
+  background-color: rgba(133, 153, 0, 0.4);
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror .selection-2aa198 {
+  background-color: rgba(42, 161, 152, 0.4);
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror .selection-b437aa {
+  background-color: rgba(180, 55, 170, 0.4);
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror-vscrollbar {
+  right: 6px;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror-vscrollbar::-webkit-scrollbar {
+  width: 8px;
+  outline: none;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+body.page-pad .workspace .CodePanel .code .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  background: #2d353c;
+  border-radius: 10px;
+}
+body.page-pad .workspace .resizer {
+  position: absolute;
+  background-color: #22282e;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  width: 10px;
+  height: 100%;
+  left: 52%;
+  top: 0;
+  z-index: 8;
+  cursor: col-resize;
+}
+body.page-pad .workspace .RightPanel {
+  width: 48%;
+  padding-left: 15px;
+}
+body.page-pad .workspace .RightPanel .topbar {
+  display: flex;
+  justify-content: flex-end;
+}
+body.page-pad .workspace .RightPanel .topbar .btn {
+  color: #fff;
+}
+body.page-pad .workspace .RightPanel .right-wrapper {
+  height: calc(100% - 38px);
+}
+body.page-pad .workspace .RightPanel .right-wrapper .console {
+  height: 100%;
+}
+body.page-pad .workspace .RightPanel .notes {
+  height: 100%;
+}
+body.page-pad .workspace .RightPanel .notes textarea {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 5px 15px;
+  color: white;
+}
+body.page-pad .workspace .RightPanel .xterm {
+  padding: 0 8px;
+  height: 100%;
+}
+body.page-pad .workspace .RightPanel .xterm .xterm-viewport {
+  overflow-y: unset;
+  overflow-x: hidden;
+}
+body.page-pad .workspace .RightPanel .xterm .xterm-viewport::-webkit-scrollbar {
+  width: 8px;
+  outline: none;
+}
+body.page-pad .workspace .RightPanel .xterm .xterm-viewport::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+body.page-pad .workspace .RightPanel .xterm .xterm-viewport::-webkit-scrollbar-thumb {
+  background: #2d353c;
+  border-radius: 10px;
+}
+body.page-pad .footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: #22282e;
+  position: fixed;
+  width: 100%;
+  z-index: 8;
+  bottom: 0;
+}
+body.page-pad .footer button {
+  color: #fff;
+  padding: 3px 16px;
+  border: solid 1px #4b555e;
+  background: transparent;
+  line-height: 1.4;
+}
+body.page-pad .footer button:focus {
+  box-shadow: none;
+}
+body.page-pad .footer .footer-left {
+  display: flex;
+}
+body.page-pad .footer .footer-left .user-list {
+  margin: 0;
+  padding: 0;
+  margin-left: 15px;
+  display: flex;
+  list-style: none;
+}
+body.page-pad .footer .footer-left .user-list .user {
+  margin-right: 5px;
+}
+body.page-pad .footer .footer-left .user-list .user .username {
+  padding-right: 8px;
+}
+body.page-pad .footer .footer-left .user-list .user .colorIndicator {
+  display: inline-block;
+  width: 9px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 1px;
+  margin-left: 3px;
+}
+body.page-pad .footer .footer-left .user-list .user:nth-child(1) .colorIndicator {
+  background-color: #268bd2;
+}
+body.page-pad .footer .footer-left .user-list .user:nth-child(2) .colorIndicator {
+  background-color: #dc322f;
+}
+body.page-pad .footer .footer-left .user-list .user:nth-child(3) .colorIndicator {
+  background-color: #859900;
+}
+body.page-pad .footer .footer-left .user-list .user:nth-child(4) .colorIndicator {
+  background-color: #2aa198;
+}
+body.page-pad .footer .footer-left .user-list .user:nth-child(n+5) .colorIndicator {
+  background-color: #b437aa;
+}
+body.page-pad .footer .footer-right {
+  display: flex;
+}
+body.page-pad .footer .footer-right .btn {
+  color: #fff;
+  padding: 3px 16px;
+  border: solid 1px #4b555e;
+  background: transparent;
+  margin-left: 15px;
+  line-height: 1.4;
+}
+body.page-pad .footer .footer-right .btn:focus {
+  box-shadow: none;
+}
+body.page-pad .footer .footer-right .title-ft {
+  background: transparent;
+  outline: none;
+  border: none;
+  border-bottom: solid 1px #4b555e;
+  color: #fff;
+  min-width: 210px;
+}
+body.page-pad .invite-dropup .inviteDropdown {
+  min-width: 320px;
+  padding: 18px;
+  background: #2d353c;
+  color: #fff;
+  border-radius: 8px;
+  top: -26px !important;
+  left: -14px !important;
+}
+body.page-pad .invite-dropup .inviteDropdown .header {
+  font-size: 17px;
+}
+body.page-pad .invite-dropup .inviteDropdown p {
+  color: #7a8b99;
+}
+body.page-pad .invite-dropup .inviteDropdown form {
+  display: flex;
+}
+body.page-pad .invite-dropup .inviteDropdown input {
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+  border: 0;
+  background: #22282e;
+  padding-left: 10px;
+  color: #f2f5f7;
+}
+body.page-pad .invite-dropup .inviteDropdown input.btn-send {
+  width: 70px;
+  height: 32px;
+  padding: 0;
+  text-align: center;
+  color: #fff;
+  background: #447dad;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+body.page-pad .invite-dropup .inviteDropdown input.btn-send:focus {
+  box-shadow: none;
+}
+body.page-pad .invite-dropup .inviteDropdown input.email-invite {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+body.page-pad .invite-dropup .inviteDropdown .caret {
+  position: absolute;
+  bottom: -14px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 13px solid #2d353c;
+}
+body.page-pad .invite-dropup .inviteDropdown .separator {
+  display: flex;
+  align-items: center;
+  color: #7a8b99;
+  margin: 15px 0;
+}
+body.page-pad .invite-dropup .inviteDropdown .separator span {
+  padding: 0 10px;
+}
+body.page-pad .invite-dropup .inviteDropdown .separator::before, body.page-pad .invite-dropup .inviteDropdown .separator::after {
+  content: "";
+  height: 1px;
+  flex-grow: 1;
+  background-color: #7a8b99;
+}
+body.page-pad .invite-dropup .inviteDropdown .alert {
+  display: none;
+  line-height: 1;
+  margin-top: 15px;
+  border: 0;
+}
+body.page-pad .invite-dropup .inviteDropdown .alert button {
+  color: inherit;
+  border: 0;
+  border-left: solid 1px #4b555e;
+  height: 100%;
+}
+body.page-pad .full-screen-overlay {
+  display: none;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+}
+body.page-pad .full-screen-overlay .enter-content div {
+  display: flex;
+  max-width: 350px;
+}
+body.page-pad .full-screen-overlay .enter-content div input {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+  width: 100%;
+}
+body.page-pad .full-screen-overlay .enter-content div button {
+  padding: 6px 20px;
+  border: 0;
+}
+body.page-pad .full-screen-overlay .enter-content div button.btn-go {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+body.page-pad .full-screen-overlay .enter-content div button:focus {
+  box-shadow: none;
+}
+body.page-pad .full-screen-overlay .enter-content .form-confirm {
+  display: none;
+}
+body.page-pad .full-screen-overlay .enter-content .form-confirm div {
+  justify-content: space-between;
+}
+body.page-pad a.powered-by-firepad {
+  display: none;
 }
