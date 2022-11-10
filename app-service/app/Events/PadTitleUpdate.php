@@ -39,6 +39,11 @@ class PadTitleUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ("pad-{$this->id}-user-update");
+        return new Channel("pad-{$this->id}-user-update");
+    }
+
+    public function broadcastAs()
+    {
+        return 'title-update';
     }
 }

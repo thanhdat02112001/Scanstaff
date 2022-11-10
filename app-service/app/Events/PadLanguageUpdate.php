@@ -15,12 +15,8 @@ class PadLanguageUpdate implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    // Pad id
     private $id;
-
-    // Pad language id
     public $lg_id;
-
     /**
      * Create a new event instance.
      *
@@ -28,8 +24,8 @@ class PadLanguageUpdate implements ShouldBroadcastNow
      */
     public function __construct($lg, $id)
     {
-        $this->lg_id = $lg;
         $this->id = $id;
+        $this->lg_id = $lg;
     }
 
     /**
@@ -39,6 +35,11 @@ class PadLanguageUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ("pad-{$this->id}-content");
+        return new Channel("pad-{$this->id}-content");
+    }
+
+    public function broadcastAs()
+    {
+        return 'update-lang';
     }
 }
