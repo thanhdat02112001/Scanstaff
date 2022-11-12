@@ -43,6 +43,11 @@ class PadJoinerUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ("pad-{$this->id}-participants");
+        return new Channel("pad-{$this->id}-participants");
+    }
+
+    public function broadcastAs()
+    {
+        return 'joiner-update';
     }
 }

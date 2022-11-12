@@ -86650,7 +86650,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     autoComplete(pad.options.mode);
 
     // If PHP, change indentUnit to 4
-    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
       pad.setOption('indentUnit', 4);
       pad.setOption('tabSize', 4);
     }
@@ -86728,7 +86728,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#select_lg').on('change', function () {
       pad.setOption('mode', jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('option:selected').data('mode'));
       // If PHP, change indentUnit to 4
-      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
         pad.setOption('indentUnit', 4);
         pad.setOption('tabSize', 4);
       } else {
@@ -86860,119 +86860,114 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
       };
       marker.push(obj);
     });
-
-    // window.Echo.channel(`pad-${pad_id}-participants`)
-    //     .listen('PadParticipantsUpdate', (data) => {
-    //         let element;
-    //         switch (data.type) {
-    //             case 'add':
-    //                 element = JSON.parse(data.members);
-    //                 let user = document.createDocumentFragment(),
-    //                     li = document.createElement('li'),
-    //                     span1 = document.createElement('span'),
-    //                     span2 = document.createElement('span');
-    //                 li.className = 'user';
-    //                 li.dataset.sid = element.session_id;
-    //                 li.dataset.name = element.name;
-    //                 span1.className = 'colorIndicator';
-    //                 span2.className = 'username';
-    //                 span2.textContent = element.name;
-    //                 li.appendChild(span1);
-    //                 li.appendChild(span2);
-    //                 user.appendChild(li);
-    //                 setTimeout(() => {
-    //                     document.querySelector('.footer .user-list').appendChild(user);
-    //                 }, 50);
-    //                 let found = false;
-    //                 for (let i = 0; i < marker.length; i++) {
-    //                     let m = marker[i];
-    //                     if (m.sid == element.session_id && m.name == element.name) {
-    //                         found = true;
-    //                         break;
-    //                     }
-    //                 }
-    //                 if (!found) {
-    //                     let obj = {
-    //                         sid: element.session_id,
-    //                         name: element.name,
-    //                         cursor_mark: "",
-    //                         select_mark: ""
-    //                     };
-    //                     marker.push(obj);
-    //                 }
-    //                 break;
-    //             case 'delete':
-    //                 element = JSON.parse(data.members);
-    //                 if ($(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).length) {
-    //                     $(`.user-list .user[data-sid=${element.session_id}][data-name='${element.name}']`).remove();
-    //                 }
-
-    //                 marker.forEach((m, index) => {
-    //                     if (m.sid == element.session_id && m.name == element.name) {
-    //                         // clear bookmark
-    //                         if (m.cursor_mark != "") {
-    //                             m.cursor_mark.clear();
-    //                         }
-    //                         if (m.select_mark != "") {
-    //                             m.select_mark.clear();
-    //                         }
-    //                         marker.splice(index, 1);
-    //                     }
-    //                 });
-    //                 break;
-    //             default:
-    //                 let user_list = '';
-    //                 data.members.forEach(e => {
-    //                     element = JSON.parse(e);
-    //                     user_list += `
-    //                         <li class="user" data-sid="${element.session_id}" data-name="${element.name}">
-    //                             <span class="colorIndicator"></span>
-    //                             <span class="username">${element.name}</span>
-    //                         </li>
-    //                     `;
-    //                 });
-    //                 $('.footer .user-list').html(user_list);
-    //                 $('.user-list .user').each(function (index, element) {
-    //                     let obj = {
-    //                         sid: $(element).data('sid'),
-    //                         name: $(element).data('name'),
-    //                         cursor_mark: "",
-    //                         select_mark: ""
-    //                     }
-    //                     marker.push(obj);
-    //                 });
-    //                 break;
-    //         }
-    //     })
-    //     .listen('EndPad', function () {
-    //         location.reload();
-    //     });
-
-    // window.Echo.channel(`pad-${pad_id}-output`)
-    //     .listen('DisableRunButton', () => {
-    //         $('.CodePanel .action .run').prop('disabled', true);
-    //     })
-    //     .listen('PadOutputUpdate', (data) => {
-    //         term.writeln(data.content);
-    //         $('.CodePanel .action .run').prop('disabled', false);
-    //     })
-    //     .listen('PadOutputClear', function () {
-    //         term.clear();
-    //     });
-
-    // window.Echo.channel(`pad-${pad_id}-content`)
-    //     .listen('PadLanguageUpdate', (e) => {
-    //         $('#select_lg').val(e.lg_id);
-    //         pad.setOption('mode', $('#select_lg').find('option:selected').data('mode'));
-    //         // If PHP, change indentUnit to 4
-    //         if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
-    //             pad.setOption('indentUnit', 4);
-    //             pad.setOption('tabSize', 4);
-    //         } else {
-    //             pad.setOption('indentUnit', 2);
-    //             pad.setOption('tabSize', 2);
-    //         }
-    //     })
+    var pusher = new Pusher('1dcf4e7608b407bd1a07', {
+      cluster: 'ap1'
+    });
+    var channel = pusher.subscribe("pad-".concat(pad_id, "-participants"));
+    channel.bind('joiner-update', function (data) {
+      console.log(data);
+      var element;
+      switch (data.type) {
+        case 'add':
+          element = JSON.parse(data.members);
+          var user = document.createDocumentFragment(),
+            li = document.createElement('li'),
+            span1 = document.createElement('span'),
+            span2 = document.createElement('span');
+          li.className = 'user';
+          li.dataset.sid = element.session_id;
+          li.dataset.name = element.name;
+          span1.className = 'colorIndicator';
+          span2.className = 'username';
+          span2.textContent = element.name;
+          li.appendChild(span1);
+          li.appendChild(span2);
+          user.appendChild(li);
+          setTimeout(function () {
+            document.querySelector('.footer .user-list').appendChild(user);
+          }, 50);
+          var found = false;
+          for (var i = 0; i < marker.length; i++) {
+            var m = marker[i];
+            if (m.sid == element.session_id && m.name == element.name) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            var obj = {
+              sid: element.session_id,
+              name: element.name,
+              cursor_mark: "",
+              select_mark: ""
+            };
+            marker.push(obj);
+          }
+          break;
+        case 'delete':
+          element = JSON.parse(data.members);
+          if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(".user-list .user[data-sid=".concat(element.session_id, "][data-name='").concat(element.name, "']")).length) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(".user-list .user[data-sid=".concat(element.session_id, "][data-name='").concat(element.name, "']")).remove();
+          }
+          marker.forEach(function (m, index) {
+            if (m.sid == element.session_id && m.name == element.name) {
+              // clear bookmark
+              if (m.cursor_mark != "") {
+                m.cursor_mark.clear();
+              }
+              if (m.select_mark != "") {
+                m.select_mark.clear();
+              }
+              marker.splice(index, 1);
+            }
+          });
+          break;
+        default:
+          var user_list = '';
+          data.members.forEach(function (e) {
+            element = JSON.parse(e);
+            user_list += "\n                            <li class=\"user\" data-sid=\"".concat(element.session_id, "\" data-name=\"").concat(element.name, "\">\n                                <span class=\"colorIndicator\"></span>\n                                <span class=\"username\">").concat(element.name, "</span>\n                            </li>\n                        ");
+          });
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.footer .user-list').html(user_list);
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.user-list .user').each(function (index, element) {
+            var obj = {
+              sid: jquery__WEBPACK_IMPORTED_MODULE_0___default()(element).data('sid'),
+              name: jquery__WEBPACK_IMPORTED_MODULE_0___default()(element).data('name'),
+              cursor_mark: "",
+              select_mark: ""
+            };
+            marker.push(obj);
+          });
+          break;
+      }
+    });
+    channel.bind('EndPad', function () {
+      location.reload();
+    });
+    var channelOutput = pusher.subscribe("pad-".concat(pad_id, "-output"));
+    channelOutput.bind('DisableRunButton', function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.CodePanel .action .run').prop('disabled', true);
+    });
+    channelOutput.bind('PadOutputUpdate', function (data) {
+      term.writeln(data.content);
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.CodePanel .action .run').prop('disabled', false);
+    });
+    channelOutput.bind('PadOutputClear', function () {
+      term.clear();
+    });
+    var channelContent = pusher.subscribe("pad-".concat(pad_id, "-content"));
+    channelContent.bind('update-lang', function (e) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#select_lg').val(e.lg_id);
+      pad.setOption('mode', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#select_lg').find('option:selected').data('mode'));
+      // If PHP, change indentUnit to 4
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
+        pad.setOption('indentUnit', 4);
+        pad.setOption('tabSize', 4);
+      } else {
+        pad.setOption('indentUnit', 2);
+        pad.setOption('tabSize', 2);
+      }
+    });
   }
 });
 })();

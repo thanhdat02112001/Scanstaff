@@ -10,6 +10,7 @@ use App\Models\Interviewee;
 use App\Models\Language;
 use App\Models\Pad;
 use App\Models\Question;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -70,10 +71,41 @@ class PadController extends Controller
 
     public function show($id)
     {
-        $pad = Pad::find($id);
-        $pad->language = Language::find($pad->language_id)->name;
+        // Get Pad information
+        $pad = Pad::findOrFail($id);
+
+        // Check if pad is ended or not
+        if ($pad->status === Pad::STATUS_ENDED) {
+            if (!Auth::check()) {
+                abort(404, "This pad is ended, you don't have permission to open it");
+            }
+        }
+        $pad->lg = Language::find($pad->language_id)->name;
+
+        // Get all questions information
+        $questions = Question::all();
+
+        // Get all language
         $langs = Language::all();
-        return view('frontend.pad', compact('pad', 'langs'));
+
+        // Get all participants
+        $redis = Redis::connection();
+        $temp = $redis->lrange("pad-{$id}-participants", 0, -1);
+
+        $participants = array();
+        // Check if session expired, delete from redis
+        foreach ($temp as $key => $participant) {
+            $member = json_decode($participant);
+            $sid = $member->session_id;
+            $session = Session::getHandler()->read($sid);
+            if ($session == '') {
+                $redis->lrem("pad-{$id}-participants", 0, $participant);
+                // unset($temp[$key]);
+            } else {
+                $participants[] = $participant;
+            }
+        }
+        return view('frontend.pad', compact('pad', 'questions', 'langs', 'participants'));
     }
 
     public function getContent($id)
@@ -97,7 +129,7 @@ class PadController extends Controller
         // If not, save it to redis
         $json_values = json_encode($request->value);
         $redis->rpush("pad-{$id}-participants", $json_values);
-        broadcast(new PadJoinerUpdate($json_values, $id, 'add'));
+        event (new PadJoinerUpdate($json_values, $id, 'add'));
         return 'Added user to the pad';
     }
 
@@ -111,17 +143,17 @@ class PadController extends Controller
 
         if (isset($input['value']['note'])) {
             // Broadcast note
-            broadcast(new PadNoteUpdate($input['value']['note'], $id))->toOthers();
+            event (new PadNoteUpdate($input['value']['note'], $id));
         }
 
         if (isset($input['value']['language_id'])) {
             // Broadcast language_id
-            broadcast(new PadLanguageUpdate($input['value']['language_id'], $id))->toOthers();
+            event (new PadLanguageUpdate($input['value']['language_id'], $id));
         }
 
         if (isset($input['value']['title'])) {
             // Broadcast title
-            broadcast(new PadTitleUpdate($input['value']['title'], $id))->toOthers();
+            event (new PadTitleUpdate($input['value']['title'], $id));
         }
 
         $pad->fill($input['value']);
@@ -179,7 +211,7 @@ class PadController extends Controller
 
         // If not, reset users list
         $participants = $redis->lrange("pad-{$id}-participants", 0, -1);
-        broadcast(new PadJoinerUpdate($participants, $id, 'reset'));
+        event (new PadJoinerUpdate($participants, $id, 'reset'));
         return "Didn't found user in this pad";
     }
 }

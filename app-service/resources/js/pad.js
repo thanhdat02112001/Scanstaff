@@ -88,7 +88,7 @@ $(document).ready(function () {
         autoComplete(pad.options.mode)
 
         // If PHP, change indentUnit to 4
-        if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+        if ($('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
             pad.setOption('indentUnit', 4);
             pad.setOption('tabSize', 4);
         }
@@ -203,7 +203,7 @@ $(document).ready(function () {
         $('#select_lg').on('change', function () {
             pad.setOption('mode', $(this).find('option:selected').data('mode'));
             // If PHP, change indentUnit to 4
-            if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+            if ($('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
                 pad.setOption('indentUnit', 4);
                 pad.setOption('tabSize', 4);
             } else {
@@ -342,7 +342,8 @@ $(document).ready(function () {
 
         var channel = pusher.subscribe(`pad-${pad_id}-participants`);
 
-        channel.bind('PadJoinerUpdate', (data) => {
+        channel.bind('joiner-update', (data) => {
+            console.log(data)
             let element;
             switch (data.type) {
                 case 'add':
@@ -443,13 +444,11 @@ $(document).ready(function () {
         })
 
         var channelContent = pusher.subscribe(`pad-${pad_id}-content`);
-
-        channelContent.bind('PadLanguageUpdate', (e) => {
+        channelContent.bind('update-lang', (e) => {
             $('#select_lg').val(e.lg_id);
-            console.log(e.lg_id)
             pad.setOption('mode', $('#select_lg').find('option:selected').data('mode'));
             // If PHP, change indentUnit to 4
-            if ($('.page-pad .action #select_lg option:selected').data('mode') === phpMode) {
+            if ($('.page-pad .action-bar #select_lg option:selected').data('mode') === phpMode) {
                 pad.setOption('indentUnit', 4);
                 pad.setOption('tabSize', 4);
             } else {

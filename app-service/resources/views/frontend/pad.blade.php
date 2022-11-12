@@ -9,7 +9,7 @@
     <meta name="pad_id" content="{{ $pad->id }}">
     <meta name="sid" content="{{ Session::getId() }}">
 
-    <title>{{ $pad->language . ' | zcheck' }}</title>
+    <title>{{ $pad->lg . ' | zcheck' }}</title>
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
@@ -136,7 +136,7 @@
                 </div>
             </div>
             <ul class="user-list">
-                {{-- @foreach ($participants as $item)
+                @foreach ($participants as $item)
                     @php
                        $user = json_decode($item);
                     @endphp
@@ -144,7 +144,7 @@
                         <span class="colorIndicator"></span>
                         <span class="username">{{ $user->name }}</span>
                     </li>
-                @endforeach --}}
+                @endforeach
             </ul>
         </div>
         @auth
