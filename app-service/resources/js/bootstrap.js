@@ -17,9 +17,8 @@ window.axios = require('axios');
 window.alertify = require('alertifyjs');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
-window.Chart = Chart;
+import Highcharts from 'highcharts';
+window.Highcharts = Highcharts;
 import Pusher from 'pusher-js';
 import toastr from 'toastr';
 import alertify from 'alertifyjs';

@@ -64,8 +64,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="bar-chart">
-                <canvas id="myChart" class="w-100" ></canvas>
+            <div class="bar-chart mt-5">
+                <div id="container" class="w-100" ></div>
             </div>
         </div>
     </div>

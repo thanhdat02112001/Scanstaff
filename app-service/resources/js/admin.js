@@ -1,48 +1,43 @@
-const ctx = document.getElementById('myChart');
-ctx.height = 150;
-ctx.width = 400;
-const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+import { nodeName } from "jquery";
+
+Highcharts.chart('container', {
+    title: {
+      text: 'System Statistics',
+      align: 'center',
+      verticalAlign: 'bottom',
+      style:{
+        fontSize: 28,
+        fontWeight: 400,
+      }
     },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                position: 'bottom',
-                margin: 0,
-                text: 'Custom Chart Title'
-            }
-        }
-    }
-});
+    xAxis: {
+      categories: ['01/11', '02/11', '03/11', '04/11', '05/11']
+    },
+    yAxis: {
+        title: ''
+    },
+    labels: {
+
+    },
+    series: [{
+      type: 'column',
+      name: 'Interviewees',
+      data: [59, 83, 65, 228, 184]
+    }, {
+      type: 'column',
+      name: 'Pads',
+      data: [24, 79, 72, 240, 167]
+    }, {
+      type: 'spline',
+      name: 'Interviewers',
+      data: [47, 83.33, 70.66, 239.33, 175.66],
+      marker: {
+        lineWidth: 2,
+        lineColor: Highcharts.getOptions().colors[3],
+        fillColor: 'white'
+      }
+    }]
+  });
 // Handle notification count
 let noti_list = $('.dropdown-noti .noti-list'),
     current_noti = parseInt(noti_list.data('cur')),
