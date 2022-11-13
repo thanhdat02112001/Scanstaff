@@ -1,4 +1,3 @@
-import { nodeName } from "jquery";
 
 Highcharts.chart('container', {
     title: {

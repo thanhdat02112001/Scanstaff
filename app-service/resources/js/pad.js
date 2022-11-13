@@ -275,11 +275,11 @@ $(document).ready(function () {
         });
 
         // Run code
-        $('.CodePanel .action .run').click(function (e) {
+        $('.CodePanel .action-bar .run').click(function (e) {
             e.preventDefault();
             $(this).prop('disabled', true);
             let name = $('.full-screen-overlay .enter-content #candidate_name').val(),
-                language = $('.action #select_lg option:selected').text(),
+                language = $('.action-bar #select_lg option:selected').text(),
                 first = `${name} ran ${pad.getDoc().size} lines of ${language}`,
                 bf_time = new Date().getTime();
             $.ajax({
@@ -432,8 +432,8 @@ $(document).ready(function () {
 
         var channelOutput = pusher.subscribe(`pad-${pad_id}-output`);
 
-        channelOutput.bind('DisableRunButton', () => {
-            $('.CodePanel .action .run').prop('disabled', true);
+        channelOutput.bind('disable-run-button', () => {
+            $('.CodePanel .action-bar .run').prop('disabled', true);
         })
         channelOutput.bind('PadOutputUpdate', (data) => {
             term.writeln(data.content);
