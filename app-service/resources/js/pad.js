@@ -435,11 +435,11 @@ $(document).ready(function () {
         channelOutput.bind('disable-run-button', () => {
             $('.CodePanel .action-bar .run').prop('disabled', true);
         })
-        channelOutput.bind('PadOutputUpdate', (data) => {
+        channelOutput.bind('output-update', (data) => {
             term.writeln(data.content);
-            $('.CodePanel .action .run').prop('disabled', false);
+            $('.CodePanel .action-bar .run').prop('disabled', false);
         })
-        channelOutput.bind('PadOutputClear', function () {
+        channelOutput.bind('output-clear', function () {
             term.clear();
         })
 

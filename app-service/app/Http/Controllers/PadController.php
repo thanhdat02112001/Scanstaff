@@ -6,6 +6,8 @@ use App\Events\EndPad;
 use App\Events\PadJoinerUpdate;
 use App\Events\PadLanguageUpdate;
 use App\Events\PadNoteUpdate;
+use App\Events\PadOutputClear;
+use App\Events\PadOutputUpdate;
 use App\Events\PadTitleUpdate;
 use App\Models\Interviewee;
 use App\Models\Language;
@@ -264,5 +266,27 @@ class PadController extends Controller
         // Broadcast
         event(new EndPad($id));
         return redirect()->back();
+    }
+
+    public function clearOutput($id)
+    {
+        // Save to database
+        $pad = Pad::find($id);
+        $pad->output = "";
+        $pad->save();
+
+        // Broadcast
+        event(new PadOutputClear($id));
+    }
+
+    public function broadcastOutput(Request $request, $id)
+    {
+        // Save to database
+        $pad = Pad::find($id);
+        $pad->output = "{$pad->output}\n{$request->content}";
+        $pad->save();
+
+        // Broadcast
+        event(new PadOutputUpdate($request->content, $id));
     }
 }

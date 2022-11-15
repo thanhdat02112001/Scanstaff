@@ -53,7 +53,7 @@ class RequestController extends Controller
         $data = json_encode($data);
 
         // Send request
-        $url = "http://172.17.0.1:8080/function/{$func}";
+        $url = "http://192.168.0.104:8080/function/{$func}";
         try {
             $res = $client->request('POST', $url, [
                 'body' => $data,
