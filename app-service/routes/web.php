@@ -75,6 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', [AdminController::class, 'home'])->name('home');
     });
 
+    // Pads route
+    Route::delete('pad/{id}/destroy', [PadController::class, 'destroy'])->name('pad.delete');
+    Route::patch('pad/{id}/end', [PadController::class, 'end'])->name('pad.end');
+    // Route::post('pad/search', 'PadController@search')->name('pad.search');
+
 });
 
 Route::get('pad/{id}', [PadController::class, 'show'])->name('pad.show');

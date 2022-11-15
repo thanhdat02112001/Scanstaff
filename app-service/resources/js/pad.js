@@ -426,7 +426,7 @@ $(document).ready(function () {
             }
         })
 
-        channel.bind('EndPad', function () {
+        channel.bind('end-pad', function () {
             location.reload();
         });
 

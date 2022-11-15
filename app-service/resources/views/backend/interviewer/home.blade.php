@@ -27,18 +27,18 @@
                 <div class="col-md-9 d-flex justify-content-end align-items-center">
                     <div class="me-3">
                         <select class="form-select">
-                          <option value="any" selected>Any pad status</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
+                          <option value="all" selected>Any pad status</option>
+                          <option value="{{App\Models\Pad::STATUS_UNUSED}}">Unused pads</option>
+                          <option value="{{App\Models\Pad::STATUS_INPROGRESS}}">In progress pads</option>
+                          <option value="{{App\Models\Pad::STATUS_ENDED}}">Ended pads</option>
                         </select>
                       </div>
                       <div class="me-3">
                         <select class="form-select">
-                          <option value="any" selected>Any language</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
+                          <option value="all" selected>Any language</option>
+                          @foreach ($langs as $lang)
+                            <option value="{{ $lang->id }}">{{ $lang->name }}</option>
+                          @endforeach
                         </select>
                     </div>
                 </div>
@@ -57,28 +57,40 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Untitle</td>
-                    <td>Inprogress</td>
-                    <td>dat, abc</td>
-                    <td>1 hour ago</td>
-                    <td>Javascript</td>
-                    <td>
-                      <button class="btn btn-primary me-5">Start</button>
-                      <button class="btn btn-danger">End</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Untitle</td>
-                    <td>Inprogress</td>
-                    <td>dat, abc</td>
-                    <td>1 hour ago</td>
-                    <td>Javascript</td>
-                    <td>
-                      <button class="btn btn-primary me-5">Start</button>
-                      <button class="btn btn-danger">End</button>
-                    </td>
-                  </tr>
+                  @if (count($pads))
+                    @foreach ($pads as $pad)
+                    <tr>
+                        <td>{{ $pad->title }}</td>
+                        <td>{{ $pad->status }}</td>
+                        <td>{{ $pad->interviewees }}</td>
+                        <td>{{ $pad->created_at->diffForHumans() }}</td>
+                        <td>{{ $langs->find($pad->language_id)->name }}</td>
+                        @switch($pad->status)
+                            @case(\App\Models\Pad::STATUS_UNUSED)
+                                <td class="d-flex justify-content-around">
+                                    <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-primary" target="_blank">Start</a>
+                                    <a href="{{ route('pad.delete', $pad->id) }}" class="btn btn-danger Delete">Delete</a>
+                                </td>
+                                @break
+                            @case(\App\Models\Pad::STATUS_INPROGRESS)
+                                <td class="d-flex justify-content-around">
+                                    <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-primary" target="_blank">Edit</a>
+                                    <a href="{{ route('pad.end', $pad->id) }}" class="btn btn-danger End">End</a>
+                                </td>
+                                @break
+                            @case(\App\Models\Pad::STATUS_ENDED)
+                                <td>
+                                    <a href="{{ route('pad.show', $pad->id) }}" class="btnbtn-primary" target="_blank">View</a>
+                                    <a href="{{ route('pad.delete', $pad->id) }}" class="btn btn-danger Delete">Delete</a>
+                                </td>
+                        @endswitch
+                    </tr>
+                    @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6">No matching records found</td>
+                        </tr>
+                    @endif
                 </tbody>
               </table>
         </div>

@@ -10,8 +10,8 @@ class UserController extends Controller
     public function redirect()
     {
         if (Auth::user()->isAdmin()) {
-            return view('backend.admin.home');
+            return redirect()->route('admin.home');
         }
-        return view('backend.interviewer.home');
+        return redirect()->route('interviewer.home');
     }
 }
