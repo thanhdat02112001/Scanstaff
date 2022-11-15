@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EndPad;
 use App\Events\PadJoinerUpdate;
 use App\Events\PadLanguageUpdate;
 use App\Events\PadNoteUpdate;
@@ -213,5 +214,55 @@ class PadController extends Controller
         $participants = $redis->lrange("pad-{$id}-participants", 0, -1);
         event (new PadJoinerUpdate($participants, $id, 'reset'));
         return "Didn't found user in this pad";
+    }
+
+    /**
+     * Remove the pad from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // Find pad
+        $pad = Pad::findOrFail($id);
+
+        // Check if user is author
+        if ($pad->user_id != Auth::user()->id) {
+            return redirect(route('user.pads'))->with('danger', 'Unauthorized pad access');
+        }
+
+        // Delete related row in pivot table
+        $interviewees = $pad->interviewees()->get();
+        $pad->interviewees()->detach();
+        foreach ($interviewees as $inter) {
+            if ($inter->pads()->count() === 0) {
+                $inter->delete();
+            }
+        }
+
+        $pad->delete();
+
+        return redirect(route('interviewer.home'))->with('success', 'Successfully deleted the pad');
+    }
+
+    /**
+     * End a pad.
+     *
+     * @param [int] $id
+     * @return void
+     */
+    public function end($id)
+    {
+        // Find pad
+        $pad = Pad::findOrFail($id);
+
+        // Change pad status
+        $pad->status = Pad::STATUS_ENDED;
+        $pad->save();
+
+        // Broadcast
+        event(new EndPad($id));
+        return redirect()->back();
     }
 }
