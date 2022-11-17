@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\InterviewerController;
 use App\Http\Controllers\PadController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -63,6 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
             Route::get('/', [PadController::class, 'index'])->name('index');
             Route::post('/new', [PadController::class, 'store'])->name('create');
+        });
+
+        Route::group(['prefix' => 'question', 'as' => 'question.'], function () {
+            Route::get('/create', [QuestionController::class, 'create'])->name('create');
+            Route::post('/create', [QuestionController::class, 'store'])->name('store');
         });
     });
 

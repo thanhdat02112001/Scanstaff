@@ -37,7 +37,7 @@
                       You can search for questions you want to use, edit existing
                       questions, and create new ones.
                     </p>
-                    <button class="btn btn-success">Create new Question</button>
+                    <a class="btn btn-success" href="{{route('interviewer.question.create')}}">Create new Question</a>
                   </div>
             </div>
         </div>
