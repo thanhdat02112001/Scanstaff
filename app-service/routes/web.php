@@ -96,7 +96,8 @@ Route::put('/pad/{id}/edit/guest', [PadController::class, 'updateForGuest'])->na
 Route::post('/pad/{id}/delete_member', [PadController::class, 'broadcastDeleteMember'])->name('pad.broadcast-delete-member');
 
 Route::post('send-email', [EmailController::class, 'send'])->name('email-invite');
-
+// Push notification
+Route::post('pad/{id}/push_noti', [RequestController::class, 'sendPushNoti'])->name('pad.send-noti');
 //OpenFass
 Route::post('/faas/{language}', [RequestController::class, 'sendPostRequest']);
 Route::view('admin/home', 'backend.admin.home');

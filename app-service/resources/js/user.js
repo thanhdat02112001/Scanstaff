@@ -257,8 +257,8 @@ $(document).ready(function () {
                     value: {
                         note: note
                     }
-                }
-            });
+                },
+            }).fail((data) => {alert(data)});
         });
 
         // Listen to event

@@ -194,6 +194,7 @@ $(document).ready(function () {
         })
 
         $('.footer-left .dropdown-menu').on("click.bs.dropdown", function (e) {
+            e.stopPropagation()
             return $('.footer-left .dropup').one('hide.bs.dropdown', function () {
                 return false;
             });
