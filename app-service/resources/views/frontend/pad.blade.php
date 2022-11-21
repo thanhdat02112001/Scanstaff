@@ -26,41 +26,7 @@
         <div class="CodePanel">
             <div class="action-bar">
                 <button class="btn btn-primary run">Run</button>
-                    @guest
-                        <div class="dropdown message-dropdown">
-                            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message</button>
-                            <div class="dropdown-menu messageDropdown">
-                                <form action="{{ route('pad.send-noti', $pad->id) }}" method="POST" class="push-noti">
-                                    <input type="text" name="message" required class="push-noti-body" placeholder="Enter message">
-                                    <input type="submit" class="btn btn-send-noti" value="Send">
-                                </form>
-                                <div class="alert alert-secondary alert-dismissible fade show sending" role="alert">
-                                    Sending...
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="alert alert-success alert-dismissible fade show sent" role="alert">
-                                    Notification sent
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="alert alert-danger alert-dismissible fade show fail" role="alert">
-                                    sending failed
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <p>Example:</p>
-                                <div class="suggestion">
-                                    <p>Xin dừng bài test</p>
-                                    <p>Cần giúp đỡ</p>
-                                    <p>Đã hoàn thành</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endguest
+                    
                 <div>
                     <select name="language_id" id="select_lg">
                         @foreach ($langs as $lang)
