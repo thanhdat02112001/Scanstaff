@@ -98,6 +98,7 @@ $(document).ready(function () {
       }
     });
     $('.messageDropdown').on("click.bs.dropdown", function (e) {
+      e.stopPropagation();
       return $('.message-dropdown').one('hide.bs.dropdown', function () {
         return false;
       });

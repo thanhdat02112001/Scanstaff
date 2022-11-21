@@ -1,13 +1,13 @@
 @extends('backend.layouts.main')
 @section('content')
-    <div class="container p-4 pt-2">
-        <div class="interviewer-wrapper">
+    <div class="container p-4 pt-2 main-page-content">
+        <div class="interviewer-wrapper page-new-question">
             <div class="interviewer-title">
                 <div>
                     <h3>Create Questions</h3>
                 </div>
             </div>
-            <div class="row">
+            <div class="row p-5" id="new-ques">
                 <form method="POST" action="{{ route('interviewer.question.store') }}" id="new-ques">
                     @csrf
                     <div class="form-group">
@@ -26,11 +26,11 @@
                         <label for="description">Description</label>
                         <textarea name="description" class="form-control" id="description" rows="3"></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group codemirror-new-ques">
                         <label for="content">Content</label>
-                        <textarea name="content" class="form-control" id="content" rows="20"></textarea>
+                        <textarea name="content" class="form-control" id="content" rows="10"></textarea>
                     </div>
-                    <input type="submit" value="Save">
+                    <button class="btn btn-success" type="submit">Save</button>
                 </form>
             </div>
         </div>

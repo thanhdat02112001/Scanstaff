@@ -22,13 +22,11 @@ class InterviewerController extends Controller
             $pad->interviewees = $interviewees;
         }
         $langs = Language::all();
-       
+
         return view('backend.interviewer.home', compact('pads', 'langs'));
     }
 
-    public function questions() {
-        return view('backend.interviewer.question');
-    }
+    
 
     public function interviewees() {
         return view('backend.interviewer.interviewee');

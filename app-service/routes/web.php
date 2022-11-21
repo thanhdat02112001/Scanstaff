@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     //interviewer
     Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
         Route::get('/', [InterviewerController::class, 'home'])->name('home');
-        Route::get('/questions', [InterviewerController::class, 'questions'])->name('question');
+        Route::get('/questions', [QuestionController::class, 'index'])->name('question');
         Route::get('/interviewees',[InterviewerController::class, 'interviewees'])->name('interviewee');
 
         Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'question', 'as' => 'question.'], function () {
             Route::get('/create', [QuestionController::class, 'create'])->name('create');
             Route::post('/create', [QuestionController::class, 'store'])->name('store');
+            Route::get('/{id}', [QuestionController::class, 'show'])->name('show');
         });
     });
 

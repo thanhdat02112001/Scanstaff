@@ -12,16 +12,17 @@ $(document).ready(function () {
     });
 
     function codeMirrorForQuestion() {
-        var quesContent = document.querySelector('.page-new-question #content');
-
-        var language = $('.page-new-question #new-ques #select-lg option:selected').data('mode');
+        var quesContent = document.querySelector('.codemirror-new-ques #content');
+        var language = $('#new-ques .form-group #select-lg option:selected').data('mode');
 
         var question = CodeMirror.fromTextArea(quesContent, {
             lineNumbers: true,
             lineWrapping: true,
             mode: language,
-            autoRefresh: false,
             matchBrackets: true,
+            autoRefresh: false,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
             styleActiveLine: { nonEmpty: false },
             indentUnit: 2,
             tabSize: 2,
@@ -31,15 +32,16 @@ $(document).ready(function () {
             }
         });
 
-        $('.page-new-question #new-ques #select-lg').change(function (e) {
+        $('#new-ques .form-group #select-lg ').change(function (e) {
+            console.log(1)
             e.preventDefault();
-            language = $('.page-new-question #new-ques #select-lg option:selected').data('mode');
+            language = $('#new-ques .form-group #select-lg  option:selected').data('mode');
             question.setOption("mode", language);
         });
     }
 
     function codeMirrorForShowingQuestion() {
-        var container = document.querySelector('.page-questions .right .question-content #cmr');
+        var container = document.querySelector('.question-right .question-detail .question-content #cmr');
 
         var language = $(container).data('lg');
         var content = $(container).text();
@@ -276,7 +278,7 @@ $(document).ready(function () {
     }
 
     // New question page
-    if ($('.main-page-content').hasClass('page-new-question')) {
+    if ($('.interviewer-wrapper').hasClass('page-new-question')) {
         codeMirrorForQuestion();
     }
 
@@ -286,8 +288,8 @@ $(document).ready(function () {
     }
 
     // Manage questions page
-    if ($('.main-page-content').hasClass('page-questions')) {
-        if ($('.page-questions .right .question-content').length) {
+    if ($('.interviewer-wrapper').hasClass('page-questions')) {
+        if ($('.question-right .question-detail .question-content').length) {
             codeMirrorForShowingQuestion();
         }
 

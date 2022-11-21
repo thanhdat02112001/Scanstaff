@@ -37,21 +37,30 @@
   display: flex;
 }
 
-.list-question h6 {
+.list-question {
+  list-style: none;
+  padding: 0;
+  height: 80%;
+  margin: 0;
+}
+.list-question .header {
   color: black;
   text-transform: uppercase;
   font-size: 12px;
   line-height: 12px;
   padding: 6px 0 6px 25px;
   border-bottom: 1px solid rgb(210, 175, 233);
-  margin: 0px;
 }
-.list-question a {
+.list-question .list-wrapper {
+  overflow-y: scroll;
+  height: 100%;
+}
+.list-question .list-wrapper .question a {
   text-decoration: none;
   color: black;
 }
-.list-question a:hover {
-  color: black;
+.list-question .list-wrapper .question a span {
+  color: #3b3b3b;
 }
 
 .left {
@@ -74,21 +83,29 @@
   border-bottom: 1px solid rgb(210, 175, 233);
 }
 
-.header {
+.question-right {
+  position: relative;
+}
+.question-right .question-detail {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.question-right .question-detail .header {
   border-bottom: 1px solid rgb(210, 175, 233);
   padding: 30px 20px 20px;
   display: flex;
   justify-content: space-between;
 }
-
-.info h5 {
+.question-right .question-detail .header .info h5 {
   font-size: 18px;
   font-weight: 600;
   text-align: left;
   margin: 0;
 }
-
-.info span {
+.question-right .question-detail .header .info span {
   padding: 0;
   color: #2b2929;
   line-height: 17px;
@@ -96,8 +113,7 @@
   margin-bottom: 2px;
   font-style: italic;
 }
-
-.info p {
+.question-right .question-detail .header .info p {
   font-size: 11px;
   line-height: 10px;
   text-transform: uppercase;
@@ -105,60 +121,14 @@
   margin-bottom: 0px;
   padding: 24px 0 0;
 }
-
-.question-content {
-  padding: 20px;
+.question-right .question-detail .question-content {
+  padding: 20px 20px 60px;
 }
-
-.action {
+.question-right .question-detail .action {
   text-align: center;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   margin-bottom: 20px;
-}
-
-.question-right {
-  position: relative;
-}
-
-.question-detail {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.question-edit {
-  margin: 20px 300px;
-  padding: 15px;
-  border-radius: 5px;
-  /* border: 1px solid rgb(210, 175, 233); */
-  height: 70vh;
-  background-color: #ffffff;
-  position: relative;
-}
-
-.question-edit form {
-  padding: 10px;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.edit-action {
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-bottom: 20px;
-}
-
-.monaco {
-  height: 250px;
-  overflow: scroll;
 }

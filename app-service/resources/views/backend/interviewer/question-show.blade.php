@@ -2,7 +2,7 @@
 @section('content')
 <div class="container p-4 pt-2">
     @include('partials.alerts')
-    <div class="interviewer-wrapper">
+    <div class="interviewer-wrapper page-questions">
         <div class="interviewer-title">
             <div>
                 <h3>Manage Questions</h3>
@@ -36,15 +36,37 @@
                     </div>
                 </ul>
             </div>
-            <div class="col-md-10 right">
-                <div>
-                    <h2>Welcome to your Question Library</h2>
-                    <p>Questions you have written are listed on the left.</p>
-                    <p>
-                    You can search for questions you want to use, edit existing
-                    questions, and create new ones.
-                    </p>
-                    <a class="btn btn-success" href="{{route('interviewer.question.create')}}">Create new Question</a>
+            <div class="col-md-10 question-right">
+                <div class="question-detail">
+                    <div class="header">
+                      <div class="info">
+                        <h5>Question 1</h5>
+                        <span>name question</span>
+                        <p>php create 2 days ago</p>
+                      </div>
+                      <div>
+                        <button class="btn btn-primary">
+                          <i
+                            class="fa fa-arrow-left me-2"
+                            aria-hidden="true"
+                          ></i>
+                          Back
+                        </button>
+                      </div>
+                    </div>
+                    <div class="question-content">
+                        <textarea id="cmr" data-lg="{{ $question->language->mode }}">{{ $question->content }}</textarea>
+                    </div>
+                    <div class="action">
+                      <a href="/question/edit">
+                        <button class="btn btn-outline-primary me-3">
+                          Edit
+                        </button>
+                      </a>
+                      <button class="btn btn-outline-success">
+                        Create pad with this question
+                      </button>
+                    </div>
                 </div>
             </div>
         </div>
