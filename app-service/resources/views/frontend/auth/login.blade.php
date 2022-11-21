@@ -1,45 +1,104 @@
 @extends('frontend.layouts.main')
 @section('content')
-@push('stylesheet')
-    <link rel="stylesheet" href="{{asset('css/login.css')}}">
-@endpush
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <form class="login100-form validate-form" id="login-form" method="POST" action="{{route('login')}}">
-                    @csrf
-                    <span class="login100-form-logo">
-                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    </span>
-                    <span class="login100-form-title p-b-34 p-t-27">Log in</span>
-                    <div class="wrap-input100" id="email-input">
-                        <input class="input100" type="text" name="email" placeholder="Email">
-                        <span class="focus-input100" data-placeholder=""></span>
+<div class="account-page my-4 pt-sm-5">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                @include('partials.alerts')
+                <div class="card">
+                    <div class="bg-primary bg-soft">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="text-primary p-4">
+                                    <h5 class="text-light">Welcome Back !</h5>
+                                    <p class="text-light">
+                                    Sign in to continue to Zcheck.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-5 align-self-end">
+                                <img src="{{asset('/images/profile-img.png')}}" alt="" class="img-fluid">
+                            </div>
+                        </div>
                     </div>
-                    <span id="error-mail" class="text-danger"></span>
-                    <div class="wrap-input100 validate-input" data-validate="Enter password" id="pass-input">
-                        <input class="input100" type="password" name="password" placeholder="Password">
-                        <span class="focus-input100" data-placeholder=""></span>
+                    <div class="card-body pt-0">
+                        <div class="avatar-md profile-user-wid d-flex justify-content-center">
+                            <a href="">
+                              <span class="avatar-title rounded-circle">
+                                <img
+                                  src={{asset('/images/logo.png')}}
+                                  alt=""
+                                  class="rounded-circle"
+                                  height="150"
+                                />
+                              </span>
+                            </a>
+                        </div>
+                        <div class="p-2">
+                            <form action="{{route('login')}}" method="POST" class="form-horizontal">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        Email
+                                    </label>
+                                    <input type="text" name="email" id="email" class="form-control">
+                                    @error('email')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        Password
+                                    </label>
+                                    <input type="password" name="password" id="password" class="form-control">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      id="customControlInline"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      htmlFor="customControlInline"
+                                    >
+                                      Remember me
+                                    </label>
+                                </div>
+                                <div class="mt-3 d-grid">
+                                    <button
+                                      class="btn btn-primary btn-block"
+                                      type="submit"
+                                    >
+                                      Log In
+                                    </button>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <a href="/password/reset" class="text-muted">
+                                      <i class="mdi mdi-lock me-1"> Forgot your password?</i>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <span id="error-pass" class="text-danger"></span>
-                    <div class="d-flex align-items-center mb-3">
-                        <input id="ckb1" type="checkbox" name="remember-me" class="me-3">
-                        <label for="ckb1" class="text-light">Remember me</label>
-                    </div>
-                    <div class="container-login100-form-btn mb-4">
-                        <button class="login100-form-btn">
-                        Login
-                        </button>
-                    </div>
-                    <div class="text-center p-t-90">
-                        <a class="txt1" href="{{route('forgot-password')}}">
-                        Forgot Password?
-                        </a>
-                    </div>
-                </form>
+                </div>
+                <div class="mt-2 text-center">
+                    <p>
+                      Don&apos;t have an account ?
+                      <a href="/register" class="fw-medium text-primary">
+                        Signup Now
+                      </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+</div>
 @push('js')
     <script>
         $("#login-form").submit(function (e){

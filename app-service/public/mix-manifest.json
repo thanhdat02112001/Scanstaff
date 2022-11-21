@@ -2,7 +2,16 @@
     "/js/bootstrap.js": "/js/bootstrap.js",
     "/js/pad.js": "/js/pad.js",
     "/js/app.js": "/js/app.js",
+    "/js/admin.js": "/js/admin.js",
+    "/js/codemirror.js": "/js/codemirror.js",
+    "/js/xterm.js": "/js/xterm.js",
+    "/js/guest.js": "/js/guest.js",
+    "/js/user.js": "/js/user.js",
+    "/firebase-messaging-sw.js": "/firebase-messaging-sw.js",
     "/css/app.css": "/css/app.css",
+    "/css/codemirror.css": "/css/codemirror.css",
+    "/css/user.css": "/css/user.css",
+    "/css/admin.css": "/css/admin.css",
     "/css/style.css": "/css/style.css",
     "/css/login.css": "/css/login.css"
 }

@@ -630,6 +630,8 @@ a {
 .page-pad .RightPanel .topbar .tabs li.active {
   color: #ffffff;
   border-bottom: solid 1px #ffffff;
+  background-color: transparent;
+  border-left: none;
 }
 .page-pad .RightPanel .topbar .tabs li:hover {
   color: #ffffff;

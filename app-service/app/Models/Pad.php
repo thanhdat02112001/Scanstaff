@@ -25,4 +25,13 @@ class Pad extends Model
         'title', 'language_id', 'status', 'content', 'output', 'note'
     ];
 
+    /**
+     * Interviewees join the pad
+     *
+     */
+    public function interviewees()
+    {
+        return $this->belongsToMany(Interviewee::class, 'interviewee_pad')->withTimestamps();
+    }
+
 }

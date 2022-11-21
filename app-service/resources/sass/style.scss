@@ -694,6 +694,8 @@ a {
           &.active {
             color: #ffffff;
             border-bottom: solid 1px #ffffff;
+            background-color: transparent;
+            border-left: none;
           }
           &:hover {
             color: #ffffff;

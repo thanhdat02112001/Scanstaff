@@ -17,14 +17,8 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'Login success!'
-            ]);
+            return redirect()->route('home')->with('success', 'Login success');
         }
-        return response()->json([
-            'status' => 401,
-            'message' => 'Login Fail!'
-        ]);
+        return redirect('/login')->with('error', 'Invalid Credentials');
     }
 }

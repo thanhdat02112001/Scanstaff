@@ -9,30 +9,31 @@
     <meta name="pad_id" content="{{ $pad->id }}">
     <meta name="sid" content="{{ Session::getId() }}">
 
-    <title>{{ $pad->lg . ' | StaffScan' }}</title>
+    <title>{{ $pad->lg . ' | zcheck' }}</title>
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('monaco-editor/min/vs/editor/editor.main.css')}}">
-    <script src="{{asset('monaco-editor/min/vs/loader.js')}}"></script>
-    <script src="{{asset('monaco-editor/min/vs/editor/editor.main.js')}}"></script>
+    <link rel="stylesheet" href="{{mix('css/codemirror.css')}}">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body class="page-pad">
     <div class="workspace">
         <div class="CodePanel">
-            <div class="action">
+            <div class="action-bar">
                 <button class="btn btn-primary run">Run</button>
                     @guest
                         <div class="dropdown message-dropdown">
                             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Message</button>
                             <div class="dropdown-menu messageDropdown">
-                                {{-- <form action="{{ route('pad.send-noti', $pad->id) }}" method="POST" class="push-noti">
+                                <form action="{{ route('pad.send-noti', $pad->id) }}" method="POST" class="push-noti">
                                     <input type="text" name="message" required class="push-noti-body" placeholder="Enter message">
                                     <input type="submit" class="btn btn-send-noti" value="Send">
-                                </form> --}}
+                                </form>
                                 <div class="alert alert-secondary alert-dismissible fade show sending" role="alert">
                                     Sending...
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -98,15 +99,15 @@
     <div class="footer">
         <div class="footer-left">
             <div class="dropup invite-dropup">
-                <button class="btn invite dropup" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Invite</button>
+                <button class="btn invite dropup dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="button">Invite</button>
                 <div class="dropdown-menu inviteDropdown">
                     <div class="email">
                         <h4 class="header">Send Email Invite:</h4>
                         <p>We’ll email the recipient directly with a link, so you don’t have to give away your email address.</p>
-                        {{-- <form action="{{ route('email-invite') }}" method="POST" class="emailInvite">
+                        <form action="{{ route('email-invite') }}" method="POST" class="emailInvite">
                             <input type="email" name="email" required class="email-invite" placeholder="Recipient’s email address">
                             <input type="submit" class="btn btn-send" value="Send">
-                        </form> --}}
+                        </form>
                         <div class="alert alert-secondary alert-dismissible fade show sending" role="alert">
                             Sending...
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -138,7 +139,7 @@
                 </div>
             </div>
             <ul class="user-list">
-                {{-- @foreach ($participants as $item)
+                @foreach ($participants as $item)
                     @php
                        $user = json_decode($item);
                     @endphp
@@ -146,12 +147,12 @@
                         <span class="colorIndicator"></span>
                         <span class="username">{{ $user->name }}</span>
                     </li>
-                @endforeach --}}
+                @endforeach
             </ul>
         </div>
         @auth
             <div class="footer-right">
-                <input type="text" class="title" value="{{ $pad->title }}">
+                <input type="text" class="title-ft" value="{{ $pad->title }}">
                 @if ($pad->status !== App\Models\Pad::STATUS_ENDED)
                     <button class="btn red-btn" data-toggle="modal" data-target="#modalEnd">End Interview</button>
                 @else
@@ -207,7 +208,8 @@
             </div>
         </div>
     </div>
-
+     <script src="{{ mix('js/codemirror.js') }}"></script>
+     <script src="{{ asset('js/xterm.js') }}"></script>
     <!-- Scripts -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
@@ -219,15 +221,14 @@
     <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
-
     <script src="{{ mix('js/pad.js') }}" defer></script>
-   {{-- @guest
-        <script src="{{ asset('js/guest.js') }}" defer></script>
+    @guest
+        <script src="{{ mix('js/guest.js') }}" defer></script>
     @endguest
 
     @auth
-        <script src="{{ asset('js/user.js') }}" defer></script>
-    @endauth --}}
+        <script src="{{ mix('js/user.js') }}" defer></script>
+    @endauth
 
 </body>
 
