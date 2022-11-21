@@ -94,6 +94,8 @@ Route::post('/pad/{id}/add_member', [PadController::class, 'broadcastAddMember']
 Route::put('/pad/{id}/edit', [PadController::class, 'update'])->name('pad.update');
 Route::put('/pad/{id}/edit/guest', [PadController::class, 'updateForGuest'])->name('pad.updatte-guest');
 Route::post('/pad/{id}/delete_member', [PadController::class, 'broadcastDeleteMember'])->name('pad.broadcast-delete-member');
+Route::post('/pad/{id}/output', [PadController::class, 'broadcastOutput'])->name('pad.broadcast-output');
+Route::post('pad/{id}/clear-output', [PadController::class, 'clearOutput'])->name('pad.clear-output');
 
 Route::post('send-email', [EmailController::class, 'send'])->name('email-invite');
 // Push notification
