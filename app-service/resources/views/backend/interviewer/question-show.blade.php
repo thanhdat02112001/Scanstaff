@@ -8,7 +8,7 @@
                 <h3>Manage Questions</h3>
             </div>
             <div>
-                <button class="btn btn-success me-3">Create Questions</button>
+                <a class="btn btn-success me-3" href="{{route('interviewer.question.create')}}">Create Questions</a>
             </div>
         </div>
         <div class="row question-body">
@@ -40,32 +40,34 @@
                 <div class="question-detail">
                     <div class="header">
                       <div class="info">
-                        <h5>Question 1</h5>
-                        <span>name question</span>
-                        <p>php create 2 days ago</p>
+                        <h5>{{$ques->title}}</h5>
+                        <span>{{$ques->description}}</span>
+                        <p>{{$ques->language->name}} created {{$ques->created_at->diffForHumans()}}</p>
                       </div>
                       <div>
-                        <button class="btn btn-primary">
+                        <a href="{{route('interviewer.question')}}" class="btn btn-primary">
                           <i
                             class="fa fa-arrow-left me-2"
                             aria-hidden="true"
                           ></i>
                           Back
-                        </button>
+                        </a>
                       </div>
                     </div>
                     <div class="question-content">
-                        <textarea id="cmr" data-lg="{{ $question->language->mode }}">{{ $question->content }}</textarea>
+                        <textarea id="cmr" data-lg="{{ $ques->language->mode }}">{{ $ques->content }}</textarea>
                     </div>
-                    <div class="action">
-                      <a href="{{route('interviewer.question.edit', $question->id)}}">
+                    <div class="action d-flex justify-content-center">
+                      <a href="{{route('interviewer.question.edit', $ques->id)}}">
                         <button class="btn btn-outline-primary me-3">
                           Edit
                         </button>
                       </a>
-                      <button class="btn btn-outline-success">
-                        Create pad with this question
-                      </button>
+                      <form target="_blank" action="{{ route('interviewer.pad.create') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="ques_id" value="{{ $ques->id }}">
+                        <input type="submit" value="Create pad with this question" class="btn btn-outline-success">
+                    </form>
                     </div>
                 </div>
             </div>

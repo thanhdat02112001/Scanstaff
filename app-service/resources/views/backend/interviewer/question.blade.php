@@ -8,7 +8,7 @@
                 <h3>Manage Questions</h3>
             </div>
             <div>
-                <button class="btn btn-success me-3">Create Questions</button>
+                <a class="btn btn-success me-3" href="{{route('interviewer.question.create')}}">Create Questions</a>
             </div>
         </div>
         <div class="row question-body">

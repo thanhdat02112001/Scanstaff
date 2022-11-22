@@ -45,13 +45,13 @@ class QuestionController extends Controller
 
     public function show($id)
     {
-        $question = Question::findOrFail($id);
+        $ques = Question::findOrFail($id);
         $questions = Question::all();
         $langs = Language::all();
-        if ($question->user_id != Auth::user()->id) {
+        if ($ques->user_id != Auth::user()->id) {
             return redirect(route('interviewer.question'))->with('warning', 'Unauthorized question access');
         }
-        return view('backend.interviewer.question-show', compact('question', 'questions', 'langs'));
+        return view('backend.interviewer.question-show', compact('ques', 'questions', 'langs'));
     }
 
     public function edit($id)
@@ -77,11 +77,24 @@ class QuestionController extends Controller
         $input = $request->all();
 
         // Delete unused properties
-        unset($input['_method']);
         unset($input['_token']);
 
         $question->fill($input)->save();
 
         return redirect(route('interviewer.question'))->with('success', 'Question edited');
+    }
+
+    public function destroy($id)
+    {
+        $question = Question::findOrFail($id);
+
+        // Check if user is author
+        if ($question->user_id != Auth::user()->id) {
+            return redirect(route('interviewer.question'))->with('danger', 'Unauthorized question access');
+        }
+
+        $question->delete();
+
+        return redirect(route('interviewer.question'))->with('success', 'Successfully deleted the question');
     }
 }

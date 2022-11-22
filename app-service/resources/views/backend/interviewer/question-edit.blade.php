@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label for="select-lg">Language</label>
-                        <select class="form-control" id="select-lg-update" name="language">
+                        <select class="form-control" id="select-lg-update" name="language_id">
                             @foreach ($languages as $lg)
                                 <option value="{{ $lg->id }}" data-mode="{{ $lg->mode }}" {{$question->language_id == $lg->id ? 'selected' : ''}}>{{ $lg->name }}</option>
                             @endforeach
@@ -28,13 +28,17 @@
                     </div>
                     <div class="form-group ">
                         <label for="content">Content</label>
-                        <textarea id="codemirror-edit-ques" data-lg="{{ $question->language->mode }}">{{ $question->content }}</textarea>
+                        <textarea id="codemirror-edit-ques" name="content" data-lg="{{ $question->language->mode }}">{{ $question->content }}</textarea>
                     </div>
-                    <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
                         <button class="btn btn-success mt-3" type="submit">Save</button>
-                        <button class="btn btn-danger mt-3">Delete</button>
-                    </div>
-                </form>
+                    </form>
+                    <form action="{{route('interviewer.question.destroy', $question->id)}}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger mt-3" type="submit" onclick="return confirm('Are you sure to delete this question?')">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
