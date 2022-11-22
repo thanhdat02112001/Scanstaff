@@ -57,9 +57,9 @@ $(document).ready(function () {
     }
 
     function codeMirrorEditQuestion() {
-        var quesContent = document.querySelector('.page-edit-question #content');
+        var quesContent = document.querySelector('#codemirror-edit-ques');
 
-        var language = $('.page-edit-question #update-ques #select-lg option:selected').data('mode');
+        var language = $('#select-lg-update option:selected').data('mode');
 
         var content = $(quesContent).text();
 
@@ -283,7 +283,7 @@ $(document).ready(function () {
     }
 
     // Edit question page
-    if ($('.main-page-content').hasClass('page-edit-question')) {
+    if ($('.interviewer-wrapper').hasClass('page-edit-question')) {
         codeMirrorEditQuestion();
     }
 

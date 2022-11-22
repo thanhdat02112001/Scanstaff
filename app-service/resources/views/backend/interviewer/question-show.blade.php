@@ -58,7 +58,7 @@
                         <textarea id="cmr" data-lg="{{ $question->language->mode }}">{{ $question->content }}</textarea>
                     </div>
                     <div class="action">
-                      <a href="/question/edit">
+                      <a href="{{route('interviewer.question.edit', $question->id)}}">
                         <button class="btn btn-outline-primary me-3">
                           Edit
                         </button>

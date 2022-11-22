@@ -58,8 +58,8 @@ $(document).ready(function () {
     question.getDoc().setValue(content);
   }
   function codeMirrorEditQuestion() {
-    var quesContent = document.querySelector('.page-edit-question #content');
-    var language = $('.page-edit-question #update-ques #select-lg option:selected').data('mode');
+    var quesContent = document.querySelector('#codemirror-edit-ques');
+    var language = $('#select-lg-update option:selected').data('mode');
     var content = $(quesContent).text();
     var question = CodeMirror.fromTextArea(quesContent, {
       lineNumbers: true,
@@ -266,7 +266,7 @@ $(document).ready(function () {
   }
 
   // Edit question page
-  if ($('.main-page-content').hasClass('page-edit-question')) {
+  if ($('.interviewer-wrapper').hasClass('page-edit-question')) {
     codeMirrorEditQuestion();
   }
 

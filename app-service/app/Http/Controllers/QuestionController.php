@@ -53,4 +53,35 @@ class QuestionController extends Controller
         }
         return view('backend.interviewer.question-show', compact('question', 'questions', 'langs'));
     }
+
+    public function edit($id)
+    {
+        $question = Question::find($id);
+        $languages = Language::all();
+        if ($question->user_id != Auth::user()->id) {
+            return redirect(route('interviewer.question'))->with('warning', 'Unauthorized question access');
+        }
+        return view('backend.interviewer.question-edit', compact('question', 'languages'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $question = Question::findOrFail($id);
+
+        // Check if user is author
+        if ($question->user_id != Auth::user()->id) {
+            return redirect(route('interviewer.question'))->with('danger', 'Unauthorized question access');
+        }
+
+        // Get all input
+        $input = $request->all();
+
+        // Delete unused properties
+        unset($input['_method']);
+        unset($input['_token']);
+
+        $question->fill($input)->save();
+
+        return redirect(route('interviewer.question'))->with('success', 'Question edited');
+    }
 }

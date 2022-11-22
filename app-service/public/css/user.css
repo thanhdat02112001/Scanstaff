@@ -123,6 +123,10 @@
 }
 .question-right .question-detail .question-content {
   padding: 20px 20px 60px;
+  height: 75%;
+}
+.question-right .question-detail .question-content .CodeMirror {
+  height: 100%;
 }
 .question-right .question-detail .action {
   text-align: center;

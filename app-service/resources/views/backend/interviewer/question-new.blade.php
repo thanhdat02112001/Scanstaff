@@ -30,7 +30,7 @@
                         <label for="content">Content</label>
                         <textarea name="content" class="form-control" id="content" rows="10"></textarea>
                     </div>
-                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn btn-success mt-3" type="submit">Save</button>
                 </form>
             </div>
         </div>

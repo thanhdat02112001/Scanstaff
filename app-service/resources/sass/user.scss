@@ -125,6 +125,10 @@
         }
         .question-content {
             padding: 20px 20px 60px;
+            height: 75%;
+            .CodeMirror {
+                height: 100%;
+            }
         }
         .action {
             text-align: center;

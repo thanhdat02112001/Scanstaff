@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/create', [QuestionController::class, 'create'])->name('create');
             Route::post('/create', [QuestionController::class, 'store'])->name('store');
             Route::get('/{id}', [QuestionController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [QuestionController::class, 'edit'])->name('edit');
+            Route::post('/{id}/update', [QuestionController::class, 'update'])->name('update');
         });
     });
 
