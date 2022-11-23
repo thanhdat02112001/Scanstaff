@@ -336,32 +336,31 @@ $(document).ready(function () {
     }
 
     // Manage interviewees page
-    if ($('.main-page-content').hasClass('page-interviewees')) {
+    if ($('.interviewer-wrapper').hasClass('page-interviewees')) {
         function searchInterviewees() {
-            let name = document.querySelector('.interviewee-filters .search #search').value,
-                time = document.querySelector('.interviewee-filters .filter #filter-date').value;
+            let name = $("#search-name").val(),
+            url = $("#search-name").data('url'),
+                time = $('#filter-date').val();
+                console.log(time);
             $.ajax({
                 type: "post",
-                url: "/interviewee/search",
+                url: url,
                 data: { name: name, time: time },
                 success: function (interviewees) {
-                    let tbody = document.querySelector('.interviewees-container .table tbody');
-
+                    let tbody = $('#tbody');
+                    console.log(interviewees.length);
                     // empty tbody
-                    while (tbody.lastChild) {
-                        tbody.removeChild(tbody.lastChild);
-                    }
-
+                    tbody.empty();
                     // Add new value to tbody
                     if (interviewees.length == 0) {
                         let html = `<tr>
                                         <td colspan="5">No matching records found</td>
                                     </tr>`;
-                        tbody.innerHTML = html;
+                        $(tbody).append(html);
                     } else {
                         interviewees.forEach(item => {
                             html = `<tr>
-                                        <td rowspan="${item.pads.length}">${item.name}</td>`;
+                                        <td rowspan="${item.pads.length}" style="vertical-align: middle">${item.name}</td>`;
                             item.pads.forEach((element, index) => {
                                 if (index === 0) {
                                     html += `
@@ -369,7 +368,7 @@ $(document).ready(function () {
                                             <td>${element.name}</td>
                                             <td>${element.created}</td>
                                             <td>
-                                                <a href="/pad/${element.id}" target="_blank">View</a>
+                                                <a href="/pad/${element.id}" target="_blank"><i class="fa fa-eye text-success fs-4 ms-4"></i></a>
                                             </td>
                                         </tr>`;
                                 } else {
@@ -379,7 +378,7 @@ $(document).ready(function () {
                                             <td>${element.name}</td>
                                             <td>${element.created}</td>
                                             <td>
-                                                <a href="/pad/${element.id}" target="_blank">View</a>
+                                                <a href="/pad/${element.id}" target="_blank"><i class="fa fa-eye text-success fs-4 ms-4"></i></a>
                                             </td>
                                         </tr>`;
                                 }
@@ -391,11 +390,11 @@ $(document).ready(function () {
             });
         }
 
-        $('.interviewee-filters .search #search').on('input', function () {
+        $("#search-name").on('input', function () {
             searchInterviewees();
         })
 
-        $('.interviewee-filters .filter #filter-date').change(function (e) {
+        $('#filter-date').change(function (e) {
             e.preventDefault();
             searchInterviewees();
         });

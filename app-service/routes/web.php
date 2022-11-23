@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [InterviewerController::class, 'home'])->name('home');
         Route::get('/questions', [QuestionController::class, 'index'])->name('question');
         Route::get('/interviewees',[InterviewerController::class, 'interviewees'])->name('interviewee');
+        Route::post('/interviewees/search', [InterviewerController::class, 'searchInterviewee'])->name('interviewee.search');
 
         Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
             Route::get('/', [PadController::class, 'index'])->name('index');

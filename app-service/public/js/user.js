@@ -312,37 +312,36 @@ $(document).ready(function () {
   }
 
   // Manage interviewees page
-  if ($('.main-page-content').hasClass('page-interviewees')) {
+  if ($('.interviewer-wrapper').hasClass('page-interviewees')) {
     var searchInterviewees = function searchInterviewees() {
-      var name = document.querySelector('.interviewee-filters .search #search').value,
-        time = document.querySelector('.interviewee-filters .filter #filter-date').value;
+      var name = $("#search-name").val(),
+        url = $("#search-name").data('url'),
+        time = $('#filter-date').val();
+      console.log(time);
       $.ajax({
         type: "post",
-        url: "/interviewee/search",
+        url: url,
         data: {
           name: name,
           time: time
         },
         success: function success(interviewees) {
-          var tbody = document.querySelector('.interviewees-container .table tbody');
-
+          var tbody = $('#tbody');
+          console.log(interviewees.length);
           // empty tbody
-          while (tbody.lastChild) {
-            tbody.removeChild(tbody.lastChild);
-          }
-
+          tbody.empty();
           // Add new value to tbody
           if (interviewees.length == 0) {
             var _html2 = "<tr>\n                                        <td colspan=\"5\">No matching records found</td>\n                                    </tr>";
-            tbody.innerHTML = _html2;
+            $(tbody).append(_html2);
           } else {
             interviewees.forEach(function (item) {
-              html = "<tr>\n                                        <td rowspan=\"".concat(item.pads.length, "\">").concat(item.name, "</td>");
+              html = "<tr>\n                                        <td rowspan=\"".concat(item.pads.length, "\" style=\"vertical-align: middle\">").concat(item.name, "</td>");
               item.pads.forEach(function (element, index) {
                 if (index === 0) {
-                  html += "\n                                            <td>".concat(element.title, "</td>\n                                            <td>").concat(element.name, "</td>\n                                            <td>").concat(element.created, "</td>\n                                            <td>\n                                                <a href=\"/pad/").concat(element.id, "\" target=\"_blank\">View</a>\n                                            </td>\n                                        </tr>");
+                  html += "\n                                            <td>".concat(element.title, "</td>\n                                            <td>").concat(element.name, "</td>\n                                            <td>").concat(element.created, "</td>\n                                            <td>\n                                                <a href=\"/pad/").concat(element.id, "\" target=\"_blank\"><i class=\"fa fa-eye text-success fs-4 ms-4\"></i></a>\n                                            </td>\n                                        </tr>");
                 } else {
-                  html += "\n                                        <tr>\n                                            <td>".concat(element.title, "</td>\n                                            <td>").concat(element.name, "</td>\n                                            <td>").concat(element.created, "</td>\n                                            <td>\n                                                <a href=\"/pad/").concat(element.id, "\" target=\"_blank\">View</a>\n                                            </td>\n                                        </tr>");
+                  html += "\n                                        <tr>\n                                            <td>".concat(element.title, "</td>\n                                            <td>").concat(element.name, "</td>\n                                            <td>").concat(element.created, "</td>\n                                            <td>\n                                                <a href=\"/pad/").concat(element.id, "\" target=\"_blank\"><i class=\"fa fa-eye text-success fs-4 ms-4\"></i></a>\n                                            </td>\n                                        </tr>");
                 }
               });
               $(tbody).append(html);
@@ -351,10 +350,10 @@ $(document).ready(function () {
         }
       });
     };
-    $('.interviewee-filters .search #search').on('input', function () {
+    $("#search-name").on('input', function () {
       searchInterviewees();
     });
-    $('.interviewee-filters .filter #filter-date').change(function (e) {
+    $('#filter-date').change(function (e) {
       e.preventDefault();
       searchInterviewees();
     });
