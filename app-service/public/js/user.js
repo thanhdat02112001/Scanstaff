@@ -78,28 +78,29 @@ $(document).ready(function () {
     });
   }
   function ajaxSearchingQuestions() {
-    var search = document.querySelector('.questions-container .question-search .search-query').value;
-    var lg = document.querySelector('.questions-container .question-search .select-language').value;
+    var search = $('.filter .search-question').val();
+    var url = $('.filter .search-question').data('url');
+    var lg = $('select[name="filter-lg-question"]').val();
     $.ajax({
       type: "POST",
-      url: "/question/search",
+      url: url,
       data: {
         search: search,
         lg_id: lg
       },
       success: function success(response) {
-        var result = JSON.parse(response);
-        var name = $('meta[name=username]').attr("content");
-        var html = '';
+        var result = JSON.parse(response),
+          name = $('meta[name=username]').attr("content"),
+          html = '';
         result.forEach(function (element) {
           html += '<li class="question">';
-          html += '<a href="/user/questions/' + element.id + '">';
-          html += '<h4>' + element.title + '</h4>';
-          html += '<p class="metadata">' + element.name + ' by ' + name + '</p>';
+          html += '<a href="/interviewer/question/' + element.id + '">';
+          html += '<h5>' + element.title + '</h5>';
+          html += '<span>' + element.name + ' by ' + name + '</span>';
           html += '</a>';
           html += '</li>';
         });
-        $('.question-list .list-wrapper').html(html);
+        $('.list-wrapper').html(html);
       }
     });
   }
@@ -245,19 +246,20 @@ $(document).ready(function () {
         alert(data);
       });
     });
-
-    // Listen to event
-    // window.Echo.channel(`pad-${id}-user-update`)
-    //     .listen('PadNoteUpdate', (e) => {
-    //         setTimeout(function () {
-    //             $('textarea#note').val(e.note);
-    //         }, 50);
-    //     })
-    //     .listen('PadTitleUpdate', (e) => {
-    //         setTimeout(function () {
-    //             $('.footer-right .title').val(e.title);
-    //         }, 50);
-    //     });
+    var pusher = new Pusher('1dcf4e7608b407bd1a07', {
+      cluster: 'ap1'
+    });
+    var channel = pusher.subscribe("pad-".concat(id, "-user-update"));
+    channel.bind('note-update', function (e) {
+      setTimeout(function () {
+        $('textarea#note').val(e.note);
+      }, 50);
+    });
+    channel.bind('title-update', function (e) {
+      setTimeout(function () {
+        $('.footer-right .title').val(e.title);
+      }, 50);
+    });
   }
 
   // New question page
@@ -275,10 +277,10 @@ $(document).ready(function () {
     if ($('.question-right .question-detail .question-content').length) {
       codeMirrorForShowingQuestion();
     }
-    $('.questions-container .question-search .search-query').on('input', function () {
+    $('.filter .search-question').on('input', function () {
       ajaxSearchingQuestions();
     });
-    $('.questions-container .question-search .select-language').change(function (e) {
+    $('.filter .filter-lg-question').change(function (e) {
       e.preventDefault();
       ajaxSearchingQuestions();
     });

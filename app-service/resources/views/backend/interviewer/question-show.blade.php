@@ -14,11 +14,11 @@
         <div class="row question-body">
             <div class="col-md-2 left p-0">
                 <div class="filter">
-                    <input class="form-control mb-2" placeholder="Search..." />
-                    <select class="form-select form-control">
-                        <option value="any" selected>Any language</option>
+                    <input class="form-control mb-2 search-question" name="search" data-url={{route('interviewer.question.search')}} placeholder="Search..." />
+                    <select class="form-select form-control filter-lg-question" name="filter-lg-question">
+                        <option value="all" selected>Any language</option>
                         @foreach ($langs as $lang)
-                            <option value="{{ $lang->language_id }}">{{ $lang->name }}</option>
+                            <option value="{{ $lang->id }}">{{ $lang->name }}</option>
                         @endforeach
                     </select>
                 </div>

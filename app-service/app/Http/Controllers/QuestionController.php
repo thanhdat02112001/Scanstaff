@@ -6,6 +6,7 @@ use App\Models\Language;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -96,5 +97,30 @@ class QuestionController extends Controller
         $question->delete();
 
         return redirect(route('interviewer.question'))->with('success', 'Successfully deleted the question');
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->lg_id == "all") {
+            $questions = DB::table('questions')
+                ->join('languages', 'questions.language_id', '=', 'languages.id')
+                ->select('questions.id', 'languages.name', 'questions.title')
+                ->where([
+                    ['questions.user_id', Auth::user()->id],
+                    ['questions.title', 'LIKE', "%{$request->search}%"]
+                ])
+                ->get();
+        } else {
+            $questions = DB::table('questions')
+                ->join('languages', 'questions.language_id', '=', 'languages.id')
+                ->select('questions.id', 'languages.name', 'questions.title')
+                ->where([
+                    ['questions.user_id', Auth::user()->id],
+                    ['questions.title', 'LIKE', "%{$request->search}%"],
+                    ['questions.language_id', $request->lg_id]
+                ])
+                ->get();
+        }
+        return $questions->toJson(JSON_PRETTY_PRINT);
     }
 }

@@ -73,6 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/edit', [QuestionController::class, 'edit'])->name('edit');
             Route::post('/{id}/update', [QuestionController::class, 'update'])->name('update');
             Route::delete("/{id}/destroy", [QuestionController::class, 'destroy'])->name(('destroy'));
+            Route::post("/search", [QuestionController::class, 'search'])->name('search');
         });
     });
 
