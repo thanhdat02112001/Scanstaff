@@ -1,42 +1,52 @@
+function loadChart() {
+    $.ajax({
+        type: 'post',
+        url: '/admin/drawchart',
+        success:function(res) {
+            console.log(res)
+            Highcharts.chart('container', {
+                title: {
+                  text: 'System Statistics',
+                  align: 'center',
+                  verticalAlign: 'bottom',
+                  style:{
+                    fontSize: 28,
+                    fontWeight: 400,
+                  }
+                },
+                xAxis: {
+                  categories: ['01/11', '02/11', '03/11', '04/11', '05/11']
+                },
+                yAxis: {
+                    title: ''
+                },
+                labels: {
 
-Highcharts.chart('container', {
-    title: {
-      text: 'System Statistics',
-      align: 'center',
-      verticalAlign: 'bottom',
-      style:{
-        fontSize: 28,
-        fontWeight: 400,
-      }
-    },
-    xAxis: {
-      categories: ['01/11', '02/11', '03/11', '04/11', '05/11']
-    },
-    yAxis: {
-        title: ''
-    },
-    labels: {
+                },
+                series: [{
+                  type: 'column',
+                  name: 'Interviewees',
+                  data: [59, 83, 65, 228, 184]
+                }, {
+                  type: 'column',
+                  name: 'Pads',
+                  data: [24, 79, 72, 240, 167]
+                }, {
+                  type: 'spline',
+                  name: 'Interviewers',
+                  data: [47, 83.33, 70.66, 239.33, 175.66],
+                  marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                  }
+                }]
+              });
+        }
+    })
+}
+loadChart();
 
-    },
-    series: [{
-      type: 'column',
-      name: 'Interviewees',
-      data: [59, 83, 65, 228, 184]
-    }, {
-      type: 'column',
-      name: 'Pads',
-      data: [24, 79, 72, 240, 167]
-    }, {
-      type: 'spline',
-      name: 'Interviewers',
-      data: [47, 83.33, 70.66, 239.33, 175.66],
-      marker: {
-        lineWidth: 2,
-        lineColor: Highcharts.getOptions().colors[3],
-        fillColor: 'white'
-      }
-    }]
-  });
 // Handle notification count
 let noti_list = $('.dropdown-noti .noti-list'),
     current_noti = parseInt(noti_list.data('cur')),

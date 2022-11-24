@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/noti/{id}/seen', [AdminController::class, 'readNoti'])->name('noti.seen');
         Route::get('/interviewers', [AdminController::class, 'interviewers'])->name('interviewers');
         Route::get('/home', [AdminController::class, 'home'])->name('home');
+        Route::post('/drawchart', [AdminController::class, 'drawChart'])->name('draw');
     });
 
     // Pads route
@@ -108,6 +109,5 @@ Route::post('send-email', [EmailController::class, 'send'])->name('email-invite'
 Route::post('pad/{id}/push_noti', [RequestController::class, 'sendPushNoti'])->name('pad.send-noti');
 //OpenFass
 Route::post('/faas/{language}', [RequestController::class, 'sendPostRequest']);
-Route::view('admin/home', 'backend.admin.home');
 Route::view('admin/interviewees', 'backend.admin.interviewee');
 Route::view('/password-change', 'frontend.auth.password-change');
