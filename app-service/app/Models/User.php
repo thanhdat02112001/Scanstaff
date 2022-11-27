@@ -48,6 +48,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Role::class);
     }
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function pads()
+    {
+        return $this->hasMany(Pad::class);
+    }
+
     public function isAdmin()
     {
         foreach ($this->roles()->get() as $role) {

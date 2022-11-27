@@ -68,23 +68,7 @@ services:
     restart: always
     networks:
       - zcheck-network
-
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
-    image: zcheck-frontend
-    restart: always
-    depends_on:
-      - app
-    working_dir: /app
-    volumes:
-      - ../frontend:/app:cached
-    ports:
-      - 3000:3000
-    networks:
-      - zcheck-network
-
+      
 volumes:
   zcheck_data:
     driver: local

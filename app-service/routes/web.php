@@ -86,6 +86,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/interviewers', [AdminController::class, 'interviewers'])->name('interviewers');
         Route::get('/home', [AdminController::class, 'home'])->name('home');
         Route::post('/drawchart', [AdminController::class, 'drawChart'])->name('draw');
+        Route::get('users/{id}/approve', [AdminController::class, 'approve'])->name('approve');
+        Route::get('users/{id}/decline', [AdminController::class, 'decline'])->name('decline');
+        Route::get('users/{id}/ban', [AdminController::class, 'ban'])->name('ban');
+        Route::get('users/{id}/unban',[AdminController::class, 'unban'])->name('unban');
+        Route::get('users/{id}/pads', [AdminController::class, 'viewUserPad'])->name('view.user.pads');
     });
 
     // Pads route

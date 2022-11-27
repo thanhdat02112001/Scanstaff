@@ -3,7 +3,15 @@ function loadChart() {
         type: 'post',
         url: '/admin/drawchart',
         success:function(res) {
-            console.log(res)
+            let dataChart = Object.values(res.data),
+                pad_counts = [],
+                interviewer_counts = [],
+                interviewee_counts = [];
+            dataChart.map((item) => {
+                pad_counts.push(item.pad);
+                interviewee_counts.push(item.interviewee);
+                interviewer_counts.push(item.interviewer);
+            })
             Highcharts.chart('container', {
                 title: {
                   text: 'System Statistics',
@@ -15,7 +23,7 @@ function loadChart() {
                   }
                 },
                 xAxis: {
-                  categories: ['01/11', '02/11', '03/11', '04/11', '05/11']
+                  categories: res.date
                 },
                 yAxis: {
                     title: ''
@@ -26,15 +34,15 @@ function loadChart() {
                 series: [{
                   type: 'column',
                   name: 'Interviewees',
-                  data: [59, 83, 65, 228, 184]
+                  data: interviewee_counts
                 }, {
                   type: 'column',
                   name: 'Pads',
-                  data: [24, 79, 72, 240, 167]
+                  data: pad_counts
                 }, {
                   type: 'spline',
                   name: 'Interviewers',
-                  data: [47, 83.33, 70.66, 239.33, 175.66],
+                  data:  interviewee_counts,
                   marker: {
                     lineWidth: 2,
                     lineColor: Highcharts.getOptions().colors[3],

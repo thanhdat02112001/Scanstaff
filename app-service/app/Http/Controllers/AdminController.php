@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Interviewee;
+use App\Models\Language;
 use App\Models\Notification;
 use App\Models\Pad;
 use App\Models\User;
-use Carbon\CarbonPeriod;
-use DateInterval;
-use DatePeriod;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +43,79 @@ class AdminController extends Controller
 
     public function interviewers()
     {
-        return view('backend.admin.interviewer');
+        $unapproved = User::where('approved_at', null)->get();
+        $interviewers = User::where([
+            ['approved_at', '<>', null],
+            ['email_verified_at', '<>', null]
+        ])->get();
+        return view('backend.admin.interviewer', compact('unapproved', 'interviewers'));
+    }
+
+    public function approve($id)
+    {
+        $user = User::findOrFail($id);
+        $user->approved_at = Carbon::now();
+        $user->save();
+        return redirect()->route('admin.interviewers');
+    }
+
+    public function decline($id)
+    {
+        $user = User::findOrFail($id);
+        // Delete in pivot table
+        $user->roles()->detach();
+        // Delete in user table
+        $user->delete();
+        return redirect()->route('admin.interviewers');
+    }
+
+
+    /**
+     * Ban user
+     *
+     * @param $id
+     * @return void
+     */
+    public function ban($id)
+    {
+        $user = User::findOrFail($id);
+        // Ban user
+        $user->banned = true;
+        $user->save();
+        return redirect()->route('admin.interviewers');
+    }
+
+    public function viewUserPad($id)
+    {
+        $pads = Pad::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        foreach ($pads as $pad) {
+            $interviewees = '';
+            if (count($pad->interviewees) !== 0) {
+                foreach ($pad->interviewees as $interviewee) {
+                    $interviewees .= $interviewee->name . ", ";
+                }
+                $interviewees = substr($interviewees, 0, strlen($interviewees) - 2);
+            }
+            $pad->interviewees = $interviewees;
+        }
+        $langs = Language::all();
+        $user = User::find($id);
+        return view('backend.admin.user-pads', compact('pads', 'langs', 'user'));
+    }
+
+    /**
+     * Unban user
+     *
+     * @param $id
+     * @return void
+     */
+    public function unban($id)
+    {
+        $user = User::findOrFail($id);
+        // Unban user
+        $user->banned = false;
+        $user->save();
+        return redirect()->route('admin.interviewers');
     }
 
     public function home()
@@ -72,26 +141,26 @@ class AdminController extends Controller
     public function drawChart()
     {
         $pad_by_date = DB::table('pads')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as pads'))->whereMonth('created_at', now()->month)->groupBy('date')->get();
-        dd(array_values($pad_by_date->toArray()));
         $interviewee_by_date = DB::table('interviewees')->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as interviewees'))->whereMonth('created_at', now()->month)->groupBy('date')->get();
         $date1 = [];
         $date2 = [];
         $data = [];
         foreach ($pad_by_date as $item) {
             array_push($date1, $item->date);
-            $data['date'] = $item->date;
         }
         foreach ($interviewee_by_date as $item) {
             array_push($date2, $item->date);
         }
-        dd(array_values($pad_by_date->toArray()));
-        dd(array_search('2022-11-09', $pad_by_date->toArray()));
         $categories = array_unique(array_merge($date1, $date2));
+        sort($categories);
         foreach ($categories as $dt) {
-            if (in_array($dt, $date1)) {
-                $data[$dt]['pad'] = reset($pad_by_date)->id;
-            }
+            $pad_counts = Pad::where(DB::raw('DATE(created_at)'), $dt)->count();
+           $interviewee_counts = DB::table('interviewees')->where(DB::raw('DATE(created_at)'), $dt)->count();
+           $interviewer_counts = DB::table('users')->where(DB::raw('DATE(created_at)'), '<=', $dt)->where('banned', 0)->count();
+           $data[$dt]['pad'] = $pad_counts;
+           $data[$dt]['interviewee'] = $interviewee_counts;
+           $data[$dt]['interviewee'] = $interviewer_counts;
         }
-        return response()->json([$pad_by_date, $interviewee_by_date]);
+        return response()->json(['date' => $categories, 'data' => $data]);
     }
 }

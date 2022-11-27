@@ -3,55 +3,56 @@
     <div class="container p-4 pt-2">
         <div class="interviewer-wrapper">
             <h3>List of unapproved interviewer</h3>
-            <div class="interviewer-table unapproved">
-                <table class="table mt-1 table-bordered border-collapse">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Approve</th>
-                      <th>Decline</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th>1</th>
-                      <td>Mark</td>
-                      <td>thanhdat@gmail.com</td>
-                      <td>
-                        <i
-                          class="fa fa-check-circle-o text-success fs-4 ps-3"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                      <td>
-                        <i
-                          class="fa fa-ban text-danger fs-4 ps-3"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>
-                        <i
-                          class="fa fa-check-circle-o text-success fs-4 ps-3"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                      <td>
-                        <i
-                          class="fa fa-ban text-danger fs-4 ps-3"
-                          aria-hidden="true"
-                        ></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
+            @if (count($unapproved) == 0)
+                <p class="is-empty ps-2">There are no unapproved users</p>
+                <div class="table-responsive d-none">
+                    <table class="table unapproved">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Approve</th>
+                                <th>Decline</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            @else
+                <div class="interviewer-table unapproved">
+                    <table class="table mt-1 table-bordered border-collapse">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Approve</th>
+                                <th>Decline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($unapproved as $user)
+                                <tr>
+                                    <th scope="col">{{ $loop->index + 1 }}</th>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td class="action">
+                                        <a href="{{ route('admin.approve', $user->id) }}">
+                                            <i class="fa fa-check-circle-o text-success fs-4 ps-3"></i>
+                                        </a>
+                                    </td>
+                                    <td class="action">
+                                        <a href="{{ route('admin.decline', $user->id) }}">
+                                            <i class="fa fa-ban text-danger fs-4 ps-3"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
         <div class="interviewer-wrapper">
             <h3>Interviewer list</h3>
@@ -73,7 +74,33 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                    @foreach ($interviewers as $interviewer)
+                        <tr>
+                            <th>{{ $interviewer->id }}</th>
+                            <td>{{ $interviewer->name }}</td>
+                            <td>{{ $interviewer->email }}</td>
+                            <td>{{ $interviewer->questions->count() }}</td>
+                            <td>{{ $interviewer->pads->count() }}</td>
+                            <td>{{ $interviewer->banned ? 'Banned' : 'Active' }}</td>
+                            <td>
+                                @unless (Auth::user()->id == $interviewer->id)
+                                    @if ($interviewer->banned)
+                                        <a href="{{ route('admin.unban', $interviewer->id) }}" class="unban">Unban</a>
+                                    @else
+                                        <a href="{{ route('admin.ban', $interviewer->id) }}" class="ban">Ban</a>
+                                    @endif
+                                @endunless
+                            </td>
+                            <td>
+                                @if ($interviewer->pads->count() > 0)
+                                    <a href="{{ route('admin.view.user.pads', $interviewer->id) }}">
+                                        <i class="fa fa-eye text-success fs-4 ms-4"></i>
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                {{-- <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
                     <td>thanhdat@gmail.com</td>
@@ -89,24 +116,7 @@
                         ></i>
                     </a>
                     </td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>thanhdat@gmail.com</td>
-                    <td class="ps-4">0</td>
-                    <td class="ps-3">2</td>
-                    <td>Active</td>
-                    <td>Ban</td>
-                    <td>
-                    <a href="/interviewer/pad">
-                        <i
-                        class="fa fa-eye text-success fs-4 ms-4"
-                        aria-hidden="true"
-                        ></i>
-                    </a>
-                    </td>
-                </tr>
+                </tr> --}}
                 </tbody>
             </table>
             </div>
