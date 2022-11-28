@@ -80,7 +80,8 @@ channel.bind('new-user', function(e) {
     var noti_string = `User ${notify.name} with email ${notify.email} want to register.`;
 
     // if in interviewer page
-    if ($('#interviewer-wrapper').hasClass('unapproved')) {
+    if ($('.interviewer-wrapper').hasClass('unapproved-list')) {
+        console.log(1);
         // Add a new row to "List of unapproved users" table
         var max = parseInt($('.unapproved tbody tr').last().find('th').text()) || 0;
         var tpl1 = document.querySelector('#new-user-row');
