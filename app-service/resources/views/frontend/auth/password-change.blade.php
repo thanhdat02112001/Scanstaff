@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
+                @include('partials.alerts')
                 <div class="card">
                     <div class="bg-primary bg-soft">
                         <div class="row">
@@ -35,19 +36,25 @@
                             </a>
                         </div>
                         <div class="p-2">
-                            <form action="" method="POST" class="form-horizontal">
+                            <form action="{{route('pwd.change')}}" method="POST" class="form-horizontal">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="old-pass" class="form-label">
                                         Old Password
                                     </label>
-                                    <input type="password" name="old-passs" id="old-pass" class="form-control">
+                                    <input type="password" name="current_password" id="old-pass" class="form-control">
+                                    @error('current_password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">
                                         New Password
                                     </label>
                                     <input type="password" name="password" id="password" class="form-control">
+                                    @error('password')
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirm" class="form-label">

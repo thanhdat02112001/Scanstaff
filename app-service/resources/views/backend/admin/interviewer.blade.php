@@ -56,9 +56,7 @@
         </div>
         <div class="interviewer-wrapper">
             <h3>Interviewer list</h3>
-            <div class="filter mt-3 ms-4 col-md-2">
-                <input type="text" class="form-control" placeholder="Search Interviewer...">
-            </div>
+
             <div class="interviewer-table">
             <table class="table mt-1 table-bordered border-collapse">
                 <thead>
@@ -94,7 +92,7 @@
                             <td>
                                 @if ($interviewer->pads->count() > 0)
                                     <a href="{{ route('admin.view.user.pads', $interviewer->id) }}">
-                                        <i class="fa fa-eye text-success fs-4 ms-4"></i>
+                                        <i class="fa fa-eye text-success fs-4"></i>
                                     </a>
                                 @endif
                             </td>

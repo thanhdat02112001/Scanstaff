@@ -1,6 +1,7 @@
 @extends('backend.layouts.main')
 @section('content')
-    <div class="container p-50">
+    <div class="container p-50 admin home">
+        @include('partials.alerts')
         <div class="row">
             @foreach ($statics as $key => $value)
             <div class="col-md-4">

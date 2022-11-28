@@ -51,6 +51,30 @@ class AdminController extends Controller
         return view('backend.admin.interviewer', compact('unapproved', 'interviewers'));
     }
 
+    public function interviewees()
+    {
+        // All interviewees
+        $interviewees = DB::table('interviewees')
+            ->select('interviewees.name', 'interviewees.id', 'interviewees.created_at')
+            ->orderBy('interviewees.created_at', 'desc')
+            ->paginate(10);
+
+        // Get pad list of each interviewee
+        foreach ($interviewees as $interviewee) {
+            $pads = DB::table('pads')
+                ->join('languages', 'pads.language_id', '=', 'languages.id')
+                ->join('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                ->select('pads.id', 'pads.title', 'languages.name', 'interviewee_pad.created_at')
+                ->where('interviewee_pad.interviewee_id', $interviewee->id)
+                ->get();
+            foreach ($pads as $pad) {
+                $pad->created = Carbon::createFromFormat('Y-m-d H:i:s', $pad->created_at)->diffForHumans();
+            }
+            $interviewee->pads = $pads;
+        }
+        return view('backend.admin.interviewee', compact('interviewees'));
+    }
+
     public function approve($id)
     {
         $user = User::findOrFail($id);
@@ -162,5 +186,65 @@ class AdminController extends Controller
            $data[$dt]['interviewee'] = $interviewer_counts;
         }
         return response()->json(['date' => $categories, 'data' => $data]);
+    }
+
+    public function searchInterviewee(Request $request)
+    {
+        // Get all interviewees
+        $inters = DB::table('interviewees')
+        ->select('interviewees.name', 'interviewees.id', 'interviewees.created_at')
+        ->where('interviewees.name', 'like', "%{$request->name}%")
+        ->orderBy('interviewees.created_at', 'desc')
+        ->get();
+        foreach ($inters as $key => $interviewee) {
+        // Filter date
+        $created = Carbon::parse($interviewee->created_at);
+        $del = false;
+
+        switch ($request->time) {
+            case 'today':
+                if ($created->isToday() === false) {
+                    unset($inters[$key]);
+                    $del = true;
+                }
+                break;
+            case '7 days ago':
+                if ($created < Carbon::today()->subWeek()) {
+                    unset($inters[$key]);
+                    $del = true;
+                }
+                break;
+            case 'month':
+                if (!$created->isCurrentMonth()) {
+                    unset($inters[$key]);
+                    $del = true;
+                }
+                break;
+            case 'year':
+                if (!$created->isCurrentYear()) {
+                    unset($inters[$key]);
+                    $del = true;
+                }
+                break;
+            default:
+                break;
+        }
+
+        if ($del) continue;
+
+        $pads = DB::table('pads')
+            ->join('languages', 'pads.language_id', '=', 'languages.id')
+            ->join('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+            ->select('pads.id', 'pads.title', 'languages.name', 'interviewee_pad.created_at')
+            ->where('interviewee_pad.interviewee_id', $interviewee->id)
+            ->get();
+        foreach ($pads as $pad) {
+            $pad->created = Carbon::createFromFormat('Y-m-d H:i:s', $pad->created_at)->diffForHumans();
+        }
+        // Get pads info
+        $interviewee->pads = $pads;
+        }
+
+        return $inters;
     }
 }

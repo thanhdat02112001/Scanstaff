@@ -110,12 +110,13 @@ $(document).ready(function () {
     }
 
     function ajaxSearchingPads() {
-        var search = document.querySelector('.page-pads-container .pad-filters #search').value;
-        var status = document.querySelector('.page-pads-container .pad-filters #filter-status').value;
-        var lg = document.querySelector('.page-pads-container .pad-filters #filter-lg').value;
+        let search = $('#interviewer-search-pad').val(),
+            url = $('#interviewer-search-pad').data('url'),
+            status = $('#filter-pad-status').val(),
+            lg = $('#filter-pad-lg').val();
         $.ajax({
             type: "POST",
-            url: "/pad/search",
+            url: url,
             data: {
                 search: search,
                 status: status,
@@ -123,17 +124,15 @@ $(document).ready(function () {
             },
             success: function (response) {
                 let pads = JSON.parse(response);
-                let tbody = document.querySelector('.pads-container .table tbody');
+                let tbody = $('.interviewee-table .table tbody');
                 // empty tbody
-                while (tbody.lastChild) {
-                    tbody.removeChild(tbody.lastChild);
-                }
+                tbody.empty();
                 // Add new value to tbody
                 if (pads.length == 0) {
                     let html = `<tr>
                                     <td colspan="7">No matching records found</td>
                                 </tr>`;
-                    tbody.innerHTML = html;
+                    tbody.append(html);
                 } else {
                     pads.forEach(pad => {
                         let tpl = document.querySelector('#pad-row');
@@ -151,16 +150,16 @@ $(document).ready(function () {
                         action.classList.add(pad.action_text);
                         action.href = pad.action_route;
                         action.innerText = pad.action_text;
-                        tbody.appendChild(clone);
+                        tbody.append(clone);
                     });
 
-                    $('a.red-btn.End').click(function (e) {
+                    $('.End').click(function (e) {
                         e.preventDefault();
                         $('#modalEnd .modal-footer form').prop('action', ($(this).prop('href')));
                         $('#modalEnd').modal('show');
                     });
 
-                    $('a.red-btn.Delete').click(function (e) {
+                    $('.Delete').click(function (e) {
                         e.preventDefault();
                         $('#modalDelete .modal-footer form').prop('action', ($(this).prop('href')));
                         $('#modalDelete').modal('show');
@@ -307,28 +306,28 @@ $(document).ready(function () {
     }
 
     // Manage pads page
-    if ($('.main-page-content').hasClass('page-pads')) {
-        $('.page-pads-container .pad-filters #search').on('input', function () {
+    if ($('.interviewer-wrapper').hasClass('page-pads')) {
+        $('#interviewer-search-pad').on('input', function () {
             ajaxSearchingPads();
         })
 
-        $('.page-pads-container .pad-filters #filter-status').change(function (e) {
+        $('#filter-pad-status').change(function (e) {
             e.preventDefault();
             ajaxSearchingPads();
         });
 
-        $('.page-pads-container .pad-filters #filter-lg').change(function (e) {
+        $('#filter-pad-lg').change(function (e) {
             e.preventDefault();
             ajaxSearchingPads();
         });
 
-        $('a.red-btn.End').click(function (e) {
+        $('.End').click(function (e) {
             e.preventDefault();
             $('#modalEnd .modal-footer form').prop('action', ($(this).prop('href')));
             $('#modalEnd').modal('show');
         });
 
-        $('a.red-btn.Delete').click(function (e) {
+        $('.Delete').click(function (e) {
             e.preventDefault();
             $('#modalDelete .modal-footer form').prop('action', ($(this).prop('href')));
             $('#modalDelete').modal('show');

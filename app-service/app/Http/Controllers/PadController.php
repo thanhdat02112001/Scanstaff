@@ -15,7 +15,9 @@ use App\Models\Pad;
 use App\Models\Question;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 
@@ -288,5 +290,113 @@ class PadController extends Controller
 
         // Broadcast
         event(new PadOutputUpdate($request->content, $id));
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->status == "all") {
+            if ($request->lg_id == "all") {
+                $pads = DB::table('pads')
+                    ->join('languages', 'pads.language_id', '=', 'languages.id')
+                    ->leftJoin('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                    ->leftJoin('interviewees', 'interviewee_pad.interviewee_id', '=', 'interviewees.id')
+                    ->select('pads.id', 'pads.title', 'pads.status', 'pads.created_at', 'languages.name as language')
+                    ->where([
+                        ['pads.user_id', Auth::user()->id],
+                    ])
+                    ->where(function ($query) use ($request) {
+                        $query->where('pads.title', 'LIKE', "%{$request->search}%")
+                            ->orWhere('interviewees.name', 'LIKE', "%{$request->search}%");
+                    })
+                    ->groupBy('pads.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                $pads = DB::table('pads')
+                    ->join('languages', 'pads.language_id', '=', 'languages.id')
+                    ->leftJoin('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                    ->leftJoin('interviewees', 'interviewee_pad.interviewee_id', '=', 'interviewees.id')
+                    ->select('pads.id', 'pads.title', 'pads.status', 'pads.created_at', 'languages.name as language')
+                    ->where([
+                        ['pads.user_id', Auth::user()->id],
+                        ['pads.language_id', $request->lg_id]
+                    ])
+                    ->where(function ($query) use ($request) {
+                        $query->where('pads.title', 'LIKE', "%{$request->search}%")
+                            ->orWhere('interviewees.name', 'LIKE', "%{$request->search}%");
+                    })
+                    ->groupBy('pads.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            }
+        } else {
+            if ($request->lg_id == "all") {
+                $pads = DB::table('pads')
+                    ->join('languages', 'pads.language_id', '=', 'languages.id')
+                    ->leftJoin('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                    ->leftJoin('interviewees', 'interviewee_pad.interviewee_id', '=', 'interviewees.id')
+                    ->select('pads.id', 'pads.title', 'pads.status', 'pads.created_at', 'languages.name as language')
+                    ->where([
+                        ['pads.user_id', Auth::user()->id],
+                        ['pads.status', $request->status]
+                    ])
+                    ->where(function ($query) use ($request) {
+                        $query->where('pads.title', 'LIKE', "%{$request->search}%")
+                            ->orWhere('interviewees.name', 'LIKE', "%{$request->search}%");
+                    })
+                    ->groupBy('pads.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                $pads = DB::table('pads')
+                    ->join('languages', 'pads.language_id', '=', 'languages.id')
+                    ->leftJoin('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                    ->leftJoin('interviewees', 'interviewee_pad.interviewee_id', '=', 'interviewees.id')
+                    ->select('pads.id', 'pads.title', 'pads.status', 'pads.created_at', 'languages.name as language')
+                    ->where([
+                        ['pads.user_id', Auth::user()->id],
+                        ['pads.status', $request->status],
+                        ['pads.language_id', $request->lg_id]
+                    ])
+                    ->where(function ($query) use ($request) {
+                        $query->where('pads.title', 'LIKE', "%{$request->search}%")
+                            ->orWhere('interviewees.name', 'LIKE', "%{$request->search}%");
+                    })
+                    ->groupBy('pads.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            }
+        }
+        foreach ($pads as $pad) {
+            // Get interviewees list
+            $interviewees = DB::table('pads')
+                ->leftJoin('interviewee_pad', 'pads.id', '=', 'interviewee_pad.pad_id')
+                ->leftJoin('interviewees', 'interviewee_pad.interviewee_id', '=', 'interviewees.id')
+                ->select(DB::raw("group_concat(interviewees.name separator ', ') as interviewees"))
+                ->where('pads.id', $pad->id)
+                ->get();
+            $pad->interviewees = $interviewees[0]->interviewees;
+            // Get time
+            $pad->created = Carbon::createFromFormat('Y-m-d H:i:s', $pad->created_at)->diffForHumans();
+            $pad->view_route = route('pad.show', $pad->id);
+            switch ($pad->status) {
+                case Pad::STATUS_UNUSED:
+                    $pad->view_text = 'Start';
+                    $pad->action_route = route('pad.delete', $pad->id);
+                    $pad->action_text = 'Delete';
+                    break;
+                case Pad::STATUS_INPROGRESS:
+                    $pad->view_text = 'Edit';
+                    $pad->action_route = route('pad.end', $pad->id);
+                    $pad->action_text = 'End';
+                    break;
+                case Pad::STATUS_ENDED:
+                    $pad->view_text = 'View';
+                    $pad->action_route = route('pad.delete', $pad->id);
+                    $pad->action_text = 'Delete';
+                    break;
+            }
+        }
+        return $pads->toJson();
     }
 }

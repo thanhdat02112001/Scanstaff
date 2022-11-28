@@ -1,7 +1,8 @@
 @extends('backend.layouts.main')
 @section('content')
 <div class="container p-4 pt-2">
-    <div class="interviewer-wrapper">
+    @include('partials.alerts')
+    <div class="interviewer-wrapper page-pads">
        <div class="body">
         <div class="interviewer-title">
             <div>
@@ -22,11 +23,11 @@
         <div class="mt-3 ps-4">
             <div class="row">
                 <div class="col-md-3">
-                    <input class="form-control w-50" placeholder="Search..."/>
+                    <input class="form-control w-50" id="interviewer-search-pad" data-url="{{route('interviewer.pad.search')}}" placeholder="Search..."/>
                 </div>
                 <div class="col-md-9 d-flex justify-content-end align-items-center">
                     <div class="me-3">
-                        <select class="form-select">
+                        <select class="form-select" id="filter-pad-status">
                           <option value="all" selected>Any pad status</option>
                           <option value="{{App\Models\Pad::STATUS_UNUSED}}">Unused pads</option>
                           <option value="{{App\Models\Pad::STATUS_INPROGRESS}}">In progress pads</option>
@@ -34,7 +35,7 @@
                         </select>
                       </div>
                       <div class="me-3">
-                        <select class="form-select">
+                        <select class="form-select" id="filter-pad-lg">
                           <option value="all" selected>Any language</option>
                           @foreach ($langs as $lang)
                             <option value="{{ $lang->id }}">{{ $lang->name }}</option>
@@ -53,7 +54,7 @@
                     <th scope="col">Interviewees</th>
                     <th scope="col">Created</th>
                     <th scope="col">Language</th>
-                    <th scope="col">Action</th>
+                    <th scope="col" colspan="2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -67,20 +68,26 @@
                         <td>{{ $langs->find($pad->language_id)->name }}</td>
                         @switch($pad->status)
                             @case(\App\Models\Pad::STATUS_UNUSED)
-                                <td class="d-flex justify-content-around">
-                                    <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-primary" target="_blank">Start</a>
+                                <td>
+                                    <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-success" target="_blank">Start</a>
+                                </td>
+                                <td>
                                     <a href="{{ route('pad.delete', $pad->id) }}" class="btn btn-danger Delete">Delete</a>
                                 </td>
                                 @break
                             @case(\App\Models\Pad::STATUS_INPROGRESS)
-                                <td class="d-flex justify-content-around">
+                                <td>
                                     <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-primary" target="_blank">Edit</a>
-                                    <a href="{{ route('pad.end', $pad->id) }}" class="btn btn-danger End">End</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('pad.end', $pad->id) }}" class="btn btn-warning End">End</a>
                                 </td>
                                 @break
                             @case(\App\Models\Pad::STATUS_ENDED)
                                 <td>
-                                    <a href="{{ route('pad.show', $pad->id) }}" class="btnbtn-primary" target="_blank">View</a>
+                                    <a href="{{ route('pad.show', $pad->id) }}" class="btn btn-primary" target="_blank">View</a>
+                                </td>
+                                <td>
                                     <a href="{{ route('pad.delete', $pad->id) }}" class="btn btn-danger Delete">Delete</a>
                                 </td>
                         @endswitch
@@ -95,6 +102,72 @@
               </table>
         </div>
        </div>
+    </div>
+</div>
+<template id="pad-row">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <a href="" class="goto-pad btn btn-primary" target="_blank"></a>
+        </td>
+        <td>
+            <a href="" class="btn red-btn btn-danger"></a>
+        </td>
+    </tr>
+</template>
+
+ <!-- Modal end pad -->
+ <div class="modal fade" id="modalEnd" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">End Pad?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Ending the pad will prevent interviewees from accessing this pad. Only
+                    you and your organization can see it.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="" method="POST">
+                    @method('PATCH')
+                    @csrf
+                    <button class="btn btn-danger">End</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete pad -->
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Pad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this pad?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

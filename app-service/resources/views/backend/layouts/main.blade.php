@@ -37,7 +37,7 @@
                 @else
                     @include('partials.menu-interviewer')
                 @endif
-                <li>
+                <li class="{{Request::segment(1) == 'password-change' ? 'active-nav' : ''}}">
                     <a href="/password-change" class="">
                         <i class="fa fa-key me-1"></i> Change password
                     </a>

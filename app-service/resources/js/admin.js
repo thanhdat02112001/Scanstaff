@@ -53,7 +53,9 @@ function loadChart() {
         }
     })
 }
-loadChart();
+if ($(".admin").hasClass('home')) {
+    loadChart();
+}
 
 // Handle notification count
 let noti_list = $('.dropdown-noti .noti-list'),
@@ -163,16 +165,17 @@ if ($('.main-page-content').hasClass('page-statistics')) {
 }
 
 // Manage interviewees admin page
-if ($('.main-page-content').hasClass('page-interviewees-admin')) {
+if ($('.interviewer-wrapper').hasClass('page-interviewees-admin')) {
     function searchInterviewees() {
-        let name = document.querySelector('.interviewee-filters .search #search').value,
-            time = document.querySelector('.interviewee-filters .filter #filter-date').value;
+        let name = $('#admin-search-interviewee').val(),
+            url = $('#admin-search-interviewee').data('url'),
+            time = $('#admin-filter-date').val();
         $.ajax({
             type: "post",
-            url: "/admin/interviewee/search",
+            url: url,
             data: { name: name, time: time },
             success: function (interviewees) {
-                let tbody = document.querySelector('.interviewees-container .table tbody');
+                let tbody = document.querySelector('.interviewee-table .table tbody');
 
                 // empty tbody
                 while (tbody.lastChild) {
@@ -188,7 +191,7 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
                 } else {
                     interviewees.forEach(item => {
                         html = `<tr>
-                                    <td rowspan="${item.pads.length}">${item.name}</td>`;
+                                    <td rowspan="${item.pads.length}" style="vertical-align: middle">${item.name}</td>`;
                         item.pads.forEach((element, index) => {
                             if (index === 0) {
                                 html += `
@@ -196,7 +199,7 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
                                         <td>${element.name}</td>
                                         <td>${element.created}</td>
                                         <td>
-                                            <a href="/pad/${element.id}" target="_blank">View</a>
+                                            <a href="/pad/${element.id}" target="_blank"><i class="fa fa-eye text-success fs-4"></i></a>
                                         </td>
                                     </tr>`;
                             } else {
@@ -206,7 +209,7 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
                                         <td>${element.name}</td>
                                         <td>${element.created}</td>
                                         <td>
-                                            <a href="/pad/${element.id}" target="_blank">View</a>
+                                            <a href="/pad/${element.id}" target="_blank"><i class="fa fa-eye text-success fs-4"></i></a>
                                         </td>
                                     </tr>`;
                             }
@@ -218,11 +221,11 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
         });
     }
 
-    $('.interviewee-filters .search #search').on('input', function () {
+    $('#admin-search-interviewee').on('input', function () {
         searchInterviewees();
     })
 
-    $('.interviewee-filters .filter #filter-date').change(function (e) {
+    $('#admin-filter-date').change(function (e) {
         e.preventDefault();
         searchInterviewees();
     });

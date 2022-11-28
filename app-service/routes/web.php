@@ -2,6 +2,7 @@
 
 use App\Events\UserRegisterd;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -57,7 +58,7 @@ Route::get('/home', [UserController::class, 'redirect'])->name('home');
 Route::group(['middleware' => 'auth'], function () {
     //interviewer
     Route::group(['prefix' => 'interviewer', 'as' => 'interviewer.'], function () {
-        Route::get('/', [InterviewerController::class, 'home'])->name('home');
+        Route::get('/home', [InterviewerController::class, 'home'])->name('home');
         Route::get('/questions', [QuestionController::class, 'index'])->name('question');
         Route::get('/interviewees',[InterviewerController::class, 'interviewees'])->name('interviewee');
         Route::post('/interviewees/search', [InterviewerController::class, 'searchInterviewee'])->name('interviewee.search');
@@ -65,9 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'pad', 'as' => 'pad.'], function () {
             Route::get('/', [PadController::class, 'index'])->name('index');
             Route::post('/new', [PadController::class, 'store'])->name('create');
+            Route::post("/search", [PadController::class, 'search'])->name('search');
         });
 
-        Route::group(['prefix' => 'question', 'as' => 'question.'], function () {
+        Route::group(['prefix' => 'questions', 'as' => 'question.'], function () {
             Route::get('/create', [QuestionController::class, 'create'])->name('create');
             Route::post('/create', [QuestionController::class, 'store'])->name('store');
             Route::get('/{id}', [QuestionController::class, 'show'])->name('show');
@@ -84,6 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/read-all-noti', [AdminController::class, 'readAllNoti']);
         Route::get('/noti/{id}/seen', [AdminController::class, 'readNoti'])->name('noti.seen');
         Route::get('/interviewers', [AdminController::class, 'interviewers'])->name('interviewers');
+        Route::get('/interviewees', [AdminController::class, 'interviewees'])->name('interviewees');
         Route::get('/home', [AdminController::class, 'home'])->name('home');
         Route::post('/drawchart', [AdminController::class, 'drawChart'])->name('draw');
         Route::get('users/{id}/approve', [AdminController::class, 'approve'])->name('approve');
@@ -91,12 +94,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('users/{id}/ban', [AdminController::class, 'ban'])->name('ban');
         Route::get('users/{id}/unban',[AdminController::class, 'unban'])->name('unban');
         Route::get('users/{id}/pads', [AdminController::class, 'viewUserPad'])->name('view.user.pads');
+        Route::post('/interviewee/search',[AdminController::class, 'searchInterviewee'])->name('interviewee.search');
     });
 
     // Pads route
     Route::delete('pad/{id}/destroy', [PadController::class, 'destroy'])->name('pad.delete');
     Route::patch('pad/{id}/end', [PadController::class, 'end'])->name('pad.end');
     // Route::post('pad/search', 'PadController@search')->name('pad.search');
+
+    Route::view('/password-change', 'frontend.auth.password-change');
+    Route::post('/password/change', [ChangePasswordController::class, 'changePassword'])->name('pwd.change');
 
 });
 
@@ -114,5 +121,4 @@ Route::post('send-email', [EmailController::class, 'send'])->name('email-invite'
 Route::post('pad/{id}/push_noti', [RequestController::class, 'sendPushNoti'])->name('pad.send-noti');
 //OpenFass
 Route::post('/faas/{language}', [RequestController::class, 'sendPostRequest']);
-Route::view('admin/interviewees', 'backend.admin.interviewee');
-Route::view('/password-change', 'frontend.auth.password-change');
+

@@ -9,9 +9,16 @@ class UserController extends Controller
 {
     public function redirect()
     {
-        if (Auth::user()->isAdmin()) {
-            return redirect()->route('admin.home');
+        if (session('success')) {
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.home')->with('success', session('success'));
+            }
+            return redirect()->route('interviewer.home')->with('success', session('success'));
+        } else {
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.home');
+            }
+            return redirect()->route('interviewer.home');
         }
-        return redirect()->route('interviewer.home');
     }
 }

@@ -1,7 +1,7 @@
 @extends('backend.layouts.main')
 @section('content')
     <div class="container p-4 pt-2">
-        <div class="interviewer-wrapper">
+        <div class="interviewer-wrapper page-interviewees-admin">
             <div class="interviewee-title">
                 <h3>Interviewee list</h3>
                 <span>
@@ -11,16 +11,17 @@
             </div>
             <div class="row mt-3 ps-4">
                 <div class="col-md-3">
-                    <input class="form-control w-75" placeholder="Search Name..."/>
+                    <input class="form-control w-75" id="admin-search-interviewee" placeholder="Search Name..." data-url="{{route('admin.interviewee.search')}}"/>
                 </div>
                 <div class="col-md-9 d-flex justify-content-end align-items-center">
                     <span>Join Date</span>
                     <div class="me-3 ms-3">
-                      <select class="form-select">
-                        <option value="0">Today</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                      <select class="form-select" id="admin-filter-date">
+                        <option value="all">All time</option>
+                        <option value="today">Today</option>
+                        <option value="7 days ago">1 week ago</option>
+                        <option value="month">This month</option>
+                        <option value="year">This year</option>
                       </select>
                     </div>
                 </div>
@@ -28,37 +29,56 @@
             <div class="interviewee-table">
                 <table class="table table-bordered mt-1">
                     <thead>
-                      <tr>
-                        <th rowspan="2">Name</th>
-                        <th class="colspan2" colSpan="2">
-                          Pads
-                        </th>
-                        <th rowspan="2">Joined at</th>
-                        <th rowspan="2">View pad</th>
-                      </tr>
-                      <tr>
-                        <th class="width-50">Title</th>
-                        <th class="width-50">Language</th>
-                      </tr>
+                        <tr>
+                            <th rowspan="2">Name</th>
+                            <th colspan="2">Pads</th>
+                            <th rowspan="2">Joined at</th>
+                            <th rowspan="2">View pad</th>
+                        </tr>
+                        <tr>
+                            <th class="width-50">Title</th>
+                            <th class="width-50">Language</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td rowspan="2">Dat09</td>
-                        <td rowspan="2">untitle-pad</td>
-                        <td rowspan="2">php</td>
-                      </tr>
-                      <tr>
-                        <td class="width-50">3 day agos</td>
-                        <td class="width-50">
-                          <i
-                            class="fa fa-eye text-success fs-4 ms-4"
-                            aria-hidden="true"
-                          ></i>
-                        </td>
-                      </tr>
+                        @if (count($interviewees))
+                            @foreach ($interviewees as $interviewee)
+                                <tr>
+                                    <td rowspan="{{ count($interviewee->pads) }}" style="vertical-align: middle">{{ $interviewee->name }}</td>
+                                    @foreach ($interviewee->pads as $pad)
+                                        @if ($loop->first)
+                                                <td>{{ $pad->title }}</td>
+                                                <td>{{ $pad->name }}</td>
+                                                <td>{{ $pad->created }}</td>
+                                                <td>
+                                                    <a href="{{ route('pad.show', $pad->id) }}" target="_blank">
+                                                        <i class="fa fa-eye text-success fs-4"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td>{{ $pad->title }}</td>
+                                                <td>{{ $pad->name }}</td>
+                                                <td>{{ $pad->created }}</td>
+                                                <td>
+                                                    <a href="{{ route('pad.show', $pad->id) }}" target="_blank">
+                                                        <i class="fa fa-eye text-success fs-4"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5">No matching records found</td>
+                            </tr>
+                        @endif
                     </tbody>
-                  </table>
+                </table>
             </div>
         </div>
+        {{$interviewees->links()}}
     </div>
 @endsection

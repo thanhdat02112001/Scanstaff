@@ -56,7 +56,9 @@ function loadChart() {
     }
   });
 }
-loadChart();
+if ($(".admin").hasClass('home')) {
+  loadChart();
+}
 
 // Handle notification count
 var noti_list = $('.dropdown-noti .noti-list'),
@@ -163,19 +165,20 @@ if ($('.main-page-content').hasClass('page-statistics')) {
 }
 
 // Manage interviewees admin page
-if ($('.main-page-content').hasClass('page-interviewees-admin')) {
+if ($('.interviewer-wrapper').hasClass('page-interviewees-admin')) {
   var searchInterviewees = function searchInterviewees() {
-    var name = document.querySelector('.interviewee-filters .search #search').value,
-      time = document.querySelector('.interviewee-filters .filter #filter-date').value;
+    var name = $('#admin-search-interviewee').val(),
+      url = $('#admin-search-interviewee').data('url'),
+      time = $('#admin-filter-date').val();
     $.ajax({
       type: "post",
-      url: "/admin/interviewee/search",
+      url: url,
       data: {
         name: name,
         time: time
       },
       success: function success(interviewees) {
-        var tbody = document.querySelector('.interviewees-container .table tbody');
+        var tbody = document.querySelector('.interviewee-table .table tbody');
 
         // empty tbody
         while (tbody.lastChild) {
@@ -188,12 +191,12 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
           tbody.innerHTML = _html;
         } else {
           interviewees.forEach(function (item) {
-            html = "<tr>\n                                    <td rowspan=\"".concat(item.pads.length, "\">").concat(item.name, "</td>");
+            html = "<tr>\n                                    <td rowspan=\"".concat(item.pads.length, "\" style=\"vertical-align: middle\">").concat(item.name, "</td>");
             item.pads.forEach(function (element, index) {
               if (index === 0) {
-                html += "\n                                        <td>".concat(element.title, "</td>\n                                        <td>").concat(element.name, "</td>\n                                        <td>").concat(element.created, "</td>\n                                        <td>\n                                            <a href=\"/pad/").concat(element.id, "\" target=\"_blank\">View</a>\n                                        </td>\n                                    </tr>");
+                html += "\n                                        <td>".concat(element.title, "</td>\n                                        <td>").concat(element.name, "</td>\n                                        <td>").concat(element.created, "</td>\n                                        <td>\n                                            <a href=\"/pad/").concat(element.id, "\" target=\"_blank\"><i class=\"fa fa-eye text-success fs-4\"></i></a>\n                                        </td>\n                                    </tr>");
               } else {
-                html += "\n                                    <tr>\n                                        <td>".concat(element.title, "</td>\n                                        <td>").concat(element.name, "</td>\n                                        <td>").concat(element.created, "</td>\n                                        <td>\n                                            <a href=\"/pad/").concat(element.id, "\" target=\"_blank\">View</a>\n                                        </td>\n                                    </tr>");
+                html += "\n                                    <tr>\n                                        <td>".concat(element.title, "</td>\n                                        <td>").concat(element.name, "</td>\n                                        <td>").concat(element.created, "</td>\n                                        <td>\n                                            <a href=\"/pad/").concat(element.id, "\" target=\"_blank\"><i class=\"fa fa-eye text-success fs-4\"></i></a>\n                                        </td>\n                                    </tr>");
               }
             });
             $(tbody).append(html);
@@ -202,10 +205,10 @@ if ($('.main-page-content').hasClass('page-interviewees-admin')) {
       }
     });
   };
-  $('.interviewee-filters .search #search').on('input', function () {
+  $('#admin-search-interviewee').on('input', function () {
     searchInterviewees();
   });
-  $('.interviewee-filters .filter #filter-date').change(function (e) {
+  $('#admin-filter-date').change(function (e) {
     e.preventDefault();
     searchInterviewees();
   });
