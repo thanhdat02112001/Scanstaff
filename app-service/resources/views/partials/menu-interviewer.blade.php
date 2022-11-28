@@ -1,5 +1,5 @@
 <li class="{{Request::segment(2) == 'home' ? 'active-nav' : ''}}">
-    <a href="/home" class="menu-link">
+    <a href="/interviewer/home" class="menu-link">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         <span>Pads</span>
     </a>

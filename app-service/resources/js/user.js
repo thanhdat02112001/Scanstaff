@@ -98,7 +98,7 @@ $(document).ready(function () {
                     html = '';
                 result.forEach(element => {
                     html += '<li class="question">';
-                    html +=     '<a href="/interviewer/question/' + element.id + '">';
+                    html +=     '<a href="/interviewer/questions/' + element.id + '">';
                     html +=         '<h5>' + element.title + '</h5>';
                     html +=         '<span>' + element.name + ' by ' + name + '</span>';
                     html +=     '</a>';
@@ -134,25 +134,45 @@ $(document).ready(function () {
                                 </tr>`;
                     tbody.append(html);
                 } else {
+                    let html = ``;
                     pads.forEach(pad => {
-                        let tpl = document.querySelector('#pad-row');
-                        let clone = tpl.content.cloneNode(true);
-                        let td = clone.querySelectorAll('td');
-                        td[0].innerText = pad.title;
-                        td[1].innerText = pad.status;
-                        td[2].innerText = pad.interviewees;
-                        td[3].innerText = pad.created;
-                        td[4].innerText = pad.language;
-                        let goto = clone.querySelector('a.goto-pad');
-                        goto.href = pad.view_route;
-                        goto.innerText = pad.view_text;
-                        let action = clone.querySelector('a.red-btn');
-                        action.classList.add(pad.action_text);
-                        action.href = pad.action_route;
-                        action.innerText = pad.action_text;
-                        tbody.append(clone);
-                    });
+                        html += `<tr>
+                                    <td>${pad.title}</td>`;
+                        html += `<td>${pad.status}</td>`;
+                        html += `<td>${ pad.interviewees }</td>`;
+                        html += `<td>${ pad.created}</td>`;
+                        html += `<td>${ pad.language}</td>`;
+                        switch (pad.status) {
+                            case 'In progress':
+                                html += `<td>
+                                            <a href="/pad/${pad.id}" class="btn btn-primary" target="_blank">Edit</a>
+                                        </td>
+                                        <td>
+                                            <a href="/pad/${pad.id}" class="btn btn-warning End">End</a>
+                                        </td>`;
+                                break;
+                            case 'Unused':
+                                html += `<td>
+                                            <a href="/pad/${pad.id}" class="btn btn-success" target="_blank">Start</a>
+                                        </td>
+                                        <td>
+                                            <a href="/pad/${pad.id}" class="btn btn-danger Delete">Delete</a>
+                                        </td>`;
+                                break;
+                            case 'Ended':
+                                html += `<td>
+                                            <a href="/pad/${pad.id}" class="btn btn-primary" target="_blank">View</a>
+                                        </td>
+                                        <td>
+                                            <a href="/pad/${pad.id}" class="btn btn-danger Delete">Delete</a>
+                                        </td>`;
+                            default:
+                                break;
 
+                        }
+
+                    });
+                    tbody.append(html);
                     $('.End').click(function (e) {
                         e.preventDefault();
                         $('#modalEnd .modal-footer form').prop('action', ($(this).prop('href')));

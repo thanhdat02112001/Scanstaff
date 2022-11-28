@@ -20,8 +20,8 @@
     </div>
 </div>
 <form action="" class="ms-3">
-    <select name="" id="" class="form-select-sm form-select">
-        <option value="">Admin</option>
-        <option value="">Interviewer</option>
+    <select name="" id="change-role" class="form-select-sm form-select">
+        <option value="/admin/home" {{Request::segment(1) == 'admin' ? 'selected' : ''}}>Admin</option>
+        <option value="/interviewer/home" {{Request::segment(1) == 'interviewer' ? 'selected' : ''}}>Interviewer</option>
     </select>
 </form>

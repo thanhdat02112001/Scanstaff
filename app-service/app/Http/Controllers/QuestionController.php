@@ -47,7 +47,7 @@ class QuestionController extends Controller
     public function show($id)
     {
         $ques = Question::findOrFail($id);
-        $questions = Question::all();
+        $questions = Question::where('user_id', Auth::user()->id)->get();
         $langs = Language::all();
         if ($ques->user_id != Auth::user()->id) {
             return redirect(route('interviewer.question'))->with('warning', 'Unauthorized question access');

@@ -32,7 +32,7 @@
         </div>
         <div class="sidebar-item">
             <ul>
-                @if (Auth::user()->isAdmin())
+                @if (Request::segment(1) == 'admin')
                     @include('partials.menu-admin')
                 @else
                     @include('partials.menu-interviewer')

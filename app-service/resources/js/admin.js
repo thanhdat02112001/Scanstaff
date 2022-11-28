@@ -56,6 +56,11 @@ function loadChart() {
 if ($(".admin").hasClass('home')) {
     loadChart();
 }
+$("#change-role").change(function () {
+    let url = $(this).val();
+    console.log(url);
+    window.location.replace('https://zcheck.zinza.com.vn' + url);
+})
 
 // Handle notification count
 let noti_list = $('.dropdown-noti .noti-list'),

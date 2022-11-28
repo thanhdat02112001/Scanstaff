@@ -94,7 +94,7 @@ $(document).ready(function () {
           html = '';
         result.forEach(function (element) {
           html += '<li class="question">';
-          html += '<a href="/interviewer/question/' + element.id + '">';
+          html += '<a href="/interviewer/questions/' + element.id + '">';
           html += '<h5>' + element.title + '</h5>';
           html += '<span>' + element.name + ' by ' + name + '</span>';
           html += '</a>';
@@ -127,24 +127,27 @@ $(document).ready(function () {
           var _html = "<tr>\n                                    <td colspan=\"7\">No matching records found</td>\n                                </tr>";
           tbody.append(_html);
         } else {
+          var _html2 = "";
           pads.forEach(function (pad) {
-            var tpl = document.querySelector('#pad-row');
-            var clone = tpl.content.cloneNode(true);
-            var td = clone.querySelectorAll('td');
-            td[0].innerText = pad.title;
-            td[1].innerText = pad.status;
-            td[2].innerText = pad.interviewees;
-            td[3].innerText = pad.created;
-            td[4].innerText = pad.language;
-            var _goto = clone.querySelector('a.goto-pad');
-            _goto.href = pad.view_route;
-            _goto.innerText = pad.view_text;
-            var action = clone.querySelector('a.red-btn');
-            action.classList.add(pad.action_text);
-            action.href = pad.action_route;
-            action.innerText = pad.action_text;
-            tbody.append(clone);
+            _html2 += "<tr>\n                                    <td>".concat(pad.title, "</td>");
+            _html2 += "<td>".concat(pad.status, "</td>");
+            _html2 += "<td>".concat(pad.interviewees, "</td>");
+            _html2 += "<td>".concat(pad.created, "</td>");
+            _html2 += "<td>".concat(pad.language, "</td>");
+            switch (pad.status) {
+              case 'In progress':
+                _html2 += "<td>\n                                            <a href=\"/pad/".concat(pad.id, "\" class=\"btn btn-primary\" target=\"_blank\">Edit</a>\n                                        </td>\n                                        <td>\n                                            <a href=\"/pad/").concat(pad.id, "\" class=\"btn btn-warning End\">End</a>\n                                        </td>");
+                break;
+              case 'Unused':
+                _html2 += "<td>\n                                            <a href=\"/pad/".concat(pad.id, "\" class=\"btn btn-success\" target=\"_blank\">Start</a>\n                                        </td>\n                                        <td>\n                                            <a href=\"/pad/").concat(pad.id, "\" class=\"btn btn-danger Delete\">Delete</a>\n                                        </td>");
+                break;
+              case 'Ended':
+                _html2 += "<td>\n                                            <a href=\"/pad/".concat(pad.id, "\" class=\"btn btn-primary\" target=\"_blank\">View</a>\n                                        </td>\n                                        <td>\n                                            <a href=\"/pad/").concat(pad.id, "\" class=\"btn btn-danger Delete\">Delete</a>\n                                        </td>");
+              default:
+                break;
+            }
           });
+          tbody.append(_html2);
           $('.End').click(function (e) {
             e.preventDefault();
             $('#modalEnd .modal-footer form').prop('action', $(this).prop('href'));
@@ -331,8 +334,8 @@ $(document).ready(function () {
           tbody.empty();
           // Add new value to tbody
           if (interviewees.length == 0) {
-            var _html2 = "<tr>\n                                        <td colspan=\"5\">No matching records found</td>\n                                    </tr>";
-            $(tbody).append(_html2);
+            var _html3 = "<tr>\n                                        <td colspan=\"5\">No matching records found</td>\n                                    </tr>";
+            $(tbody).append(_html3);
           } else {
             interviewees.forEach(function (item) {
               html = "<tr>\n                                        <td rowspan=\"".concat(item.pads.length, "\" style=\"vertical-align: middle\">").concat(item.name, "</td>");
