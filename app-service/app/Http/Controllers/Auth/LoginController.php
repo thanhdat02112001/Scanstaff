@@ -16,6 +16,14 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password]) && Auth::user()->email_verified_at == null) {
+            Auth::logout();
+            return redirect()->route('verification.notice');
+        }
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password]) && Auth::user()->banned == 1) {
+            Auth::logout();
+            return redirect('/login')->with('warning', 'Your account has been banned');
+        }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('home')->with('success', 'Login success');
         }

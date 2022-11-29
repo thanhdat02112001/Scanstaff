@@ -26,7 +26,7 @@
         <div class="CodePanel">
             <div class="action-bar">
                 <button class="btn btn-primary run">Run</button>
-                    
+
                 <div>
                     <select name="language_id" id="select_lg">
                         @foreach ($langs as $lang)
@@ -122,7 +122,7 @@
                 @if ($pad->status !== App\Models\Pad::STATUS_ENDED)
                     <button class="btn red-btn" data-toggle="modal" data-target="#modalEnd">End Interview</button>
                 @else
-                    <a href="{{ route('interviewer.pad.index') }}" class="btn btn-light">Return to pads</a>
+                    <a href="{{ route('interviewer.home') }}" class="btn btn-light">Return to pads</a>
                 @endif
             </div>
         @endauth
@@ -134,7 +134,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">End Interview?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -144,11 +144,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {{-- <form action="{{ route('interviewer.pad.end', $pad->id) }}" method="POST">
+                    <form action="{{ route('pad.end', $pad->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
                         <button class="btn btn-danger">End</button>
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
